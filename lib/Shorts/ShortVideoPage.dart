@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Shorts/Data/listReels.dart';
+import 'package:lifescool/Shorts/share.dart';
 import 'package:video_player/video_player.dart';
+
+import 'bookmark.dart';
+import 'like.dart';
 
 class ShortsPlayerPage extends StatefulWidget {
   const ShortsPlayerPage({Key key}) : super(key: key);
@@ -16,9 +20,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   VideoPlayerController controller;
   var arrList = [];
   var isLoading = true;
-  var name ;
-  var author_img ;
-  var likeTap=  false;
+  var name;
+  var author_img;
+  var likeTap = false;
   @override
   void dispose() {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
@@ -56,7 +60,6 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   }
 
   Future<Null> loadController(index) async {
-
     print(arrList[index]['video_url']);
 
     controller =
@@ -73,8 +76,8 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     print("intializedd");
     setState(() {
       isLoading = false;
-      name =arrList[index]['title'].toString();
-      author_img =arrList[index]['author_img'].toString();
+      name = arrList[index]['title'].toString();
+      author_img = arrList[index]['author_img'].toString();
     });
   }
 
@@ -90,14 +93,14 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       ),
       body: isLoading == true
           ? Container(
-        color: Colors.black,
-          child: Center(
-            child: Image.asset(
-              "assets/images/loading.gif",
-              height: 40,
-            ),
-          ),
-      )
+              color: Colors.black,
+              child: Center(
+                child: Image.asset(
+                  "assets/images/loading.gif",
+                  height: 40,
+                ),
+              ),
+            )
           : feedVideos(),
 
       // Container(
@@ -264,13 +267,20 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
             return videoCard(item, index);
           },
         ),
-        Positioned(
-          child: Icon(
-            Icons.bookmark_outline,
-            color: Colors.white,
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+              colors: [
+                Colors.black,
+                Colors.transparent,
+              ],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            )),
+            height: 120,
           ),
-          // alignment: Alignment.topLeft,
-          top: 15, left: 15,
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -283,14 +293,14 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Row(
-                      children: [
-                        Spacer(),
-                        Icon(
-                          Icons.share,
-                          color: Colors.white,
-                          size: 25,
-                        )
-                      ],
+                      children: [Spacer(), bookmarkIcon()],
+                    ),
+                  ),
+                  h(16),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Row(
+                      children: [Spacer(), shareIcon()],
                     ),
                   ),
                   SizedBox(
@@ -304,25 +314,18 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                         Column(
                           children: [
                             GestureDetector(
-                              onTap: (){
-                                if(likeTap==true){
+                              onTap: () {
+                                if (likeTap == true) {
                                   setState(() {
-                                    likeTap=false;
+                                    likeTap = false;
                                   });
-                                }else{
+                                } else {
                                   setState(() {
-                                    likeTap=true;
+                                    likeTap = true;
                                   });
                                 }
                               },
-                              child: CircleAvatar(
-                                backgroundColor: Colors.white,
-                                child: Icon(
-                                  Icons.favorite,
-                                  color: likeTap==true ?Colors.red:Colors.grey,
-                                ),
-                                radius: 20,
-                              ),
+                              child: LikeIcon(),
                             ),
                             SizedBox(
                               height: 3,
@@ -349,7 +352,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15),
                           child: Text(
-                            name==null?"": name,
+                            name == null ? "" : name,
                             maxLines: 2,
                             style: TextStyle(
                                 fontSize: 16,
@@ -375,7 +378,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                       )
                     ],
                   ),
-                  // takeFullCourseWidget()
+                  takeFullCourseWidget()
                 ],
               ),
             ),
@@ -434,24 +437,22 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
               controller?.play();
             }
           },
-          onDoubleTap: (){
-
-
-setState(() {
-  likeTap=true;
-});
+          onDoubleTap: () {
+            setState(() {
+              likeTap = true;
+            });
           },
           child: SizedBox.expand(
               child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: controller.value.size.width ?? 0,
-                  height: controller.value.size.height ?? 0,
-                  // width: MediaQuery. of(context). size. width ,
-                  //   height: MediaQuery. of(context). size. height,
-                  child: VideoPlayer(controller),
-                ),
-              )),
+            fit: BoxFit.cover,
+            child: SizedBox(
+              width: controller.value.size.width ?? 0,
+              height: controller.value.size.height ?? 0,
+              // width: MediaQuery. of(context). size. width ,
+              //   height: MediaQuery. of(context). size. height,
+              child: VideoPlayer(controller),
+            ),
+          )),
         ),
         // video.controller != null
         //     ? GestureDetector(
