@@ -232,20 +232,120 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
            // index = (feedViewModel.videoSource.listVideos.length) % index;
           //  feedViewModel.changeVideo(index);
 
-              controller.pause();
-
-
-
+            controller.pause();
 
             loadController(index);
           },
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
-            final item =
-            arrList != null ? arrList[index] : null;
-          //  index = (feedViewModel.videoSource.listVideos.length) % index;
-            return videoCard(item,index );
+            final item = arrList != null ? arrList[index] : null;
+            //  index = (feedViewModel.videoSource.listVideos.length) % index;
+            return videoCard(item, index);
           },
+        ),
+        Positioned(
+          child: Icon(
+            Icons.bookmark_outline,
+            color: Colors.white,
+          ),
+          // alignment: Alignment.topLeft,
+          top: 15, left: 15,
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Row(
+                      children: [
+                        Spacer(),
+                        Icon(
+                          Icons.share,
+                          color: Colors.white,
+                          size: 25,
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      children: [
+                        Spacer(),
+                        Column(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                              ),
+                              radius: 20,
+                            ),
+                            SizedBox(
+                              height: 3,
+                            ),
+                            Text(
+                              "2.4k",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 6,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Text(
+                            "നമ്മൾ തീർച്ചയായും അറിയേണ്ട 10 secret മൊബൈൽ കോഡുകൾ !!!",
+                            maxLines: 2,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'Mallu',
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: NetworkImage(testImg),
+                                    fit: BoxFit.cover)),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  // takeFullCourseWidget()
+                ],
+              ),
+            ),
+          ),
         ),
         SafeArea(
           child: Container(
@@ -285,7 +385,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   Widget videoCard(var item, int index) {
     print("vdoooolength");
 
-   // print(controller.value.duration);
+    // print(controller.value.duration);
 
     //print(controller.value.size.width);
     print("vdoooolength");
@@ -302,15 +402,15 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
           },
           child: SizedBox.expand(
               child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: controller.value.size.width  ?? 0,
-                  height: controller.value.size.height  ?? 0,
-                 // width: MediaQuery. of(context). size. width ,
-                 //   height: MediaQuery. of(context). size. height,
-                  child: VideoPlayer(controller),
-                ),
-              )),
+            fit: BoxFit.cover,
+            child: SizedBox(
+              width: controller.value.size.width ?? 0,
+              height: controller.value.size.height ?? 0,
+              // width: MediaQuery. of(context). size. width ,
+              //   height: MediaQuery. of(context). size. height,
+              child: VideoPlayer(controller),
+            ),
+          )),
         ),
         // video.controller != null
         //     ? GestureDetector(
@@ -347,7 +447,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                 // VideoDescription(video.user, video.videoTitle, video.songName),
                 // ActionsToolbar(video.likes, video.comments,
                 //     "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"
-               // ),
+                // ),
               ],
             ),
             SizedBox(height: 20)
@@ -356,6 +456,4 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       ],
     );
   }
-
-
 }
