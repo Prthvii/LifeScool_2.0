@@ -17,6 +17,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   var arrList = [];
   var isLoading = true;
   var name ;
+  var author_img ;
   var likeTap=  false;
   @override
   void dispose() {
@@ -73,6 +74,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     setState(() {
       isLoading = false;
       name =arrList[index]['title'].toString();
+      author_img =arrList[index]['author_img'].toString();
     });
   }
 
