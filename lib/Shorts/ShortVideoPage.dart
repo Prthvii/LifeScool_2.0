@@ -13,22 +13,27 @@ class ShortsPlayerPage extends StatefulWidget {
 }
 
 class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
-
   VideoPlayerController controller;
   var arrList = [];
   var isLoading = true;
+  var name ;
+  var author_img ;
+  var likeTap=  false;
   @override
   void dispose() {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    controller.pause();
     super.dispose();
   }
 
   @override
   initState() {
     SystemChrome.setEnabledSystemUIOverlays([]);
+
     this.getHome();
     super.initState();
   }
+
   Future<String> getHome() async {
     var rsp = await reelsListApi();
     print("courseeeeeeeeeeeeee");
@@ -36,10 +41,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
 
     // arrProdList = data;
     //
-    if (rsp!=0) {
+    if (rsp != 0) {
       setState(() {
         arrList = rsp['attributes']['shortslist'];
-
       });
 
       loadController(0);
@@ -52,10 +56,15 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   }
 
   Future<Null> loadController(index) async {
+
     print(arrList[index]['video_url']);
 
-   controller = VideoPlayerController.network(arrList[index]['video_url'].toString());
-   // controller = VideoPlayerController.network("https://player.vimeo.com/external/610710191.m3u8?s=575c9884196f073e46f79db69aa9676eed41dd6f&oauth2_token_id=1526368676");
+    controller =
+        VideoPlayerController.network(arrList[index]['video_url'].toString());
+    // controller = VideoPlayerController.network("https://player.vimeo.com/external/610710191.m3u8?s=575c9884196f073e46f79db69aa9676eed41dd6f&oauth2_token_id=1526368676");
+    // setState(() {
+    //   isLoading = true;
+    // });
     await controller?.initialize();
     print("reachedd");
     controller?.setLooping(true);
@@ -64,8 +73,11 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     print("intializedd");
     setState(() {
       isLoading = false;
+      name =arrList[index]['title'].toString();
+      author_img =arrList[index]['author_img'].toString();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,116 +88,126 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
           backgroundColor: Colors.transparent,
         ),
       ),
-      body:isLoading==true?Container(child: Center(child: Text("Loading.."),),):feedVideos(),
+      body: isLoading == true
+          ? Container(
+        color: Colors.black,
+          child: Center(
+            child: Image.asset(
+              "assets/images/loading.gif",
+              height: 40,
+            ),
+          ),
+      )
+          : feedVideos(),
 
       // Container(
       //   color: Colors.black,
       //   child: Stack(
       //     children: [
-      //       Positioned(
-      //         child: Icon(
-      //           Icons.bookmark_outline,
-      //           color: Colors.white,
-      //         ),
-      //         // alignment: Alignment.topLeft,
-      //         top: 15, left: 15,
-      //       ),
-      //       Align(
-      //         alignment: Alignment.bottomCenter,
-      //         child: Container(
-      //           child: Padding(
-      //             padding: const EdgeInsets.only(bottom: 16),
-      //             child: Column(
-      //               mainAxisAlignment: MainAxisAlignment.end,
-      //               children: [
-      //                 Padding(
-      //                   padding: const EdgeInsets.only(right: 20),
-      //                   child: Row(
-      //                     children: [
-      //                       Spacer(),
-      //                       Icon(
-      //                         Icons.share,
-      //                         color: Colors.white,
-      //                         size: 25,
-      //                       )
-      //                     ],
-      //                   ),
-      //                 ),
-      //                 SizedBox(
-      //                   height: 16,
-      //                 ),
-      //                 Padding(
-      //                   padding: const EdgeInsets.symmetric(horizontal: 10),
-      //                   child: Row(
-      //                     children: [
-      //                       Spacer(),
-      //                       Column(
-      //                         children: [
-      //                           CircleAvatar(
-      //                             backgroundColor: Colors.white,
-      //                             child: Icon(
-      //                               Icons.favorite,
-      //                               color: Colors.red,
-      //                             ),
-      //                             radius: 20,
-      //                           ),
-      //                           SizedBox(
-      //                             height: 3,
-      //                           ),
-      //                           Text(
-      //                             "2.4k",
-      //                             style: TextStyle(
-      //                                 color: Colors.white,
-      //                                 fontSize: 12,
-      //                                 fontWeight: FontWeight.w600),
-      //                           )
-      //                         ],
-      //                       )
-      //                     ],
-      //                   ),
-      //                 ),
-      //                 SizedBox(
-      //                   height: 16,
-      //                 ),
-      //                 Row(
-      //                   children: [
-      //                     Expanded(
-      //                       flex: 6,
-      //                       child: Padding(
-      //                         padding: const EdgeInsets.only(left: 15),
-      //                         child: Text(
-      //                           "നമ്മൾ തീർച്ചയായും അറിയേണ്ട 10 secret മൊബൈൽ കോഡുകൾ !!!",
-      //                           maxLines: 2,
-      //                           style: TextStyle(
-      //                               fontSize: 16,
-      //                               fontFamily: 'Mallu',
-      //                               fontWeight: FontWeight.w400,
-      //                               color: Colors.white),
-      //                         ),
-      //                       ),
-      //                     ),
-      //                     Expanded(
-      //                       child: Padding(
-      //                         padding: const EdgeInsets.only(right: 10),
-      //                         child: Container(
-      //                           height: 40,
-      //                           width: 40,
-      //                           decoration: BoxDecoration(
-      //                               shape: BoxShape.circle,
-      //                               image: DecorationImage(
-      //                                   image: NetworkImage(testImg),
-      //                                   fit: BoxFit.cover)),
-      //                         ),
-      //                       ),
-      //                     )
-      //                   ],
-      //                 ),
-      //                 // takeFullCourseWidget()
-      //               ],
-      //             ),
-      //           ),
-      //         ),
-      //       ),
+      //       // Positioned(
+      //       //   child: Icon(
+      //       //     Icons.bookmark_outline,
+      //       //     color: Colors.white,
+      //       //   ),
+      //       //   // alignment: Alignment.topLeft,
+      //       //   top: 15, left: 15,
+      //       // ),
+      //       // Align(
+      //       //   alignment: Alignment.bottomCenter,
+      //       //   child: Container(
+      //       //     child: Padding(
+      //       //       padding: const EdgeInsets.only(bottom: 16),
+      //       //       child: Column(
+      //       //         mainAxisAlignment: MainAxisAlignment.end,
+      //       //         children: [
+      //       //           Padding(
+      //       //             padding: const EdgeInsets.only(right: 20),
+      //       //             child: Row(
+      //       //               children: [
+      //       //                 Spacer(),
+      //       //                 Icon(
+      //       //                   Icons.share,
+      //       //                   color: Colors.white,
+      //       //                   size: 25,
+      //       //                 )
+      //       //               ],
+      //       //             ),
+      //       //           ),
+      //       //           SizedBox(
+      //       //             height: 16,
+      //       //           ),
+      //       //           Padding(
+      //       //             padding: const EdgeInsets.symmetric(horizontal: 10),
+      //       //             child: Row(
+      //       //               children: [
+      //       //                 Spacer(),
+      //       //                 Column(
+      //       //                   children: [
+      //       //                     CircleAvatar(
+      //       //                       backgroundColor: Colors.white,
+      //       //                       child: Icon(
+      //       //                         Icons.favorite,
+      //       //                         color: Colors.red,
+      //       //                       ),
+      //       //                       radius: 20,
+      //       //                     ),
+      //       //                     SizedBox(
+      //       //                       height: 3,
+      //       //                     ),
+      //       //                     Text(
+      //       //                       "2.4k",
+      //       //                       style: TextStyle(
+      //       //                           color: Colors.white,
+      //       //                           fontSize: 12,
+      //       //                           fontWeight: FontWeight.w600),
+      //       //                     )
+      //       //                   ],
+      //       //                 )
+      //       //               ],
+      //       //             ),
+      //       //           ),
+      //       //           SizedBox(
+      //       //             height: 16,
+      //       //           ),
+      //       //           Row(
+      //       //             children: [
+      //       //               Expanded(
+      //       //                 flex: 6,
+      //       //                 child: Padding(
+      //       //                   padding: const EdgeInsets.only(left: 15),
+      //       //                   child: Text(
+      //       //                     "നമ്മൾ തീർച്ചയായും അറിയേണ്ട 10 secret മൊബൈൽ കോഡുകൾ !!!",
+      //       //                     maxLines: 2,
+      //       //                     style: TextStyle(
+      //       //                         fontSize: 16,
+      //       //                         fontFamily: 'Mallu',
+      //       //                         fontWeight: FontWeight.w400,
+      //       //                         color: Colors.white),
+      //       //                   ),
+      //       //                 ),
+      //       //               ),
+      //       //               Expanded(
+      //       //                 child: Padding(
+      //       //                   padding: const EdgeInsets.only(right: 10),
+      //       //                   child: Container(
+      //       //                     height: 40,
+      //       //                     width: 40,
+      //       //                     decoration: BoxDecoration(
+      //       //                         shape: BoxShape.circle,
+      //       //                         image: DecorationImage(
+      //       //                             image: NetworkImage(testImg),
+      //       //                             fit: BoxFit.cover)),
+      //       //                   ),
+      //       //                 ),
+      //       //               )
+      //       //             ],
+      //       //           ),
+      //       //           // takeFullCourseWidget()
+      //       //         ],
+      //       //       ),
+      //       //     ),
+      //       //   ),
+      //       // ),
       //     ],
       //   ),
       // ),
@@ -219,7 +241,6 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   Widget feedVideos() {
     print("feeeeeeeeed");
 
-
     return Stack(
       children: [
         PageView.builder(
@@ -229,8 +250,8 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
           ),
           itemCount: arrList != null ? arrList.length : 0,
           onPageChanged: (index) {
-           // index = (feedViewModel.videoSource.listVideos.length) % index;
-          //  feedViewModel.changeVideo(index);
+            // index = (feedViewModel.videoSource.listVideos.length) % index;
+            //  feedViewModel.changeVideo(index);
 
             controller.pause();
 
@@ -282,13 +303,26 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                         Spacer(),
                         Column(
                           children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.white,
-                              child: Icon(
-                                Icons.favorite,
-                                color: Colors.red,
+                            GestureDetector(
+                              onTap: (){
+                                if(likeTap==true){
+                                  setState(() {
+                                    likeTap=false;
+                                  });
+                                }else{
+                                  setState(() {
+                                    likeTap=true;
+                                  });
+                                }
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                child: Icon(
+                                  Icons.favorite,
+                                  color: likeTap==true ?Colors.red:Colors.grey,
+                                ),
+                                radius: 20,
                               ),
-                              radius: 20,
                             ),
                             SizedBox(
                               height: 3,
@@ -315,7 +349,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15),
                           child: Text(
-                            "നമ്മൾ തീർച്ചയായും അറിയേണ്ട 10 secret മൊബൈൽ കോഡുകൾ !!!",
+                            name==null?"": name,
                             maxLines: 2,
                             style: TextStyle(
                                 fontSize: 16,
@@ -394,23 +428,30 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       children: [
         GestureDetector(
           onTap: () {
-            // if (video.controller.value.isPlaying) {
-            //   video.controller?.pause();
-            // } else {
-            //   video.controller?.play();
-            // }
+            if (controller.value.isPlaying) {
+              controller?.pause();
+            } else {
+              controller?.play();
+            }
+          },
+          onDoubleTap: (){
+
+
+setState(() {
+  likeTap=true;
+});
           },
           child: SizedBox.expand(
               child: FittedBox(
-            fit: BoxFit.cover,
-            child: SizedBox(
-              width: controller.value.size.width ?? 0,
-              height: controller.value.size.height ?? 0,
-              // width: MediaQuery. of(context). size. width ,
-              //   height: MediaQuery. of(context). size. height,
-              child: VideoPlayer(controller),
-            ),
-          )),
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: controller.value.size.width ?? 0,
+                  height: controller.value.size.height ?? 0,
+                  // width: MediaQuery. of(context). size. width ,
+                  //   height: MediaQuery. of(context). size. height,
+                  child: VideoPlayer(controller),
+                ),
+              )),
         ),
         // video.controller != null
         //     ? GestureDetector(
