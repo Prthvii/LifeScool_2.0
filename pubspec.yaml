@@ -57,7 +57,7 @@ dev_dependencies:
   shimmer: ^2.0.0
   jitsi_meet: ^2.1.0
   flutter_windowmanager: ^0.2.0
-  fijkplayer: ^0.10.1
+#  fijkplayer: ^0.10.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
