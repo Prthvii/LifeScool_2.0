@@ -101,102 +101,87 @@ class _FindCourseState extends State<FindCourse> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        // leading: IconButton(
-        //   icon: Icon(
-        //     Icons.arrow_back,
-        //   ),
-        //   color: Colors.black,
-        //   onPressed: () {
-        //     Navigator.pop(context);
-        //   },
-        // ),
-        elevation: 0, titleSpacing: 1,
-        title: Row(
-          children: [
-            IconButton(
-                icon: Icon(
+        elevation: 0,
+        titleSpacing: 1,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              CircleAvatar(
+                backgroundColor: Color(0xffFEE9E4),
+                radius: 22,
+                child: Icon(
                   Icons.arrow_back,
-                  color: Color(0xff2F455C),
-                  size: 23,
+                  size: 20,
+                  color: Colors.black,
                 ),
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
-            Flexible(
-              child: Container(
-                margin: EdgeInsets.only(right: 15),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(0xffE9E9E9)),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: TextField(
-                    cursorColor: Colors.black54,
-                    showCursor: true,
-                    autofocus: false,
-                    textInputAction: TextInputAction.go,
-                    controller: searchController,
-                    onEditingComplete: () {
-                      getsearch("", "", searchController.text.toString());
-                    },
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    decoration: new InputDecoration(
-                      border: InputBorder.none,
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          getsearch("", "", searchController.text.toString());
-                        },
-                        child: Icon(
-                          Icons.search,
-                          color: Color(0xff2F455C),
+              ),
+              w(8),
+              Flexible(
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xffE6E6E6)),
+                      borderRadius: BorderRadius.circular(24),
+                      color: greyClr),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: TextField(
+                      cursorColor: Colors.black54,
+                      showCursor: true,
+                      autofocus: false,
+                      textInputAction: TextInputAction.go,
+                      controller: searchController,
+                      onEditingComplete: () {
+                        getsearch("", "", searchController.text.toString());
+                      },
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        prefixIcon: GestureDetector(
+                          onTap: () {
+                            getsearch("", "", searchController.text.toString());
+                          },
+                          child: Icon(
+                            Icons.search,
+                            size: 20,
+                            color: Color(0xff2F455C),
+                          ),
                         ),
+                        hintStyle: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xff6D6D6D)),
+                        hintText: "Search",
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
                       ),
-                      hintStyle:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
-                      hintText: "Find a course to learn",
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        child: ListView(
-          children: [
-            isLoading == true
-                ? Container(
-                    child: Center(
-                    child: Image.asset(
-                      "assets/images/loading.gif",
-                      height: 40,
-                    ),
-                  ))
-                : searchList.isEmpty
-                    ? Opacity(
-                        opacity: 0,
-                      )
-                    : listViewOld(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              child: Text(
-                "Browse courses by category",
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff2F455C)),
+      body: isLoading == true
+          ? Container(
+              child: Center(
+              child: Image.asset(
+                "assets/images/loading.gif",
+                height: 40,
               ),
-            ),
-            newGrid(),
-          ],
-        ),
-      ),
+            ))
+          :
+          // searchList.isEmpty
+          //         ? Opacity(
+          //             opacity: 0,
+          //           )
+          //         :
+          // listViewOld(),
+          newListView(),
     );
   }
 
@@ -216,23 +201,49 @@ class _FindCourseState extends State<FindCourse> {
     );
   }
 
-  Widget newGrid() {
+  Widget newListView() {
+    return ListView.separated(
+      scrollDirection: Axis.vertical,
+      separatorBuilder: (context, index) => SizedBox(
+        height: 10,
+      ),
+      shrinkWrap: true,
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        return newList(index);
+      },
+    );
+  }
+
+  newList(int index) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      child: GridView.builder(
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        // itemCount: catogeryItems != null ? catogeryItems.length : 0,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 15,
-            mainAxisSpacing: 20,
-            childAspectRatio: 1),
-        itemCount: arrList != null ? arrList.length : 0,
-        itemBuilder: (context, index) {
-          final item = arrList != null ? arrList[index] : null;
-          return newGridItems(item, index);
-        },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Row(
+          children: [
+            Image(
+              image: NetworkImage(
+                  "https://www.kindpng.com/picc/m/79-790695_landscape-icon-transparent-background-trees-icon-hd-png.png"),
+              fit: BoxFit.contain,
+              height: 32,
+              width: 32,
+            ),
+            w(16),
+            Text(
+              "Gardening",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontFamily: 'Nunito',
+                  fontWeight: FontWeight.w600),
+            ),
+            Spacer(),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+            )
+          ],
+        ),
       ),
     );
   }
