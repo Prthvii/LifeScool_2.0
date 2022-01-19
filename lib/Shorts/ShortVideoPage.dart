@@ -26,7 +26,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   var arrList = [];
   var isLoading = true;
   var name;
-  var nowPlaying =0;
+  var nowPlaying = 0;
   var author_img;
   var likeTap = false;
   @override
@@ -86,7 +86,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       isLoading = false;
       name = arrList[index]['title'].toString();
       author_img = arrList[index]['author_img'].toString();
-      nowPlaying =index;
+      nowPlaying = index;
     });
   }
 
@@ -102,127 +102,15 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       ),
       body: isLoading == true
           ? Container(
-        color: Colors.black,
-        child: Center(
-          child: Image.asset(
-            "assets/images/loading.gif",
-            height: 40,
-          ),
-        ),
-      )
+              color: Colors.black,
+              child: Center(
+                child: Image.asset(
+                  "assets/images/loading.gif",
+                  height: 40,
+                ),
+              ),
+            )
           : feedVideos(),
-
-      // Container(
-      //   color: Colors.black,
-      //   child: Stack(
-      //     children: [
-      //       // Positioned(
-      //       //   child: Icon(
-      //       //     Icons.bookmark_outline,
-      //       //     color: Colors.white,
-      //       //   ),
-      //       //   // alignment: Alignment.topLeft,
-      //       //   top: 15, left: 15,
-      //       // ),
-      //       // Align(
-      //       //   alignment: Alignment.bottomCenter,
-      //       //   child: Container(
-      //       //     child: Padding(
-      //       //       padding: const EdgeInsets.only(bottom: 16),
-      //       //       child: Column(
-      //       //         mainAxisAlignment: MainAxisAlignment.end,
-      //       //         children: [
-      //       //           Padding(
-      //       //             padding: const EdgeInsets.only(right: 20),
-      //       //             child: Row(
-      //       //               children: [
-      //       //                 Spacer(),
-      //       //                 Icon(
-      //       //                   Icons.share,
-      //       //                   color: Colors.white,
-      //       //                   size: 25,
-      //       //                 )
-      //       //               ],
-      //       //             ),
-      //       //           ),
-      //       //           SizedBox(
-      //       //             height: 16,
-      //       //           ),
-      //       //           Padding(
-      //       //             padding: const EdgeInsets.symmetric(horizontal: 10),
-      //       //             child: Row(
-      //       //               children: [
-      //       //                 Spacer(),
-      //       //                 Column(
-      //       //                   children: [
-      //       //                     CircleAvatar(
-      //       //                       backgroundColor: Colors.white,
-      //       //                       child: Icon(
-      //       //                         Icons.favorite,
-      //       //                         color: Colors.red,
-      //       //                       ),
-      //       //                       radius: 20,
-      //       //                     ),
-      //       //                     SizedBox(
-      //       //                       height: 3,
-      //       //                     ),
-      //       //                     Text(
-      //       //                       "2.4k",
-      //       //                       style: TextStyle(
-      //       //                           color: Colors.white,
-      //       //                           fontSize: 12,
-      //       //                           fontWeight: FontWeight.w600),
-      //       //                     )
-      //       //                   ],
-      //       //                 )
-      //       //               ],
-      //       //             ),
-      //       //           ),
-      //       //           SizedBox(
-      //       //             height: 16,
-      //       //           ),
-      //       //           Row(
-      //       //             children: [
-      //       //               Expanded(
-      //       //                 flex: 6,
-      //       //                 child: Padding(
-      //       //                   padding: const EdgeInsets.only(left: 15),
-      //       //                   child: Text(
-      //       //                     "നമ്മൾ തീർച്ചയായും അറിയേണ്ട 10 secret മൊബൈൽ കോഡുകൾ !!!",
-      //       //                     maxLines: 2,
-      //       //                     style: TextStyle(
-      //       //                         fontSize: 16,
-      //       //                         fontFamily: 'Mallu',
-      //       //                         fontWeight: FontWeight.w400,
-      //       //                         color: Colors.white),
-      //       //                   ),
-      //       //                 ),
-      //       //               ),
-      //       //               Expanded(
-      //       //                 child: Padding(
-      //       //                   padding: const EdgeInsets.only(right: 10),
-      //       //                   child: Container(
-      //       //                     height: 40,
-      //       //                     width: 40,
-      //       //                     decoration: BoxDecoration(
-      //       //                         shape: BoxShape.circle,
-      //       //                         image: DecorationImage(
-      //       //                             image: NetworkImage(testImg),
-      //       //                             fit: BoxFit.cover)),
-      //       //                   ),
-      //       //                 ),
-      //       //               )
-      //       //             ],
-      //       //           ),
-      //       //           // takeFullCourseWidget()
-      //       //         ],
-      //       //       ),
-      //       //     ),
-      //       //   ),
-      //       // ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 
@@ -230,70 +118,75 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: GestureDetector(
-        onTap: (){
-
+        onTap: () {
           var type = arrList[nowPlaying]['targetType'].toString();
-          switch(type) {
-            case "COURSE": {  print("COURSE");
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PlayerScreen(
-                    id: arrList[nowPlaying]['targetId'].toString(),
-                    cuid: arrList[nowPlaying]['targetUid'].toString(),
-                  )),
-            );
-            }
-            break;
+          switch (type) {
+            case "COURSE":
+              {
+                print("COURSE");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PlayerScreen(
+                            id: arrList[nowPlaying]['targetId'].toString(),
+                            cuid: arrList[nowPlaying]['targetUid'].toString(),
+                          )),
+                );
+              }
+              break;
 
-            case "WORKSHOP": {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CourseIntro(
-                      id:  arrList[nowPlaying]['targetId'].toString(),
-                    )),
-              );
+            case "WORKSHOP":
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CourseIntro(
+                            id: arrList[nowPlaying]['targetId'].toString(),
+                          )),
+                );
+              }
+              break;
 
-            }
-            break;
+            case "LIVEBATCH":
+              {
+                showToastSuccess("Live Batch");
+              }
+              break;
 
-            case "LIVEBATCH": {
+            case "JWT":
+              {
+                showToastSuccess("Join Meeting");
+              }
+              break;
 
-              showToastSuccess("Live Batch");
-
-            }
-            break;
-
-            case "JWT": {
-
-              showToastSuccess("Join Meeting");
-
-            }
-            break;
-
-            default: { print("Invalid choice");
-
-            }
-            break;
+            default:
+              {
+                print("Invalid choice");
+              }
+              break;
           }
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => PlayerScreen(
-                  id: arrList[nowPlaying][''].toString(),
-                  cuid: arrList[nowPlaying][''].toString(),
-                )),
+                      id: arrList[nowPlaying][''].toString(),
+                      cuid: arrList[nowPlaying][''].toString(),
+                    )),
           );
         },
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10), color: Color(0xff606060)),
+              borderRadius: BorderRadius.circular(10),
+              color: Color(0xff606060)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Row(
               children: [
-                Text(arrList[nowPlaying]['targetBtnName']!=null?arrList[nowPlaying]['targetBtnName'].toString():"", style: size14_600W),
+                Text(
+                    arrList[nowPlaying]['targetBtnName'] != null
+                        ? arrList[nowPlaying]['targetBtnName'].toString()
+                        : "",
+                    style: size14_600W),
                 Spacer(),
                 Icon(
                   Icons.arrow_forward_ios_rounded,
@@ -339,13 +232,13 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
           child: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    Colors.black,
-                    Colors.transparent,
-                  ],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                )),
+              colors: [
+                Colors.black,
+                Colors.transparent,
+              ],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            )),
             height: 120,
           ),
         ),
@@ -357,6 +250,17 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Row(
+                      children: [
+                        Spacer(),
+                        Icon(Icons.volume_off_outlined,
+                            color: Colors.white, size: 25)
+                      ],
+                    ),
+                  ),
+                  h(16),
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Row(
@@ -380,7 +284,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                         Spacer(),
                         Column(
                           children: [
-                            LikeIcon(like:  arrList[nowPlaying]['isLiked'],),
+                            LikeIcon(
+                              like: arrList[nowPlaying]['isLiked'],
+                            ),
                             SizedBox(
                               height: 3,
                             ),
@@ -400,6 +306,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                     height: 16,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
                         flex: 6,
@@ -420,12 +327,13 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        TutorInfo(id: arrList[nowPlaying]['author_id'].toString())),
+                                    builder: (context) => TutorInfo(
+                                        id: arrList[nowPlaying]['author_id']
+                                            .toString())),
                               );
                             },
                             child: Container(
@@ -434,7 +342,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
-                                      image: NetworkImage(arrList[nowPlaying]['author_img'].toString()),
+                                      image: NetworkImage(arrList[nowPlaying]
+                                              ['author_img']
+                                          .toString()),
                                       fit: BoxFit.cover)),
                             ),
                           ),
@@ -442,41 +352,26 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                       )
                     ],
                   ),
-                  arrList[nowPlaying]['targetType'].toString()=="OFF"?Container(): takeFullCourseWidget()
+                  arrList[nowPlaying]['targetType'].toString() == "OFF"
+                      ? Container()
+                      : takeFullCourseWidget()
                 ],
               ),
             ),
           ),
         ),
-        SafeArea(
+        Positioned(
+          top: 16,
+          left: 16,
           child: Container(
-            padding: EdgeInsets.only(top: 20),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  // Text('Following',
-                  //     style: TextStyle(
-                  //         fontSize: 17.0,
-                  //         fontWeight: FontWeight.normal,
-                  //         color: Colors.white70)),
-                  // SizedBox(
-                  //   width: 7,
-                  // ),
-                  // Container(
-                  //   color: Colors.white70,
-                  //   height: 10,
-                  //   width: 1.0,
-                  // ),
-                  // SizedBox(
-                  //   width: 7,
-                  // ),
-                  // Text('For You',
-                  //     style: TextStyle(
-                  //         fontSize: 17.0,
-                  //         fontWeight: FontWeight.bold,
-                  //         color: Colors.white))
-                ]),
+            decoration:
+                BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            height: 48,
+            width: 48,
           ),
         ),
       ],
@@ -508,15 +403,15 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
           },
           child: SizedBox.expand(
               child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: controller.value.size.width ?? 0,
-                  height: controller.value.size.height ?? 0,
-                  // width: MediaQuery. of(context). size. width ,
-                  //   height: MediaQuery. of(context). size. height,
-                  child: VideoPlayer(controller),
-                ),
-              )),
+            fit: BoxFit.cover,
+            child: SizedBox(
+              width: controller.value.size.width ?? 0,
+              height: controller.value.size.height ?? 0,
+              // width: MediaQuery. of(context). size. width ,
+              //   height: MediaQuery. of(context). size. height,
+              child: VideoPlayer(controller),
+            ),
+          )),
         ),
         // video.controller != null
         //     ? GestureDetector(
