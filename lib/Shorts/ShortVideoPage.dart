@@ -29,6 +29,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   var nowPlaying = 0;
   var author_img;
   var likeTap = false;
+  var isMute = false;
   @override
   void dispose() {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
@@ -79,6 +80,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     await controller?.initialize();
     print("reachedd");
     controller?.setLooping(true);
+
     controller.play();
 
     print("intializedd");
@@ -252,12 +254,30 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
-                    child: Row(
-                      children: [
-                        Spacer(),
-                        Icon(Icons.volume_off_outlined,
-                            color: Colors.white, size: 25)
-                      ],
+                    child: GestureDetector(
+                      onTap: (){
+
+                        if(isMute==true){
+                          controller.setVolume(1.0);
+                          setState(() {
+                            isMute=false;
+                          });
+                        }else{
+                          controller.setVolume(0.0);
+                          setState(() {
+                            isMute=true;
+                          });
+                        }
+
+                      },
+                      child: Row(
+                        children: [
+                          Spacer(),
+                         isMute==true? Icon(Icons.volume_off_outlined,
+                              color: Colors.white, size: 25): Icon(Icons.volume_up_rounded,
+                             color: Colors.white, size: 25)
+                        ],
+                      ),
                     ),
                   ),
                   h(16),
@@ -284,14 +304,34 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                         Spacer(),
                         Column(
                           children: [
-                            LikeIcon(
-                              like: arrList[nowPlaying]['isLiked'],
+
+
+                            GestureDetector(
+                              onTap: (){
+                                if (arrList[nowPlaying]['isLiked'] == true) {
+                                  setState(() {
+                                    arrList[nowPlaying]['isLiked'] = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    arrList[nowPlaying]['isLiked'] = true;
+                                  });
+                                }
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                child: Icon(
+                                  Icons.favorite,
+                                  color: arrList[nowPlaying]['isLiked'] == true ? Colors.red : Colors.grey,
+                                ),
+                                radius: 20,
+                              ),
                             ),
                             SizedBox(
                               height: 3,
                             ),
                             Text(
-                              arrList[nowPlaying]['like'].toString(),
+    arrList[nowPlaying]['isLiked']==true? (int.parse(arrList[nowPlaying]['like']) +1).toString() :arrList[nowPlaying]['like'].toString(),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -363,15 +403,20 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
         Positioned(
           top: 16,
           left: 16,
-          child: Container(
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.black),
-            child: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
+          child: GestureDetector(onTap: (){
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          },
+            child: Container(
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              height: 48,
+              width: 48,
             ),
-            height: 48,
-            width: 48,
           ),
         ),
       ],
@@ -388,7 +433,8 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
 
     return Stack(
       children: [
-        GestureDetector(
+        controller.value.initialized
+            ?GestureDetector(
           onTap: () {
             if (controller.value.isPlaying) {
               controller?.pause();
@@ -412,7 +458,20 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
               child: VideoPlayer(controller),
             ),
           )),
+        ):Container(
+          color: Colors.black,
+          child: Center(
+            child: Image.asset(
+              "assets/images/loading.gif",
+              height: 40,
+            ),
+          ),
         ),
+
+
+
+
+
         // video.controller != null
         //     ? GestureDetector(
         //         onTap: () {
