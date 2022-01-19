@@ -357,12 +357,11 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                     height: 16,
                   ),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
                         flex: 6,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 16),
+                          padding: const EdgeInsets.only(left: 15),
                           child: Text(
                             name == null ? "" : name,
                             maxLines: 2,
@@ -396,21 +395,16 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
             ),
           ),
         ),
-        Positioned(
-          top: 10,
-          left: 10,
-          child: Container(
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.black),
-            height: 44,
-            width: 44,
-            child: Icon(
-              Icons.arrow_back,
-              size: 20,
-              color: Colors.white,
-            ),
-          ),
-        ),
+        // Align(
+        //   alignment: Alignment.topLeft,
+        //   child: Container(
+        //     decoration: BoxDecoration(
+        //       shape: BoxShape.circle,
+        //        color: Colors.black),
+        //     height: ,
+        //   ),
+        // ),
+
         SafeArea(
           child: Container(
             padding: EdgeInsets.only(top: 20),
