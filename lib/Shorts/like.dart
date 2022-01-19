@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class LikeIcon extends StatefulWidget {
-  const LikeIcon({Key key}) : super(key: key);
+
+  var like;
+
+
+  LikeIcon({this.like,});
+  //const LikeIcon({Key key}) : super(key: key);
 
   @override
   _LikeIconState createState() => _LikeIconState();
@@ -12,10 +17,26 @@ class _LikeIconState extends State<LikeIcon> {
 
   @override
   Widget build(BuildContext context) {
-    return Icon(
-      Icons.favorite,
-      size: 30,
-      color: likeTap == true ? Colors.red : Colors.grey,
+    return GestureDetector(
+      onTap: (){
+        if (widget.like == true) {
+          setState(() {
+            widget.like = false;
+          });
+        } else {
+          setState(() {
+            widget.like = true;
+          });
+        }
+      },
+      child: CircleAvatar(
+        backgroundColor: Colors.white,
+        child: Icon(
+          Icons.favorite,
+          color: widget.like == true ? Colors.red : Colors.grey,
+        ),
+        radius: 20,
+      ),
     );
   }
 }

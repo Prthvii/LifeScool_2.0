@@ -2,6 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lifescool/Const/Constants.dart';
+import 'package:lifescool/Helper/snackbar_toast_helper.dart';
+import 'package:lifescool/Screens/CourseIntro.dart';
+import 'package:lifescool/Screens/HomePage.dart';
+import 'package:lifescool/Screens/PlayerScreen.dart';
+import 'package:lifescool/Screens/TutorInfo.dart';
 import 'package:lifescool/Shorts/Data/listReels.dart';
 import 'package:lifescool/Shorts/share.dart';
 import 'package:video_player/video_player.dart';
@@ -21,12 +26,15 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   var arrList = [];
   var isLoading = true;
   var name;
+  var nowPlaying =0;
   var author_img;
   var likeTap = false;
   @override
   void dispose() {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     controller.pause();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => HomeScreen()));
     super.dispose();
   }
 
@@ -78,6 +86,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       isLoading = false;
       name = arrList[index]['title'].toString();
       author_img = arrList[index]['author_img'].toString();
+      nowPlaying =index;
     });
   }
 
@@ -93,14 +102,14 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       ),
       body: isLoading == true
           ? Container(
-              color: Colors.black,
-              child: Center(
-                child: Image.asset(
-                  "assets/images/loading.gif",
-                  height: 40,
-                ),
-              ),
-            )
+        color: Colors.black,
+        child: Center(
+          child: Image.asset(
+            "assets/images/loading.gif",
+            height: 40,
+          ),
+        ),
+      )
           : feedVideos(),
 
       // Container(
@@ -220,21 +229,79 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   takeFullCourseWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: Color(0xff606060)),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Row(
-            children: [
-              Text("Take full course", style: size14_600W),
-              Spacer(),
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: 16,
-                color: Colors.white,
-              )
-            ],
+      child: GestureDetector(
+        onTap: (){
+
+          var type = arrList[nowPlaying]['targetType'].toString();
+          switch(type) {
+            case "COURSE": {  print("COURSE");
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PlayerScreen(
+                    id: arrList[nowPlaying]['targetId'].toString(),
+                    cuid: arrList[nowPlaying]['targetUid'].toString(),
+                  )),
+            );
+            }
+            break;
+
+            case "WORKSHOP": {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CourseIntro(
+                      id:  arrList[nowPlaying]['targetId'].toString(),
+                    )),
+              );
+
+            }
+            break;
+
+            case "LIVEBATCH": {
+
+              showToastSuccess("Live Batch");
+
+            }
+            break;
+
+            case "JWT": {
+
+              showToastSuccess("Join Meeting");
+
+            }
+            break;
+
+            default: { print("Invalid choice");
+
+            }
+            break;
+          }
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PlayerScreen(
+                  id: arrList[nowPlaying][''].toString(),
+                  cuid: arrList[nowPlaying][''].toString(),
+                )),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10), color: Color(0xff606060)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Row(
+              children: [
+                Text(arrList[nowPlaying]['targetBtnName']!=null?arrList[nowPlaying]['targetBtnName'].toString():"", style: size14_600W),
+                Spacer(),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                  color: Colors.white,
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -272,14 +339,14 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
           child: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-              colors: [
-                Colors.black,
-                Colors.transparent,
-              ],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-            )),
-            height: 150,
+                  colors: [
+                    Colors.black,
+                    Colors.transparent,
+                  ],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                )),
+            height: 120,
           ),
         ),
         Align(
@@ -290,17 +357,6 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: Row(
-                      children: [
-                        Spacer(),
-                        Icon(Icons.volume_off_outlined,
-                            color: Colors.white, size: 25)
-                      ],
-                    ),
-                  ),
-                  h(16),
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Row(
@@ -318,31 +374,18 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                     height: 16,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
                       children: [
                         Spacer(),
                         Column(
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                if (likeTap == true) {
-                                  setState(() {
-                                    likeTap = false;
-                                  });
-                                } else {
-                                  setState(() {
-                                    likeTap = true;
-                                  });
-                                }
-                              },
-                              child: LikeIcon(),
-                            ),
+                            LikeIcon(like:  arrList[nowPlaying]['isLiked'],),
                             SizedBox(
                               height: 3,
                             ),
                             Text(
-                              "2.4k",
+                              arrList[nowPlaying]['like'].toString(),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -357,7 +400,6 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                     height: 16,
                   ),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
                         flex: 6,
@@ -377,37 +419,33 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(right: 10),
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: NetworkImage(testImg),
-                                    fit: BoxFit.cover)),
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        TutorInfo(id: arrList[nowPlaying]['author_id'].toString())),
+                              );
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: NetworkImage(arrList[nowPlaying]['author_img'].toString()),
+                                      fit: BoxFit.cover)),
+                            ),
                           ),
                         ),
                       )
                     ],
                   ),
-                  takeFullCourseWidget()
+                  arrList[nowPlaying]['targetType'].toString()=="OFF"?Container(): takeFullCourseWidget()
                 ],
               ),
             ),
-          ),
-        ),
-        Positioned(
-          top: 16,
-          left: 16,
-          child: Container(
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.black),
-            child: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-            height: 48,
-            width: 48,
           ),
         ),
         SafeArea(
@@ -465,20 +503,20 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
           },
           onDoubleTap: () {
             setState(() {
-              likeTap = true;
+              arrList[index]['isLiked'] = true;
             });
           },
           child: SizedBox.expand(
               child: FittedBox(
-            fit: BoxFit.cover,
-            child: SizedBox(
-              width: controller.value.size.width ?? 0,
-              height: controller.value.size.height ?? 0,
-              // width: MediaQuery. of(context). size. width ,
-              //   height: MediaQuery. of(context). size. height,
-              child: VideoPlayer(controller),
-            ),
-          )),
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: controller.value.size.width ?? 0,
+                  height: controller.value.size.height ?? 0,
+                  // width: MediaQuery. of(context). size. width ,
+                  //   height: MediaQuery. of(context). size. height,
+                  child: VideoPlayer(controller),
+                ),
+              )),
         ),
         // video.controller != null
         //     ? GestureDetector(
