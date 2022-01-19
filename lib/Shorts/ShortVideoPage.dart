@@ -357,6 +357,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                     height: 16,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
                         flex: 6,
@@ -395,16 +396,20 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
             ),
           ),
         ),
-        // Align(
-        //   alignment: Alignment.topLeft,
-        //   child: Container(
-        //     decoration: BoxDecoration(
-        //       shape: BoxShape.circle,
-        //        color: Colors.black),
-        //     height: ,
-        //   ),
-        // ),
-
+        Positioned(
+          top: 16,
+          left: 16,
+          child: Container(
+            decoration:
+                BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            height: 48,
+            width: 48,
+          ),
+        ),
         SafeArea(
           child: Container(
             padding: EdgeInsets.only(top: 20),
