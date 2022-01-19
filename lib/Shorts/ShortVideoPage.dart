@@ -279,7 +279,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
             )),
-            height: 120,
+            height: 150,
           ),
         ),
         Align(
@@ -290,6 +290,17 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Row(
+                      children: [
+                        Spacer(),
+                        Icon(Icons.volume_off_outlined,
+                            color: Colors.white, size: 25)
+                      ],
+                    ),
+                  ),
+                  h(16),
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Row(
@@ -307,7 +318,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                     height: 16,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       children: [
                         Spacer(),
@@ -346,11 +357,12 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                     height: 16,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
                         flex: 6,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15),
+                          padding: const EdgeInsets.only(left: 16),
                           child: Text(
                             name == null ? "" : name,
                             maxLines: 2,
@@ -381,6 +393,21 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                   takeFullCourseWidget()
                 ],
               ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 10,
+          left: 10,
+          child: Container(
+            decoration:
+                BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+            height: 44,
+            width: 44,
+            child: Icon(
+              Icons.arrow_back,
+              size: 20,
+              color: Colors.white,
             ),
           ),
         ),

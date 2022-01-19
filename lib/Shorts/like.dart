@@ -12,13 +12,10 @@ class _LikeIconState extends State<LikeIcon> {
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      backgroundColor: Colors.white,
-      child: Icon(
-        Icons.favorite,
-        color: likeTap == true ? Colors.red : Colors.grey,
-      ),
-      radius: 20,
+    return Icon(
+      Icons.favorite,
+      size: 30,
+      color: likeTap == true ? Colors.red : Colors.grey,
     );
   }
 }
