@@ -117,47 +117,64 @@ class _FindCourseState extends State<FindCourse> {
                 ),
               ),
               w(8),
+              Container(
+                height: 44,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: greyClr,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      bottomLeft: Radius.circular(24)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 10),
+                  child: Icon(
+                    Icons.search,
+                    color: Colors.black,
+                    size: 16,
+                  ),
+                ),
+              ),
               Flexible(
                 child: Container(
+                  height: 44,
                   decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xffE6E6E6)),
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(24),
+                          bottomRight: Radius.circular(24)),
                       color: greyClr),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: TextField(
-                      cursorColor: Colors.black54,
-                      showCursor: true,
-                      autofocus: false,
-                      textInputAction: TextInputAction.go,
-                      controller: searchController,
-                      onEditingComplete: () {
-                        getsearch("", "", searchController.text.toString());
-                      },
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                      decoration: new InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: GestureDetector(
-                          onTap: () {
-                            getsearch("", "", searchController.text.toString());
-                          },
-                          child: Icon(
-                            Icons.search,
-                            size: 20,
-                            color: Color(0xff2F455C),
-                          ),
-                        ),
-                        hintStyle: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xff6D6D6D)),
-                        hintText: "Search",
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                      ),
+                  child: TextField(
+                    cursorColor: Colors.black54,
+                    showCursor: true,
+                    autofocus: false,
+                    textInputAction: TextInputAction.go,
+                    controller: searchController,
+                    onEditingComplete: () {
+                      getsearch("", "", searchController.text.toString());
+                    },
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    decoration: new InputDecoration(
+                      border: InputBorder.none,
+                      // prefixIcon: GestureDetector(
+                      //   onTap: () {
+                      //     getsearch(
+                      //         "", "", searchController.text.toString());
+                      //   },
+                      //   child: Icon(
+                      //     Icons.search,
+                      //     size: 20,
+                      //     color: Color(0xff2F455C),
+                      //   ),
+                      // ),
+                      hintStyle: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xff6D6D6D)),
+                      hintText: "Search",
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
                     ),
                   ),
                 ),
@@ -205,7 +222,7 @@ class _FindCourseState extends State<FindCourse> {
     return ListView.separated(
       scrollDirection: Axis.vertical,
       separatorBuilder: (context, index) => SizedBox(
-        height: 10,
+        height: 24,
       ),
       shrinkWrap: true,
       itemCount: 5,
@@ -217,8 +234,9 @@ class _FindCourseState extends State<FindCourse> {
 
   newList(int index) {
     return Container(
+      height: 56,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children: [
             Image(
@@ -239,8 +257,8 @@ class _FindCourseState extends State<FindCourse> {
             ),
             Spacer(),
             Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 16,
+              Icons.keyboard_arrow_right_rounded,
+              size: 18,
             )
           ],
         ),
@@ -282,7 +300,7 @@ class _FindCourseState extends State<FindCourse> {
                   color: Color(0xff2F455C),
                   fontSize: 14,
                   fontFamily: 'Nunito',
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.w600),
             )
           ],
         ),

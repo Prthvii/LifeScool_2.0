@@ -4,8 +4,6 @@ import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Screens/EnterNum.dart';
 
-import 'InitialScreen.dart';
-
 class Settings extends StatefulWidget {
   // const Settings({Key? key}) : super(key: key);
 
@@ -117,9 +115,7 @@ class _SettingsState extends State<Settings> {
     Widget continueButton = TextButton(
       child: Text("Yes"),
       onPressed: () async {
-
-        var id = await setSharedPrefrence(ID,null);
-        var token = await setSharedPrefrence(TOKEN,null);
+        var id = await setSharedPrefrence(ID, null);
 
         Navigator.pushReplacement(
           context,

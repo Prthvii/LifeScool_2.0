@@ -169,8 +169,20 @@ final size14_700 = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Nunito',
 );
+final size14_700Blue = TextStyle(
+  color: lifescoolBlue,
+  fontSize: 14,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Nunito',
+);
 final size14_400 = TextStyle(
   color: Colors.black,
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  fontFamily: 'Nunito',
+);
+final size14_400Blue = TextStyle(
+  color: lifescoolBlue,
   fontSize: 14,
   fontWeight: FontWeight.w400,
   fontFamily: 'Nunito',

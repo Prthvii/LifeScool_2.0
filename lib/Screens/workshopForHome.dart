@@ -289,7 +289,7 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
       child: Stack(
         children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+            margin: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),
               color: Colors.white,
@@ -305,7 +305,7 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
             child: Column(
               children: [
                 Container(
-                  height: ss.height * 0.2,
+                  height: 110,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(24),
@@ -320,52 +320,21 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                 ),
                 Container(
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 18, right: 18, bottom: 17, top: 5),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // SizedBox(
-                        //   height: 3,
-                        // ),
-                        // item['wctype'].toString() != "PAID"
-                        //     ? Row(
-                        //         children: [
-                        //           Icon(
-                        //             Icons.star,
-                        //             size: 12,
-                        //             color: darkBlue            item['prime_color'].toString()),
-                        //           ),
-                        //           SizedBox(
-                        //             width: 3,
-                        //           ),
-                        //           Text(
-                        //             "Free Workshop",
-                        //             style: TextStyle(
-                        //                 fontSize: 12,
-                        //                 fontFamily: 'Nunito',
-                        //                 fontWeight: FontWeight.bold,
-                        //                 color: darkBlue                item['prime_color'].toString())),
-                        //           )
-                        //         ],
-                        //       )
-                        //     : Container(),
-                        SizedBox(
-                          height: 16,
-                        ),
                         Text(
                           "ഗാർഡനിങ് : ഹോബിയ്ക്കപ്പുറം  പ്രൊഫഷണൽ ആയി തുടങ്ങുന്നതെങ്ങനെ? ",
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Nunito',
-                              color: themeOrange
-                              // color:
-                              //     darkBlue,
-                              ),
+                              color: lifescoolBlue),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 16,
                         ),
                         Row(
                           children: [
@@ -373,7 +342,7 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                               children: [
                                 Text(
                                   "12" + " chapters",
-                                  style: size14_700,
+                                  style: size14_700Blue,
                                 ),
                                 Padding(
                                   padding:
@@ -381,57 +350,36 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                                   child: Container(
                                     height: 12,
                                     width: 1,
-                                    color: darkBlue,
+                                    color: lifescoolBlue,
                                   ),
                                 ),
                                 Text(
                                   "1 hour",
-                                  style: size14_400,
+                                  style: size14_400Blue,
                                 )
                               ],
                             ),
                             Spacer(),
-                            GestureDetector(
-                              onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           TutorInfo(id: item['authorId'].toString())),
-                                // );
-                              },
-                              child: Text(
-                                "Geetha K",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'Nunito',
-                                ),
+                            Text(
+                              "Geetha K",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Nunito',
                               ),
                             ),
                             SizedBox(
-                              width: 5,
+                              width: 6,
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           TutorInfo(id: item['authorId'].toString())),
-                                // );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border:
-                                        Border.all(color: Color(0xfffaf6f5)),
-                                    image: DecorationImage(
-                                        image: NetworkImage(testImg),
-                                        fit: BoxFit.cover)),
-                                height: 24,
-                                width: 24,
-                              ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: Color(0xfffaf6f5)),
+                                  image: DecorationImage(
+                                      image: NetworkImage(testImg),
+                                      fit: BoxFit.cover)),
+                              height: 24,
+                              width: 24,
                             ),
                           ],
                         ),
