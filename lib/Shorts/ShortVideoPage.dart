@@ -121,6 +121,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: GestureDetector(
         onTap: () {
+          controller.pause();
           var type = arrList[nowPlaying]['targetType'].toString();
           switch (type) {
             case "COURSE":
@@ -368,7 +369,8 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                           padding: const EdgeInsets.only(right: 10),
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
+                              controller.pause();
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => TutorInfo(
