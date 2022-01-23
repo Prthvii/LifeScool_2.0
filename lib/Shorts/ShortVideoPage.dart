@@ -84,6 +84,18 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     controller.play();
 
     print("intializedd");
+
+    if(isMute==true){
+      controller.setVolume(1.0);
+      setState(() {
+        isMute=false;
+      });
+    }else{
+      controller.setVolume(0.0);
+      setState(() {
+        isMute=true;
+      });
+    }
     setState(() {
       isLoading = false;
       name = arrList[index]['title'].toString();
