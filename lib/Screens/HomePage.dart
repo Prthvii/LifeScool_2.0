@@ -9,7 +9,6 @@ import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/EnterNum.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
-import 'package:lifescool/Screens/NotificationsScreen.dart';
 import 'package:lifescool/Screens/workshopForHome.dart';
 import 'package:lifescool/Shorts/HomeSuggestReels.dart';
 import 'package:lifescool/Shorts/ShortVideoPage.dart';
@@ -301,19 +300,8 @@ class _HomeScreenState extends State<HomeScreen> {
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
             actions: [
-              IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Notifications()),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.notifications,
-                    color: Color(0xff2F455C),
-                  )),
               Padding(
-                padding: const EdgeInsets.only(right: 10, top: 10, bottom: 10),
+                padding: const EdgeInsets.only(right: 55, top: 10, bottom: 10),
                 child: InkWell(
                   onTap: () {
                     Navigator.push(
@@ -329,21 +317,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 8),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Search",
-                            style: txt14SemiWhite,
-                          ),
-                          SizedBox(
-                            width: 6.5,
-                          ),
-                          Icon(
-                            Icons.search,
-                            color: Colors.white,
-                            size: 20,
-                          )
-                        ],
+                      child: Text(
+                        "Find what to learn",
+                        style: txt14SemiWhite,
                       ),
                     ),
                   ),
@@ -362,174 +338,197 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               : Stack(
                   children: [
-                    TabBarView(
-                      children: [
-                        SingleChildScrollView(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              topCategory(),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 16, top: 24, bottom: 8, right: 16),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Suggested courses",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'Nunito',
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      "View All",
-                                      style: size14_700,
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 10,
-                                      color: themeOrange,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              ListView.separated(
-                                scrollDirection: Axis.vertical,
-                                physics: NeverScrollableScrollPhysics(),
-                                separatorBuilder: (context, index) => SizedBox(
-                                  height: 15,
-                                ),
-                                shrinkWrap: true,
-                                itemCount: 2,
-                                // itemCount: arrList != null ? arrList.length : 0,
-                                itemBuilder: (context, index) {
-                                  final item =
-                                      arrList != null ? arrList[index] : null;
-                                  return HomeCards(item, index);
-                                },
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 16, top: 24, bottom: 8, right: 16),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Suggested shorts",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'Nunito',
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      "View All",
-                                      style: size14_700,
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 10,
-                                      color: themeOrange,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                child: Padding(
+                    GestureDetector(
+                      onPanUpdate: (details) {
+                        // Swiping in right direction.
+                        if (details.delta.dx > 0) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ShortsPlayerPage()),
+                          );
+                        }
+
+                        // Swiping in left direction.
+                        if (details.delta.dx < 0) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NewwwLearingg()),
+                          );
+                        }
+                      },
+                      child: TabBarView(
+                        children: [
+                          SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                topCategory(),
+                                Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 17, top: 2, bottom: 2),
-                                  child: HomeReels(),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 16, top: 21, bottom: 8, right: 16),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Suggested workshops",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'Nunito',
+                                      left: 16, top: 24, bottom: 8, right: 16),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Suggested courses",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Nunito',
+                                        ),
                                       ),
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      "View All",
-                                      style: size14_700,
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 10,
-                                      color: themeOrange,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              WorkshopForHome(),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 16, top: 21, bottom: 8, right: 16),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Suggested live batches",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'Nunito',
+                                      Spacer(),
+                                      Text(
+                                        "View All",
+                                        style: size14_700,
                                       ),
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      "View All",
-                                      style: size14_700,
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 10,
-                                      color: themeOrange,
-                                    )
-                                  ],
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 10,
+                                        color: Colors.black,
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              ListView.separated(
-                                scrollDirection: Axis.vertical,
-                                physics: NeverScrollableScrollPhysics(),
-                                separatorBuilder: (context, index) => SizedBox(
-                                  height: 15,
+                                ListView.separated(
+                                  scrollDirection: Axis.vertical,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(
+                                    height: 15,
+                                  ),
+                                  shrinkWrap: true,
+                                  itemCount: 2,
+                                  // itemCount: arrList != null ? arrList.length : 0,
+                                  itemBuilder: (context, index) {
+                                    final item =
+                                        arrList != null ? arrList[index] : null;
+                                    return HomeCards(item, index);
+                                  },
                                 ),
-                                shrinkWrap: true,
-                                itemCount: 2,
-                                // itemCount: arrList != null ? arrList.length : 0,
-                                itemBuilder: (context, index) {
-                                  final item =
-                                      arrList != null ? arrList[index] : null;
-                                  return LiveClassCards(item, index);
-                                },
-                              ),
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 16, top: 24, bottom: 8, right: 16),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Suggested shorts",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Nunito',
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        "View All",
+                                        style: size14_700,
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 10,
+                                        color: Colors.black,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 17, top: 2, bottom: 2),
+                                    child: HomeReels(),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 16, top: 21, bottom: 8, right: 16),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Suggested workshops",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Nunito',
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        "View All",
+                                        style: size14_700,
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 10,
+                                        color: Colors.black,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                WorkshopForHome(),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 16, top: 21, bottom: 8, right: 16),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Suggested live batches",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Nunito',
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        "View All",
+                                        style: size14_700,
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 10,
+                                        color: Colors.black,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                ListView.separated(
+                                  scrollDirection: Axis.vertical,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(
+                                    height: 15,
+                                  ),
+                                  shrinkWrap: true,
+                                  itemCount: 2,
+                                  // itemCount: arrList != null ? arrList.length : 0,
+                                  itemBuilder: (context, index) {
+                                    final item =
+                                        arrList != null ? arrList[index] : null;
+                                    return LiveClassCards(item, index);
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        // Workshop(),
-                        // MyLearningNew()
-                      ],
+                          // Workshop(),
+                          // MyLearningNew()
+                        ],
+                      ),
                     ),
                     Align(
                       child: resList.isNotEmpty
