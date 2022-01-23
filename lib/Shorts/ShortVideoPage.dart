@@ -23,6 +23,16 @@ class ShortsPlayerPage extends StatefulWidget {
 
 class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   VideoPlayerController controller;
+  VideoPlayerController controller1;
+  VideoPlayerController controller2;
+  VideoPlayerController controller3;
+  VideoPlayerController controller4;
+  VideoPlayerController controller5;
+  VideoPlayerController controller6;
+  VideoPlayerController controller7;
+  VideoPlayerController controller8;
+  VideoPlayerController controller9;
+  VideoPlayerController controller10;
   var arrList = [];
   var isLoading = true;
   var name;
@@ -71,19 +81,14 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   Future<Null> loadController(index) async {
     print(arrList[index]['video_url']);
 
-    controller =
-        VideoPlayerController.network(arrList[index]['video_url'].toString());
-    // controller = VideoPlayerController.network("https://player.vimeo.com/external/610710191.m3u8?s=575c9884196f073e46f79db69aa9676eed41dd6f&oauth2_token_id=1526368676");
-    // setState(() {
-    //   isLoading = true;
-    // });
-    await controller?.initialize();
-    print("reachedd");
-    controller?.setLooping(true);
+    controller = VideoPlayerController.network(arrList[index]['video_url'].toString());
 
+
+    await controller?.initialize();
+    controller?.setLooping(true);
     controller.play();
 
-    print("intializedd");
+
 
     if(isMute==true){
       controller.setVolume(1.0);
