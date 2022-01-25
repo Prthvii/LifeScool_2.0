@@ -10,8 +10,11 @@ import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/EnterNum.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
 import 'package:lifescool/Screens/workshopForHome.dart';
+import 'package:lifescool/Shorts/Data/tst.dart';
 import 'package:lifescool/Shorts/HomeSuggestReels.dart';
+import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
 import 'package:lifescool/Shorts/ShortVideoPage.dart';
+import 'package:lifescool/Shorts/TstShortVideoPage.dart';
 import 'package:lottie/lottie.dart';
 
 import 'LiveClasses/AllLiveClass.dart';
@@ -178,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ShortsPlayerPage()),
+                                  builder: (context) => NewTstShortsPlayerPage()),
                             );
                           },
                           child: Padding(
@@ -345,7 +348,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ShortsPlayerPage()),
+                                builder: (context) => NewTstShortsPlayerPage()),
                           );
                         }
 
