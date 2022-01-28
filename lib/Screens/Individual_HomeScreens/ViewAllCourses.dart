@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Api/getUser.dart';
 import 'package:lifescool/Api/listCourse.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 
-import 'EnterNum.dart';
-import 'NewTutorInfo.dart';
-import 'PlayerScreen.dart';
+import '../EnterNum.dart';
+import '../NewTutorInfo.dart';
+import '../PlayerScreen.dart';
 
 class ViewAllCourses extends StatefulWidget {
   const ViewAllCourses({Key key}) : super(key: key);
@@ -91,19 +92,176 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Scrollbar(
-        child: ListView.separated(
-          scrollDirection: Axis.vertical,
-          separatorBuilder: (context, index) => SizedBox(
-            height: 15,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(99),
+        child: SafeArea(
+          child: AppBar(
+            backgroundColor: liteYellow,
+            elevation: 0,
+            titleSpacing: 1,
+            flexibleSpace: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 4),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black,
+                              radius: 22,
+                              child: Icon(
+                                Icons.arrow_back,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          w(12),
+                          Text("Courses", style: size20_700),
+                        ],
+                      ),
+                      h(24),
+                      Text(
+                        "Self paced Learning",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Nunito',
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xffCB9200)),
+                      )
+                    ],
+                  ),
+                  Spacer(),
+                  SvgPicture.asset(
+                    "assets/svg/courseExp.svg",
+                    height: 88,
+                    width: 102,
+                  )
+                ],
+              ),
+            ),
+            automaticallyImplyLeading: false,
           ),
-          shrinkWrap: true,
-          // itemCount: 2,
-          itemCount: arrList != null ? arrList.length : 0,
-          itemBuilder: (context, index) {
-            final item = arrList != null ? arrList[index] : null;
-            return HomeCards(item, index);
-          },
+        ),
+      ),
+      body: Column(
+        children: [
+          Container(
+            height: 110,
+            child: Stack(
+              children: [
+                Container(
+                  height: 70,
+                  color: liteYellow,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 16),
+                    child: Text(
+                        "Recorded videos and additional resources that are accessible anytime, anywhere.",
+                        style: size16_400),
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    // bottom: 0,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 16),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            height: 56,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: grey2)),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 18),
+                              child: Text("All", style: size14_600),
+                            ),
+                          ),
+                          w(16),
+                          Expanded(child: categoryList())
+                        ],
+                      ),
+                    ))
+              ],
+            ),
+          ),
+          h(16),
+          Expanded(
+            child: ListView.separated(
+              scrollDirection: Axis.vertical,
+              separatorBuilder: (context, index) => SizedBox(
+                height: 10,
+              ),
+              shrinkWrap: true,
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                final item = arrList != null ? arrList[index] : null;
+                return HomeCards(item, index);
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget categoryList() {
+    return SizedBox(
+      height: 56,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        // physics: NeverScrollableScrollPhysics(),
+        separatorBuilder: (context, index) => SizedBox(
+          width: 10,
+        ),
+        shrinkWrap: true,
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return newList(index);
+        },
+      ),
+    );
+  }
+
+  newList(int index) {
+    return Container(
+      height: 56,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+          border: Border.all(color: grey2)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Row(
+          children: [
+            Image(
+              image: NetworkImage(
+                  "https://www.kindpng.com/picc/m/79-790695_landscape-icon-transparent-background-trees-icon-hd-png.png"),
+              fit: BoxFit.contain,
+              height: 32,
+              width: 32,
+            ),
+            w(16),
+            Text(
+              "Gardening",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontFamily: 'Nunito',
+                  fontWeight: FontWeight.w600),
+            ),
+          ],
         ),
       ),
     );
@@ -314,7 +472,7 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
             alignment: Alignment.centerLeft,
             width: double.infinity,
             decoration: BoxDecoration(
-              gradient: gradientRed,
+              gradient: gradientYellow,
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(24),
                   bottomRight: Radius.circular(24)),
@@ -326,7 +484,7 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
-                    color: themeOrange),
+                    color: Color(0xffCB9200)),
               ),
             ),
           )

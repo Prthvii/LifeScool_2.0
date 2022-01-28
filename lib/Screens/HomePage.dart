@@ -10,17 +10,14 @@ import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/EnterNum.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
 import 'package:lifescool/Screens/workshopForHome.dart';
-import 'package:lifescool/Shorts/Data/tst.dart';
 import 'package:lifescool/Shorts/HomeSuggestReels.dart';
 import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
-import 'package:lifescool/Shorts/ShortVideoPage.dart';
-import 'package:lifescool/Shorts/TstShortVideoPage.dart';
 import 'package:lottie/lottie.dart';
 
-import 'LiveClasses/AllLiveClass.dart';
+import 'Individual_HomeScreens/ViewAllCourses.dart';
+import 'Individual_HomeScreens/ViewAllWorkshopsNew.dart';
+import 'LiveClasses/LiveClassesNewHome.dart';
 import 'PlayerScreen.dart';
-import 'ViewAllCourses.dart';
-import 'Workshop.dart';
 import 'findCourse.dart';
 import 'newwwMyLearning.dart';
 
@@ -181,7 +178,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => NewTstShortsPlayerPage()),
+                                  builder: (context) =>
+                                      NewTstShortsPlayerPage()),
                             );
                           },
                           child: Padding(
@@ -1277,7 +1275,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => LiveClass(data: arrList)),
+                      builder: (context) =>
+                          ViewAllLiveClassesNew(data: arrList)),
                 );
               },
               child: Container(
@@ -1329,7 +1328,8 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Workshop()),
+                  MaterialPageRoute(
+                      builder: (context) => ViewAllWorkshopsNew()),
                 );
               },
               child: Container(

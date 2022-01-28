@@ -181,12 +181,26 @@ final size14_400 = TextStyle(
   fontWeight: FontWeight.w400,
   fontFamily: 'Nunito',
 );
+final size14_600 = TextStyle(
+  color: Colors.black,
+  fontSize: 14,
+  fontWeight: FontWeight.w600,
+  fontFamily: 'Nunito',
+);
 final size14_400Blue = TextStyle(
   color: lifescoolBlue,
   fontSize: 14,
   fontWeight: FontWeight.w400,
   fontFamily: 'Nunito',
 );
+
+final size20_700 = TextStyle(
+  color: Colors.black,
+  fontSize: 20,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Nunito',
+);
+
 final size14_400G = TextStyle(
     fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xff3E3E3E));
 final size16_400 = TextStyle(
@@ -233,6 +247,14 @@ final gradientRed = LinearGradient(
   begin: Alignment.centerLeft,
   end: Alignment.centerRight,
 );
+final gradientYellow = LinearGradient(
+  colors: [
+    liteYellow,
+    Colors.white,
+  ],
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+);
 
 final gradientGreen = LinearGradient(
   colors: [
@@ -266,6 +288,11 @@ final grey2 = Color(0xffE6E6E6);
 final green = Color(0xff38C258);
 final lifescoolBlue = Color(0xff2E455C);
 final lifescool_highlight = Color(0xffFEE9E4);
+final liteYellow = Color(0xffFFFBEB);
+
+final liteBlue = Color(0xffEBF5FF);
+
+final selectedGreen = Color(0xff2FB134);
 
 final profileToptxt = TextStyle(
   color: Color(0xffFFF7AF),
