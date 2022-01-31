@@ -82,7 +82,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
   @override
   void initState() {
     super.initState();
-    secureScreen();
+   // secureScreen();
     print("xoxoxo");
     print(widget.id);
     this.getHome();
@@ -112,7 +112,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   @override
   void dispose() {
-    disposeScreen();
+   // disposeScreen();
     setState(() {
       _videoPlayerController1.pause();
     });

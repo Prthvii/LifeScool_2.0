@@ -62,9 +62,9 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
         ),
         shrinkWrap: true,
         itemCount: 3,
-        // itemCount: arrList != null ? arrList.length : 0,
+         //itemCount: arrList != null ? arrList.length : 0,
         itemBuilder: (context, index) {
-          final item = arrList != null ? arrList[index] : null;
+        //  final item = arrList != null ? arrList[index] : null;
           return list(index);
           // return list(item, index);
         },

@@ -46,6 +46,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
   void dispose() {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     controller0.pause();
+
     controller1.pause();
     controller2.pause();
     controller3.pause();
@@ -55,6 +56,18 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
     controller7.pause();
     controller8.pause();
     controller9.pause();
+
+
+    controller0.dispose();
+    controller1.dispose();
+    controller2.dispose();
+    controller3.dispose();
+    controller4.dispose();
+    controller5.dispose();
+    controller6.dispose();
+    controller7.dispose();
+    controller8.dispose();
+    controller9.dispose();
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => HomeScreen()));
     super.dispose();
