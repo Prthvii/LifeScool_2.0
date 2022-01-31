@@ -14,7 +14,6 @@ import 'package:lifescool/Shorts/share.dart';
 import 'package:video_player/video_player.dart';
 
 import 'bookmark.dart';
-import 'like.dart';
 
 class NewTstShortsPlayerPage extends StatefulWidget {
   const NewTstShortsPlayerPage({Key key}) : super(key: key);
@@ -56,7 +55,6 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
     controller7.pause();
     controller8.pause();
     controller9.pause();
-
 
     controller0.dispose();
     controller1.dispose();
@@ -145,13 +143,13 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
   //   });
   // }
 
-  Controller0()async{
-    controller0 = VideoPlayerController.network(arrList[0]['video_url'].toString());
-
+  Controller0() async {
+    controller0 =
+        VideoPlayerController.network(arrList[0]['video_url'].toString());
 
     await controller0?.initialize();
     controller0?.setLooping(true);
-    if( controller0.value.initialized){
+    if (controller0.value.initialized) {
       setState(() {
         isLoading = false;
         print("falsaaaaaaaaayi");
@@ -162,14 +160,15 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
       controller0.play();
     }
   }
-  Controller1()async{
-    controller1 = VideoPlayerController.network(arrList[1]['video_url'].toString());
 
+  Controller1() async {
+    controller1 =
+        VideoPlayerController.network(arrList[1]['video_url'].toString());
 
     await controller1?.initialize();
     controller1?.setLooping(true);
 
-    if( controller1.value.initialized){
+    if (controller1.value.initialized) {
       setState(() {
         isLoading = false;
         print("falsaaaaaaaaayi");
@@ -179,60 +178,67 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
       });
       controller0.play();
     }
-
   }
-  Controller2()async{
-    controller2 = VideoPlayerController.network(arrList[2]['video_url'].toString());
 
+  Controller2() async {
+    controller2 =
+        VideoPlayerController.network(arrList[2]['video_url'].toString());
 
     await controller2?.initialize();
     controller2?.setLooping(true);
   }
-  Controller3()async{
-    controller3 = VideoPlayerController.network(arrList[3]['video_url'].toString());
 
+  Controller3() async {
+    controller3 =
+        VideoPlayerController.network(arrList[3]['video_url'].toString());
 
     await controller3?.initialize();
     controller3?.setLooping(true);
   }
-  Controller4()async{
-    controller4 = VideoPlayerController.network(arrList[4]['video_url'].toString());
 
+  Controller4() async {
+    controller4 =
+        VideoPlayerController.network(arrList[4]['video_url'].toString());
 
     await controller4?.initialize();
     controller4?.setLooping(true);
   }
-  Controller5()async{
-    controller5 = VideoPlayerController.network(arrList[5]['video_url'].toString());
 
+  Controller5() async {
+    controller5 =
+        VideoPlayerController.network(arrList[5]['video_url'].toString());
 
     await controller5?.initialize();
     controller5?.setLooping(true);
   }
-  Controller6()async{
-    controller6 = VideoPlayerController.network(arrList[6]['video_url'].toString());
 
+  Controller6() async {
+    controller6 =
+        VideoPlayerController.network(arrList[6]['video_url'].toString());
 
     await controller6?.initialize();
     controller6?.setLooping(true);
   }
-  Controller7()async{
-    controller7 = VideoPlayerController.network(arrList[7]['video_url'].toString());
 
+  Controller7() async {
+    controller7 =
+        VideoPlayerController.network(arrList[7]['video_url'].toString());
 
     await controller7?.initialize();
     controller7?.setLooping(true);
   }
-  Controller8()async{
-    controller8 = VideoPlayerController.network(arrList[8]['video_url'].toString());
 
+  Controller8() async {
+    controller8 =
+        VideoPlayerController.network(arrList[8]['video_url'].toString());
 
     await controller8?.initialize();
     controller8?.setLooping(true);
   }
-  Controller9()async{
-    controller9 = VideoPlayerController.network(arrList[9]['video_url'].toString());
 
+  Controller9() async {
+    controller9 =
+        VideoPlayerController.network(arrList[9]['video_url'].toString());
 
     await controller9?.initialize();
     controller9?.setLooping(true);
@@ -240,31 +246,27 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
 
   Future<Null> setupController(index) async {
     if (arrList.length > 0) {
-     Controller0();
+      Controller0();
     }
     if (arrList.length > 1) {
-    Controller1();
+      Controller1();
     }
-
 
     if (arrList.length > 2) {
-       Controller2();
+      Controller2();
     }
 
-
-
     if (arrList.length > 3) {
-         Controller3();
+      Controller3();
     }
 
     if (arrList.length > 4) {
-       Controller4();
+      Controller4();
     }
 
     if (arrList.length > 5) {
-     Controller5();
+      Controller5();
     }
-
 
     //   setState(() {
     //     isLoading = false;
@@ -275,7 +277,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
     //   });
     // controller0.play();
     if (arrList.length > 6) {
-       Controller6();
+      Controller6();
     }
 
     if (arrList.length > 7) {
@@ -283,36 +285,33 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
     }
 
     if (arrList.length > 8) {
-
       Controller8();
-
     }
 
     if (arrList.length > 9) {
       Controller9();
-
     }
-print("bottom");
+    print("bottom");
 
     // Timer(Duration(seconds: 3), () {
     //
     // });
   }
-  Future<Null> playControllers(index) async {
 
-    if(isMute==true){
+  Future<Null> playControllers(index) async {
+    if (isMute == true) {
       muteAll(index);
-    }else{
+    } else {
       unmuteAll(index);
     }
-     print("plaaaaaay");
-     print(index);
-      setState(() {
-        isLoading = false;
-        name = arrList[index]['title'].toString();
-        author_img = arrList[index]['author_img'].toString();
-        nowPlaying = index;
-      });
+    print("plaaaaaay");
+    print(index);
+    setState(() {
+      isLoading = false;
+      name = arrList[index]['title'].toString();
+      author_img = arrList[index]['author_img'].toString();
+      nowPlaying = index;
+    });
     switch (index) {
       case 0:
         {
@@ -354,7 +353,6 @@ print("bottom");
           controller3.pause();
         }
         break;
-
 
       case 5:
         {
@@ -408,7 +406,6 @@ print("bottom");
     switch (index) {
       case 0:
         {
-
           controller0.pause();
         }
         break;
@@ -416,71 +413,58 @@ print("bottom");
       case 1:
         {
           controller1.pause();
-
-
-
         }
         break;
 
       case 2:
         {
           controller2.pause();
-
         }
         break;
 
       case 3:
         {
           controller3.pause();
-
         }
         break;
 
       case 4:
         {
           controller4.pause();
-
         }
         break;
-
 
       case 5:
         {
           controller5.pause();
-
         }
         break;
 
       case 6:
         {
           controller6.pause();
-
         }
         break;
       case 7:
         {
           controller7.pause();
-
         }
         break;
 
       case 8:
         {
           controller8.pause();
-
         }
         break;
       case 9:
         {
           controller9.pause();
-
         }
         break;
 
       default:
         {
           controller0.pause();
-
         }
         break;
     }
@@ -492,7 +476,6 @@ print("bottom");
     switch (index) {
       case 0:
         {
-
           controller0.play();
         }
         break;
@@ -500,353 +483,278 @@ print("bottom");
       case 1:
         {
           controller1.play();
-
-
-
         }
         break;
 
       case 2:
         {
           controller2.play();
-
         }
         break;
 
       case 3:
         {
           controller3.play();
-
         }
         break;
 
       case 4:
         {
           controller4.play();
-
         }
         break;
-
 
       case 5:
         {
           controller5.play();
-
         }
         break;
 
       case 6:
         {
           controller6.play();
-
         }
         break;
       case 7:
         {
           controller7.play();
-
         }
         break;
 
       case 8:
         {
           controller8.play();
-
         }
         break;
       case 9:
         {
           controller9.play();
-
         }
         break;
 
       default:
         {
           controller0.play();
-
         }
         break;
     }
   }
 
+  checkPlaying(var stat) {
+    bool playing;
 
+    if (stat == 0) {
+      playing = controller0.value.isPlaying;
+    }
+    if (stat == 1) {
+      playing = controller1.value.isPlaying;
+    }
+    if (stat == 2) {
+      playing = controller2.value.isPlaying;
+    }
+    if (stat == 3) {
+      playing = controller3.value.isPlaying;
+    }
+    if (stat == 4) {
+      playing = controller4.value.isPlaying;
+    }
 
-  checkPlaying(var stat){
-   bool playing ;
+    if (stat == 5) {
+      playing = controller5.value.isPlaying;
+    }
 
-   if(stat==0){
-     playing = controller0.value.isPlaying;
-   }
-   if(stat==1){
-     playing = controller1.value.isPlaying;
-   }
-   if(stat==2){
-     playing = controller2.value.isPlaying;
-   }
-   if(stat==3){
-     playing = controller3.value.isPlaying;
-   }
-   if(stat==4){
-     playing = controller4.value.isPlaying;
-   }
+    if (stat == 6) {
+      playing = controller6.value.isPlaying;
+    }
 
-   if(stat==5){
-     playing = controller5.value.isPlaying;
-   }
+    if (stat == 7) {
+      playing = controller7.value.isPlaying;
+    }
 
-   if(stat==6){
-     playing = controller6.value.isPlaying;
-   }
-
-   if(stat==7){
-     playing = controller7.value.isPlaying;
-   }
-
-   if(stat==8){
-     playing = controller8.value.isPlaying;
-   }
-   if(stat==9){
-     playing = controller9.value.isPlaying;
-   }
-   return playing;
+    if (stat == 8) {
+      playing = controller8.value.isPlaying;
+    }
+    if (stat == 9) {
+      playing = controller9.value.isPlaying;
+    }
+    return playing;
   }
 
+  checkIntitializing(var stat) {
+    bool playing;
 
-  checkIntitializing(var stat){
-    bool playing ;
-
-    if(stat==0){
+    if (stat == 0) {
       playing = controller0.value.initialized;
     }
-    if(stat==1){
+    if (stat == 1) {
       playing = controller1.value.initialized;
     }
-    if(stat==2){
+    if (stat == 2) {
       playing = controller2.value.initialized;
     }
-    if(stat==3){
+    if (stat == 3) {
       playing = controller3.value.initialized;
     }
-    if(stat==4){
+    if (stat == 4) {
       playing = controller4.value.initialized;
     }
 
-    if(stat==5){
+    if (stat == 5) {
       playing = controller5.value.initialized;
     }
 
-    if(stat==6){
+    if (stat == 6) {
       playing = controller6.value.initialized;
     }
 
-    if(stat==7){
+    if (stat == 7) {
       playing = controller7.value.initialized;
     }
 
-    if(stat==8){
+    if (stat == 8) {
       playing = controller8.value.initialized;
     }
-    if(stat==9){
+    if (stat == 9) {
       playing = controller9.value.initialized;
     }
     return playing;
   }
 
-  Future<Null> muteAtIndex(index) async{
-
-
+  Future<Null> muteAtIndex(index) async {
     switch (index) {
       case 0:
         {
-
           controller0.setVolume(0.0);
-
         }
         break;
 
       case 1:
         {
           controller1.setVolume(0.0);
-
-
-
         }
         break;
 
       case 2:
         {
           controller2.setVolume(0.0);
-
-
         }
         break;
 
       case 3:
         {
           controller3.setVolume(0.0);
-
-
         }
         break;
 
       case 4:
         {
           controller4.setVolume(0.0);
-
-
         }
         break;
-
 
       case 5:
         {
           controller5.setVolume(0.0);
-
-
         }
         break;
 
       case 6:
         {
           controller6.setVolume(0.0);
-
-
         }
         break;
       case 7:
         {
           controller7.setVolume(0.0);
-
-
         }
         break;
 
       case 8:
         {
           controller8.setVolume(0.0);
-
-
         }
         break;
       case 9:
         {
           controller9.setVolume(0.0);
-
         }
         break;
 
       default:
         {
           controller0.setVolume(0.0);
-
         }
         break;
     }
-
-
-
-
-
-
-
-  }
-  Future<Null> unmuteAtIndex(index) async{
-
-      switch (index) {
-        case 0:
-          {
-
-            controller0.setVolume(1.0);
-
-          }
-          break;
-
-        case 1:
-          {
-            controller1.setVolume(1.0);
-
-
-
-          }
-          break;
-
-        case 2:
-          {
-            controller2.setVolume(1.0);
-
-
-          }
-          break;
-
-        case 3:
-          {
-            controller3.setVolume(1.0);
-
-
-          }
-          break;
-
-        case 4:
-          {
-            controller4.setVolume(1.0);
-
-
-          }
-          break;
-
-
-        case 5:
-          {
-            controller5.setVolume(1.0);
-
-
-          }
-          break;
-
-        case 6:
-          {
-            controller6.setVolume(1.0);
-
-
-          }
-          break;
-        case 7:
-          {
-            controller7.setVolume(1.0);
-
-
-          }
-          break;
-
-        case 8:
-          {
-            controller8.setVolume(1.0);
-
-
-          }
-          break;
-        case 9:
-          {
-            controller9.setVolume(1.0);
-
-          }
-          break;
-
-        default:
-          {
-            controller0.setVolume(1.0);
-
-          }
-          break;
-      }
-
-
-
-
-
   }
 
+  Future<Null> unmuteAtIndex(index) async {
+    switch (index) {
+      case 0:
+        {
+          controller0.setVolume(1.0);
+        }
+        break;
+
+      case 1:
+        {
+          controller1.setVolume(1.0);
+        }
+        break;
+
+      case 2:
+        {
+          controller2.setVolume(1.0);
+        }
+        break;
+
+      case 3:
+        {
+          controller3.setVolume(1.0);
+        }
+        break;
+
+      case 4:
+        {
+          controller4.setVolume(1.0);
+        }
+        break;
+
+      case 5:
+        {
+          controller5.setVolume(1.0);
+        }
+        break;
+
+      case 6:
+        {
+          controller6.setVolume(1.0);
+        }
+        break;
+      case 7:
+        {
+          controller7.setVolume(1.0);
+        }
+        break;
+
+      case 8:
+        {
+          controller8.setVolume(1.0);
+        }
+        break;
+      case 9:
+        {
+          controller9.setVolume(1.0);
+        }
+        break;
+
+      default:
+        {
+          controller0.setVolume(1.0);
+        }
+        break;
+    }
+  }
 
   Future<Null> muteAll(index) async {
     if (arrList.length > 0) {
@@ -854,52 +762,38 @@ print("bottom");
     }
     if (arrList.length > 1) {
       controller1.setVolume(0.0);
-
     }
-
 
     if (arrList.length > 2) {
       controller2.setVolume(0.0);
-
     }
-
-
 
     if (arrList.length > 3) {
       controller3.setVolume(0.0);
-
     }
 
     if (arrList.length > 4) {
       controller4.setVolume(0.0);
-
     }
 
     if (arrList.length > 5) {
       controller5.setVolume(0.0);
-
     }
-
-
 
     if (arrList.length > 6) {
       controller6.setVolume(0.0);
-
     }
 
     if (arrList.length > 7) {
       controller7.setVolume(0.0);
-
     }
 
     if (arrList.length > 8) {
       controller8.setVolume(0.0);
-
     }
 
     if (arrList.length > 9) {
       controller9.setVolume(0.0);
-
     }
   }
 
@@ -909,395 +803,381 @@ print("bottom");
     }
     if (arrList.length > 1) {
       controller1.setVolume(1.0);
-
     }
-
 
     if (arrList.length > 2) {
       controller2.setVolume(1.0);
-
     }
-
-
 
     if (arrList.length > 3) {
       controller3.setVolume(1.0);
-
     }
 
     if (arrList.length > 4) {
       controller4.setVolume(1.0);
-
     }
 
     if (arrList.length > 5) {
       controller5.setVolume(1.0);
-
     }
-
-
 
     if (arrList.length > 6) {
       controller6.setVolume(1.0);
-
     }
 
     if (arrList.length > 7) {
       controller7.setVolume(1.0);
-
     }
 
     if (arrList.length > 8) {
       controller8.setVolume(1.0);
-
     }
 
     if (arrList.length > 9) {
       controller9.setVolume(1.0);
-
     }
   }
 
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0.1),
-          child: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-          ),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(0.1),
+        child: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
         ),
-        body: isLoading == true
-            ? Container(
-          color: Colors.black,
-          child: Center(
-            child: Image.asset(
-              "assets/images/loading.gif",
-              height: 40,
+      ),
+      body: isLoading == true
+          ? Container(
+              color: Colors.black,
+              child: Center(
+                child: Image.asset(
+                  "assets/images/loading.gif",
+                  height: 40,
+                ),
+              ),
+            )
+          : feedVideos(),
+    );
+  }
+
+  takeFullCourseWidget() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      child: GestureDetector(
+        onTap: () {
+          controller0.pause();
+          var type = arrList[nowPlaying]['targetType'].toString();
+          switch (type) {
+            case "COURSE":
+              {
+                print("COURSE");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PlayerScreen(
+                            id: arrList[nowPlaying]['targetId'].toString(),
+                            cuid: arrList[nowPlaying]['targetUid'].toString(),
+                          )),
+                );
+              }
+              break;
+
+            case "WORKSHOP":
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CourseIntro(
+                            id: arrList[nowPlaying]['targetId'].toString(),
+                          )),
+                );
+              }
+              break;
+
+            case "LIVEBATCH":
+              {
+                showToastSuccess("Live Batch");
+              }
+              break;
+
+            case "JWT":
+              {
+                showToastSuccess("Join Meeting");
+              }
+              break;
+
+            default:
+              {
+                print("Invalid choice");
+              }
+              break;
+          }
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PlayerScreen(
+                      id: arrList[nowPlaying][''].toString(),
+                      cuid: arrList[nowPlaying][''].toString(),
+                    )),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color(0xff606060)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Row(
+              children: [
+                Text(
+                    arrList[nowPlaying]['targetBtnName'] != null
+                        ? arrList[nowPlaying]['targetBtnName'].toString()
+                        : "",
+                    style: size14_600W),
+                Spacer(),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                  color: Colors.white,
+                )
+              ],
             ),
           ),
-        )
-            : feedVideos(),
-      );
-    }
+        ),
+      ),
+    );
+  }
 
-    takeFullCourseWidget() {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        child: GestureDetector(
-          onTap: () {
-            controller0.pause();
-            var type = arrList[nowPlaying]['targetType'].toString();
-            switch (type) {
-              case "COURSE":
-                {
-                  print("COURSE");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PlayerScreen(
-                          id: arrList[nowPlaying]['targetId'].toString(),
-                          cuid: arrList[nowPlaying]['targetUid'].toString(),
-                        )),
-                  );
-                }
-                break;
+  Widget feedVideos() {
+    print("feeeeeeeeed");
 
-              case "WORKSHOP":
-                {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CourseIntro(
-                          id: arrList[nowPlaying]['targetId'].toString(),
-                        )),
-                  );
-                }
-                break;
+    return Stack(
+      children: [
+        PageView.builder(
+          controller: PageController(
+            initialPage: 0,
+            viewportFraction: 1,
+          ),
+          itemCount: arrList != null ? arrList.length : 0,
+          onPageChanged: (index) {
+            // index = (feedViewModel.videoSource.listVideos.length) % index;
+            //  feedViewModel.changeVideo(index);
 
-              case "LIVEBATCH":
-                {
-                  showToastSuccess("Live Batch");
-                }
-                break;
+            // controller.pause();
+            // if(index==1){
+            //   controller.pause();
+            //   controller1.play();
+            // }
+            //
+            // if(index==2){
+            //   controller1.pause();
+            //   controller2.play();
+            // }
+            // loadController(index);
 
-              case "JWT":
-                {
-                  showToastSuccess("Join Meeting");
-                }
-                break;
-
-              default:
-                {
-                  print("Invalid choice");
-                }
-                break;
-            }
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PlayerScreen(
-                    id: arrList[nowPlaying][''].toString(),
-                    cuid: arrList[nowPlaying][''].toString(),
-                  )),
-            );
+            playControllers(index);
           },
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, index) {
+            final item = arrList != null ? arrList[index] : null;
+            //  index = (feedViewModel.videoSource.listVideos.length) % index;
+            return videoCard(item, index);
+          },
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Color(0xff606060)),
+                gradient: LinearGradient(
+              colors: [
+                Colors.black,
+                Colors.transparent,
+              ],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            )),
+            height: 120,
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Row(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                      arrList[nowPlaying]['targetBtnName'] != null
-                          ? arrList[nowPlaying]['targetBtnName'].toString()
-                          : "",
-                      style: size14_600W),
-                  Spacer(),
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 16,
-                    color: Colors.white,
-                  )
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: GestureDetector(
+                      onTap: () {
+                        if (isMute == true) {
+                          unmuteAtIndex(nowPlaying);
+                          unmuteAll(nowPlaying);
+
+                          setState(() {
+                            isMute = false;
+                          });
+                        } else {
+                          muteAtIndex(nowPlaying);
+                          muteAll(nowPlaying);
+
+                          setState(() {
+                            isMute = true;
+                          });
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          Spacer(),
+                          isMute == true
+                              ? Icon(Icons.volume_off_outlined,
+                                  color: Colors.white, size: 25)
+                              : Icon(Icons.volume_up_rounded,
+                                  color: Colors.white, size: 25)
+                        ],
+                      ),
+                    ),
+                  ),
+                  h(16),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Row(
+                      children: [Spacer(), bookmarkIcon()],
+                    ),
+                  ),
+                  h(16),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Row(
+                      children: [Spacer(), shareIcon()],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      children: [
+                        Spacer(),
+                        Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                if (arrList[nowPlaying]['isLiked'] == true) {
+                                  setState(() {
+                                    arrList[nowPlaying]['isLiked'] = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    arrList[nowPlaying]['isLiked'] = true;
+                                  });
+                                }
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                child: Icon(
+                                  Icons.favorite,
+                                  color: arrList[nowPlaying]['isLiked'] == true
+                                      ? Colors.red
+                                      : Colors.grey,
+                                ),
+                                radius: 20,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 3,
+                            ),
+                            Text(
+                              arrList[nowPlaying]['isLiked'] == true
+                                  ? (int.parse(arrList[nowPlaying]['like']) + 1)
+                                      .toString()
+                                  : arrList[nowPlaying]['like'].toString(),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        flex: 6,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Text(
+                            name == null ? "" : name,
+                            maxLines: 2,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'Mallu',
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: GestureDetector(
+                            onTap: () {
+                              controller0.pause();
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TutorInfo(
+                                        id: arrList[nowPlaying]['author_id']
+                                            .toString())),
+                              );
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: NetworkImage(arrList[nowPlaying]
+                                              ['author_img']
+                                          .toString()),
+                                      fit: BoxFit.cover)),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  arrList[nowPlaying]['targetType'].toString() == "OFF"
+                      ? Container()
+                      : takeFullCourseWidget()
                 ],
               ),
             ),
           ),
         ),
-      );
-    }
-
-    Widget feedVideos() {
-      print("feeeeeeeeed");
-
-      return Stack(
-        children: [
-          PageView.builder(
-            controller: PageController(
-              initialPage: 0,
-              viewportFraction: 1,
-            ),
-            itemCount: arrList != null ? arrList.length : 0,
-
-            onPageChanged: (index) {
-              // index = (feedViewModel.videoSource.listVideos.length) % index;
-              //  feedViewModel.changeVideo(index);
-
-              // controller.pause();
-              // if(index==1){
-              //   controller.pause();
-              //   controller1.play();
-              // }
-              //
-              // if(index==2){
-              //   controller1.pause();
-              //   controller2.play();
-              // }
-              // loadController(index);
-
-
-              playControllers(index);
-
-
+        Positioned(
+          top: 16,
+          left: 16,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()));
             },
-            scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) {
-              final item = arrList != null ? arrList[index] : null;
-              //  index = (feedViewModel.videoSource.listVideos.length) % index;
-              return videoCard(item, index);
-            },
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.black,
-                      Colors.transparent,
-                    ],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                  )),
-              height: 120,
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: GestureDetector(
-                        onTap: (){
-
-                          if(isMute==true){
-                            unmuteAtIndex(nowPlaying);
-                            unmuteAll(nowPlaying);
-
-                            setState(() {
-                              isMute=false;
-                            });
-                          }else{
-                            muteAtIndex(nowPlaying);
-                            muteAll(nowPlaying);
-
-
-
-                            setState(() {
-                              isMute=true;
-                            });
-                          }
-
-                        },
-                        child: Row(
-                          children: [
-                            Spacer(),
-                            isMute==true? Icon(Icons.volume_off_outlined,
-                                color: Colors.white, size: 25): Icon(Icons.volume_up_rounded,
-                                color: Colors.white, size: 25)
-                          ],
-                        ),
-                      ),
-                    ),
-                    h(16),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Row(
-                        children: [Spacer(), bookmarkIcon()],
-                      ),
-                    ),
-                    h(16),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Row(
-                        children: [Spacer(), shareIcon()],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        children: [
-                          Spacer(),
-                          Column(
-                            children: [
-
-
-                              GestureDetector(
-                                onTap: (){
-                                  if (arrList[nowPlaying]['isLiked'] == true) {
-                                    setState(() {
-                                      arrList[nowPlaying]['isLiked'] = false;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      arrList[nowPlaying]['isLiked'] = true;
-                                    });
-                                  }
-                                },
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  child: Icon(
-                                    Icons.favorite,
-                                    color: arrList[nowPlaying]['isLiked'] == true ? Colors.red : Colors.grey,
-                                  ),
-                                  radius: 20,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 3,
-                              ),
-                              Text(
-                                arrList[nowPlaying]['isLiked']==true? (int.parse(arrList[nowPlaying]['like']) +1).toString() :arrList[nowPlaying]['like'].toString(),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Expanded(
-                          flex: 6,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Text(
-                              name == null ? "" : name,
-                              maxLines: 2,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'Mallu',
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: GestureDetector(
-                              onTap: () {
-                                controller0.pause();
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => TutorInfo(
-                                          id: arrList[nowPlaying]['author_id']
-                                              .toString())),
-                                );
-                              },
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: NetworkImage(arrList[nowPlaying]
-                                        ['author_img']
-                                            .toString()),
-                                        fit: BoxFit.cover)),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    arrList[nowPlaying]['targetType'].toString() == "OFF"
-                        ? Container()
-                        : takeFullCourseWidget()
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 16,
-            left: 16,
-            child: GestureDetector(onTap: (){
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => HomeScreen()));
-            },
+            child: Opacity(
+              opacity: 0.25,
               child: Container(
                 decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.black),
                 child: Icon(
                   Icons.arrow_back,
                   color: Colors.white,
@@ -1307,127 +1187,170 @@ print("bottom");
               ),
             ),
           ),
-        ],
-      );
-    }
-
-    Widget videoCard(var item, int index) {
-      print("vdoooolength");
-
-     print(index);
-      print("vdoooolength");
-
-      return Stack(
-        children: [
-          // checkIntitializing(index)==true
-          //     ?
-
-          GestureDetector(
-            onTap: () {
-              if(checkPlaying(index)==true){
-                pauseControllers(index);
-              }else{
-                resumeControllers(index);
-              }
-              // if (controller0.value.isPlaying) {
-              //   controller0?.pause();
-              // } else {
-              //   controller0?.play();
-              // }
-            },
-            onDoubleTap: () {
-              setState(() {
-                arrList[index]['isLiked'] = true;
-              });
-            },
-            child: SizedBox.expand(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: SizedBox(
-                    width: index==1?controller1.value.size.width ?? 0:index==2?controller2.value.size.width ?? 0:index==3?controller3.value.size.width ?? 0:index==4?controller4.value.size.width ?? 0:index==5?controller5.value.size.width ?? 0:index==6?controller6.value.size.width ?? 0:index==7?controller7.value.size.width ?? 0:index==8?controller8.value.size.width ?? 0:index==9?controller9.value.size.width ?? 0:controller0.value.size.width ?? 0,
-                    height: index==1?controller1.value.size.height ?? 0:index==2?controller2.value.size.height ?? 0:index==3?controller3.value.size.height ?? 0:index==4?controller4.value.size.height ?? 0:index==5?controller5.value.size.height ?? 0:index==6?controller6.value.size.height ?? 0:index==7?controller7.value.size.height ?? 0:index==8?controller8.value.size.height ?? 0:index==9?controller9.value.size.height ?? 0:controller0.value.size.height ?? 0,
-                    // width: MediaQuery. of(context). size. width ,
-                    //   height: MediaQuery. of(context). size. height,
-                    child: VideoPlayer(index==1?controller1:index==2?controller2:index==3?controller3:index==4?controller4:index==5?controller5:index==6?controller6:index==7?controller7:index==8?controller8:index==9?controller9:controller0),
-                  ),
-                )),
-          )
-
-
-          //     :Container(
-          //   color: Colors.black,
-          //   child: Center(
-          //     child: Image.asset(
-          //       "assets/images/loading.gif",
-          //       height: 40,
-          //     ),
-          //   ),
-          // )
-          ,
-
-
-
-
-
-          // video.controller != null
-          //     ? GestureDetector(
-          //         onTap: () {
-          //           if (video.controller.value.isPlaying) {
-          //             video.controller?.pause();
-          //           } else {
-          //             video.controller?.play();
-          //           }
-          //         },
-          //         child: SizedBox.expand(
-          //             child: FittedBox(
-          //           fit: BoxFit.cover,
-          //           child: SizedBox(
-          //             width: video.controller?.value.size.width ?? 0,
-          //             height: video.controller?.value.size.height ?? 0,
-          //             child: VideoPlayer(video.controller),
-          //           ),
-          //         )),
-          //       )
-          //     : Container(
-          //         color: Colors.white,
-          //         child: Center(
-          //           child: Text("Loading"),
-          //         ),
-          //       ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  // VideoDescription(video.user, video.videoTitle, video.songName),
-                  // ActionsToolbar(video.likes, video.comments,
-                  //     "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"
-                  // ),
-                ],
-              ),
-              SizedBox(height: 20)
-            ],
-          ),
-        ],
-      );
-    }
+        ),
+      ],
+    );
   }
 
+  Widget videoCard(var item, int index) {
+    print("vdoooolength");
 
+    print(index);
+    print("vdoooolength");
 
+    return Stack(
+      children: [
+        // checkIntitializing(index)==true
+        //     ?
 
+        GestureDetector(
+          onTap: () {
+            if (checkPlaying(index) == true) {
+              pauseControllers(index);
+            } else {
+              resumeControllers(index);
+            }
+            // if (controller0.value.isPlaying) {
+            //   controller0?.pause();
+            // } else {
+            //   controller0?.play();
+            // }
+          },
+          onDoubleTap: () {
+            setState(() {
+              arrList[index]['isLiked'] = true;
+            });
+          },
+          child: SizedBox.expand(
+              child: FittedBox(
+            fit: BoxFit.cover,
+            child: SizedBox(
+              width: index == 1
+                  ? controller1.value.size.width ?? 0
+                  : index == 2
+                      ? controller2.value.size.width ?? 0
+                      : index == 3
+                          ? controller3.value.size.width ?? 0
+                          : index == 4
+                              ? controller4.value.size.width ?? 0
+                              : index == 5
+                                  ? controller5.value.size.width ?? 0
+                                  : index == 6
+                                      ? controller6.value.size.width ?? 0
+                                      : index == 7
+                                          ? controller7.value.size.width ?? 0
+                                          : index == 8
+                                              ? controller8.value.size.width ??
+                                                  0
+                                              : index == 9
+                                                  ? controller9
+                                                          .value.size.width ??
+                                                      0
+                                                  : controller0
+                                                          .value.size.width ??
+                                                      0,
+              height: index == 1
+                  ? controller1.value.size.height ?? 0
+                  : index == 2
+                      ? controller2.value.size.height ?? 0
+                      : index == 3
+                          ? controller3.value.size.height ?? 0
+                          : index == 4
+                              ? controller4.value.size.height ?? 0
+                              : index == 5
+                                  ? controller5.value.size.height ?? 0
+                                  : index == 6
+                                      ? controller6.value.size.height ?? 0
+                                      : index == 7
+                                          ? controller7.value.size.height ?? 0
+                                          : index == 8
+                                              ? controller8.value.size.height ??
+                                                  0
+                                              : index == 9
+                                                  ? controller9
+                                                          .value.size.height ??
+                                                      0
+                                                  : controller0
+                                                          .value.size.height ??
+                                                      0,
+              // width: MediaQuery. of(context). size. width ,
+              //   height: MediaQuery. of(context). size. height,
+              child: VideoPlayer(index == 1
+                  ? controller1
+                  : index == 2
+                      ? controller2
+                      : index == 3
+                          ? controller3
+                          : index == 4
+                              ? controller4
+                              : index == 5
+                                  ? controller5
+                                  : index == 6
+                                      ? controller6
+                                      : index == 7
+                                          ? controller7
+                                          : index == 8
+                                              ? controller8
+                                              : index == 9
+                                                  ? controller9
+                                                  : controller0),
+            ),
+          )),
+        )
 
+        //     :Container(
+        //   color: Colors.black,
+        //   child: Center(
+        //     child: Image.asset(
+        //       "assets/images/loading.gif",
+        //       height: 40,
+        //     ),
+        //   ),
+        // )
+        ,
 
-
-
-
-
-
-
-
-
-
-
-
+        // video.controller != null
+        //     ? GestureDetector(
+        //         onTap: () {
+        //           if (video.controller.value.isPlaying) {
+        //             video.controller?.pause();
+        //           } else {
+        //             video.controller?.play();
+        //           }
+        //         },
+        //         child: SizedBox.expand(
+        //             child: FittedBox(
+        //           fit: BoxFit.cover,
+        //           child: SizedBox(
+        //             width: video.controller?.value.size.width ?? 0,
+        //             height: video.controller?.value.size.height ?? 0,
+        //             child: VideoPlayer(video.controller),
+        //           ),
+        //         )),
+        //       )
+        //     : Container(
+        //         color: Colors.white,
+        //         child: Center(
+        //           child: Text("Loading"),
+        //         ),
+        //       ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                // VideoDescription(video.user, video.videoTitle, video.songName),
+                // ActionsToolbar(video.likes, video.comments,
+                //     "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"
+                // ),
+              ],
+            ),
+            SizedBox(height: 20)
+          ],
+        ),
+      ],
+    );
+  }
+}

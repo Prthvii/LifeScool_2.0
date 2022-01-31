@@ -216,8 +216,7 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
         child: Row(
           children: [
             Image(
-              image: NetworkImage(
-                  "https://www.kindpng.com/picc/m/79-790695_landscape-icon-transparent-background-trees-icon-hd-png.png"),
+              image: AssetImage("assets/images/gardening.png"),
               fit: BoxFit.contain,
               height: 32,
               width: 32,

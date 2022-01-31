@@ -107,13 +107,18 @@ class _FindCourseState extends State<FindCourse> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             children: [
-              CircleAvatar(
-                backgroundColor: Color(0xffFEE9E4),
-                radius: 22,
-                child: Icon(
-                  Icons.arrow_back,
-                  size: 20,
-                  color: Colors.black,
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: CircleAvatar(
+                  backgroundColor: Color(0xffFEE9E4),
+                  radius: 22,
+                  child: Icon(
+                    Icons.arrow_back,
+                    size: 20,
+                    color: Colors.black,
+                  ),
                 ),
               ),
               w(8),
@@ -240,8 +245,7 @@ class _FindCourseState extends State<FindCourse> {
         child: Row(
           children: [
             Image(
-              image: NetworkImage(
-                  "https://www.kindpng.com/picc/m/79-790695_landscape-icon-transparent-background-trees-icon-hd-png.png"),
+              image: AssetImage("assets/images/gardening.png"),
               fit: BoxFit.contain,
               height: 32,
               width: 32,

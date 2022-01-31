@@ -17,6 +17,7 @@ import 'package:lottie/lottie.dart';
 import 'Individual_HomeScreens/ViewAllCourses.dart';
 import 'Individual_HomeScreens/ViewAllWorkshopsNew.dart';
 import 'LiveClasses/LiveClassesNewHome.dart';
+import 'MyLearningNew.dart';
 import 'PlayerScreen.dart';
 import 'findCourse.dart';
 import 'newwwMyLearning.dart';
@@ -259,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               context,
                               MaterialPageRoute(
                                   // builder: (context) => MyLearningNew()),
-                                  builder: (context) => NewwwLearingg()),
+                                  builder: (context) => MyLearningNew()),
                             );
                           },
                           child: Container(
@@ -302,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Colors.white,
             actions: [
               Padding(
-                padding: const EdgeInsets.only(right: 55, top: 10, bottom: 10),
+                padding: const EdgeInsets.only(right: 16, top: 10, bottom: 10),
                 child: InkWell(
                   onTap: () {
                     Navigator.push(
@@ -381,9 +382,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       Spacer(),
-                                      Text(
-                                        "View All",
-                                        style: size14_700,
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewAllCourses()),
+                                          );
+                                        },
+                                        child: Text(
+                                          "View All",
+                                          style: size14_700,
+                                        ),
                                       ),
                                       SizedBox(
                                         width: 8,
@@ -426,9 +437,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       Spacer(),
-                                      Text(
-                                        "View All",
-                                        style: size14_700,
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NewTstShortsPlayerPage()),
+                                          );
+                                        },
+                                        child: Text(
+                                          "View All",
+                                          style: size14_700,
+                                        ),
                                       ),
                                       SizedBox(
                                         width: 8,
@@ -462,9 +483,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       Spacer(),
-                                      Text(
-                                        "View All",
-                                        style: size14_700,
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewAllWorkshopsNew()),
+                                          );
+                                        },
+                                        child: Text(
+                                          "View All",
+                                          style: size14_700,
+                                        ),
                                       ),
                                       SizedBox(
                                         width: 8,
@@ -492,9 +523,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       Spacer(),
-                                      Text(
-                                        "View All",
-                                        style: size14_700,
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewAllLiveClassesNew(
+                                                        data: arrList)),
+                                          );
+                                        },
+                                        child: Text(
+                                          "View All",
+                                          style: size14_700,
+                                        ),
                                       ),
                                       SizedBox(
                                         width: 8,
@@ -706,7 +748,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             item['chaptersCount'].toString() + " chapters",
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'Nunito',
                                 color: darkBlue),
@@ -719,7 +761,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             item['totalVideolength'].toString(),
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: 'Nunito',
                                 color: darkBlue),
@@ -1238,7 +1280,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: 113,
                         alignment: Alignment.center,
                         child: SvgPicture.asset(
-                          "assets/svg/courses.svg",
+                          "assets/svg/courseExp.svg",
                           height: 86,
                         ),
                         decoration: BoxDecoration(
@@ -1292,7 +1334,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: 113,
                         alignment: Alignment.center,
                         child: SvgPicture.asset(
-                          "assets/svg/liveBatches.svg",
+                          "assets/svg/liveExp.svg",
                           height: 86,
                         ),
                         decoration: BoxDecoration(
@@ -1304,7 +1346,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text(
-                        "Live Classes",
+                        "Live Batches",
                         style: size14_700,
                       ),
                     )
@@ -1345,7 +1387,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: 113,
                         alignment: Alignment.center,
                         child: SvgPicture.asset(
-                          "assets/svg/Workshop.svg",
+                          "assets/svg/wrkshpExp.svg",
                           height: 86,
                         ),
                         decoration: BoxDecoration(

@@ -11,23 +11,25 @@ class Upcoming extends StatefulWidget {
 class _UpcomingState extends State<Upcoming> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Upcoming (2)", style: size14_700),
-          h(8),
-          Upcoming(),
-          h(24),
-          Text("Ongoing (3)", style: size14_700),
-          h(8),
-          Ongoing(),
-          h(24),
-          Text("Completed (3)", style: size14_700),
-          h(8),
-          Completed()
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Upcoming (2)", style: size14_700),
+            h(8),
+            Upcoming(),
+            h(24),
+            Text("Ongoing (3)", style: size14_700),
+            h(8),
+            Ongoing(),
+            h(24),
+            Text("Completed (3)", style: size14_700),
+            h(8),
+            Completed()
+          ],
+        ),
       ),
     );
   }

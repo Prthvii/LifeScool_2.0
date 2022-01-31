@@ -12,7 +12,6 @@ import 'package:lifescool/Shorts/share.dart';
 import 'package:video_player/video_player.dart';
 
 import 'bookmark.dart';
-import 'like.dart';
 
 class TstShortsPlayerPage extends StatefulWidget {
   const TstShortsPlayerPage({Key key}) : super(key: key);
@@ -24,21 +23,30 @@ class TstShortsPlayerPage extends StatefulWidget {
 class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
   VideoPlayerController controller;
 
-  var arrList = [{'id': "11",
-  'uid':' e0dc2b79-6ce3-4b1f-ab9a-ecdd9f766451',
-  'title': 'How to remove background of an image?',
-  'desc': 'hh.',
-  'like': '100',
-  'targetType': 'OFF',
-  'targetId': '0', 'targetUid': '0',
-  'targetBtnName':'' ,
-  'targetJtwContent': 'Joined', 'video_source': 'CUSTOMVIMEO',
-  'video_url':' https://player.vimeo.com/external/668160046.m3u8?s=2618ae937188da781165f55faa3bf741ef81292e&oauth2_token_id=1526368676',
-  'author_id':' 6a92d86f-3ce6-4d05-ba28-8ce95f0758a0',
-  'author_img': 'https://lifescool.app/lp/imgserver/uploads/attachments/pcm__7e4cc96d-af85-4612-95d8-a266d130413e_0.png',
-  'thumbnail_url': 'https://i.vimeocdn.com/video/1352838869-dae710fd749a00fb0c37cfcbc08f4164a69eb2269f6819e4e4108c5d53d4fe57-d_960x540?r=pad',
-  'videoDuration': '1',
-  'isLiked': false}];
+  var arrList = [
+    {
+      'id': "11",
+      'uid': ' e0dc2b79-6ce3-4b1f-ab9a-ecdd9f766451',
+      'title': 'How to remove background of an image?',
+      'desc': 'hh.',
+      'like': '100',
+      'targetType': 'OFF',
+      'targetId': '0',
+      'targetUid': '0',
+      'targetBtnName': '',
+      'targetJtwContent': 'Joined',
+      'video_source': 'CUSTOMVIMEO',
+      'video_url':
+          ' https://player.vimeo.com/external/668160046.m3u8?s=2618ae937188da781165f55faa3bf741ef81292e&oauth2_token_id=1526368676',
+      'author_id': ' 6a92d86f-3ce6-4d05-ba28-8ce95f0758a0',
+      'author_img':
+          'https://lifescool.app/lp/imgserver/uploads/attachments/pcm__7e4cc96d-af85-4612-95d8-a266d130413e_0.png',
+      'thumbnail_url':
+          'https://i.vimeocdn.com/video/1352838869-dae710fd749a00fb0c37cfcbc08f4164a69eb2269f6819e4e4108c5d53d4fe57-d_960x540?r=pad',
+      'videoDuration': '1',
+      'isLiked': false
+    }
+  ];
   var isLoading = true;
   var name;
   var nowPlaying = 0;
@@ -46,7 +54,6 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
   var author_img;
   var likeTap = false;
   var isMute = false;
-
 
   int index = 0;
   double _position = 0;
@@ -56,15 +63,13 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
   Map<String, VideoPlayerController> _controllers = {};
   Map<int, VoidCallback> _listeners = {};
   Set<String> _urls = {
-
     "https://player.vimeo.com/external/668160046.m3u8?s=2618ae937188da781165f55faa3bf741ef81292e&oauth2_token_id=1526368676",
     "https://player.vimeo.com/external/668160876.m3u8?s=2837e0e42f31dae5213223e4c2418b10588e920e&oauth2_token_id=1526368676",
     "https://firebasestorage.googleapis.com/v0/b/videostreaming-test.appspot.com/o/vid%2FSnaptik_6745671851688692998_tiktok.mp4?alt=media&token=e6c76be2-9d8e-4be6-aedc-89ddd4985871",
 
     "https://firebasestorage.googleapis.com/v0/b/videostreaming-test.appspot.com/o/vid%2FSnaptik_6842407707551599878_carlos-barrios%20(1).mp4?alt=media&token=965f5080-2771-4477-bd9d-defc7b581c5d",
 
-   // "https://firebasestorage.googleapis.com/v0/b/videostreaming-test.appspot.com/o/vid%2FSnaptik_6856769842385620229_alex.mp4?alt=media&token=b70d853b-760a-45ee-b5d3-44cef7e4db7f",
-
+    // "https://firebasestorage.googleapis.com/v0/b/videostreaming-test.appspot.com/o/vid%2FSnaptik_6856769842385620229_alex.mp4?alt=media&token=b70d853b-760a-45ee-b5d3-44cef7e4db7f",
 
     "https://player.vimeo.com/external/668161382.m3u8?s=b94fd0c7c643711d26848b242381cec975d09198&oauth2_token_id=1526368676",
     "https://player.vimeo.com/external/668162628.m3u8?s=137eb5c6088b73ac2773d1970493ee09dc3f06cb&oauth2_token_id=1526368676",
@@ -72,8 +77,8 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
   @override
   void dispose() {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-   // controller.pause();
-    _stopController( index);
+    // controller.pause();
+    _stopController(index);
     // Navigator.pushReplacement(
     //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
     super.dispose();
@@ -83,7 +88,7 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
   initState() {
     SystemChrome.setEnabledSystemUIOverlays([]);
 
- // this.getHome();
+    // this.getHome();
     super.initState();
 
     if (_urls.length > 0) {
@@ -95,7 +100,6 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
     if (_urls.length > 1) {
       _initController(1).whenComplete(() => _lock = false);
     }
-
 
     //
     //
@@ -124,8 +128,8 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
       setState(() {
         arrList = rsp['attributes']['shortslist'];
       });
-         print("arrList");
-         print(arrList);
+      print("arrList");
+      print(arrList);
       loadController(0);
     }
 
@@ -138,24 +142,22 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
   Future<Null> loadController(index) async {
     print(arrList[index]['video_url']);
 
-    controller = VideoPlayerController.network(arrList[index]['video_url'].toString());
-
+    controller =
+        VideoPlayerController.network(arrList[index]['video_url'].toString());
 
     await controller?.initialize();
     controller?.setLooping(true);
     controller.play();
 
-
-
-    if(isMute==true){
+    if (isMute == true) {
       controller.setVolume(1.0);
       setState(() {
-        isMute=false;
+        isMute = false;
       });
-    }else{
+    } else {
       controller.setVolume(0.0);
       setState(() {
-        isMute=true;
+        isMute = true;
       });
     }
     setState(() {
@@ -165,8 +167,6 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
       nowPlaying = index;
     });
   }
-
-
 
   ///newww
   VoidCallback _listenerSpawner(index) {
@@ -192,7 +192,7 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
       });
       if (dur - pos < 1) {
         if (index < _urls.length - 1) {
-        //  _nextVideo();
+          //  _nextVideo();
         }
       }
     };
@@ -227,12 +227,12 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
     _controller(index).addListener(_listeners[index]);
     await _controller(index).play();
     setState(() {
-      currentPlaying =index;
+      currentPlaying = index;
     });
   }
 
   void _previousVideo() {
-    _stopController( index);
+    _stopController(index);
     if (_lock || index == 0) {
       return;
     }
@@ -254,7 +254,7 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
   }
 
   void _nextVideo() async {
-    _stopController( index);
+    _stopController(index);
 
     if (_lock || index == _urls.length - 1) {
       return;
@@ -276,17 +276,14 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
       // _initController(index + 2).whenComplete(() => _lock = false);
       // _initController(index + 2).whenComplete(() => _lock = false);
 
-
     }
   }
+
   void _checkController(int index) async {
-    print("intializeed  + "+index.toString());
+    print("intializeed  + " + index.toString());
 
-    print( _controller(index+1).value.initialized);
-
-
+    print(_controller(index + 1).value.initialized);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -300,14 +297,14 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
       ),
       body: isLoading == true
           ? Container(
-        color: Colors.black,
-        child: Center(
-          child: Image.asset(
-            "assets/images/loading.gif",
-            height: 40,
-          ),
-        ),
-      )
+              color: Colors.black,
+              child: Center(
+                child: Image.asset(
+                  "assets/images/loading.gif",
+                  height: 40,
+                ),
+              ),
+            )
           : feedVideos(),
     );
   }
@@ -327,9 +324,9 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => PlayerScreen(
-                        id: arrList[nowPlaying]['targetId'].toString(),
-                        cuid: arrList[nowPlaying]['targetUid'].toString(),
-                      )),
+                            id: arrList[nowPlaying]['targetId'].toString(),
+                            cuid: arrList[nowPlaying]['targetUid'].toString(),
+                          )),
                 );
               }
               break;
@@ -340,8 +337,8 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => CourseIntro(
-                        id: arrList[nowPlaying]['targetId'].toString(),
-                      )),
+                            id: arrList[nowPlaying]['targetId'].toString(),
+                          )),
                 );
               }
               break;
@@ -368,9 +365,9 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => PlayerScreen(
-                  id: arrList[nowPlaying][''].toString(),
-                  cuid: arrList[nowPlaying][''].toString(),
-                )),
+                      id: arrList[nowPlaying][''].toString(),
+                      cuid: arrList[nowPlaying][''].toString(),
+                    )),
           );
         },
         child: Container(
@@ -410,37 +407,35 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
             initialPage: 0,
             viewportFraction: 1,
           ),
-        // physics: _lock==true?NeverScrollableScrollPhysics():AlwaysScrollableScrollPhysics(),
+          // physics: _lock==true?NeverScrollableScrollPhysics():AlwaysScrollableScrollPhysics(),
           itemCount: _urls != null ? _urls.length : 0,
 
           onPageChanged: (indexx) {
             // index = (feedViewModel.videoSource.listVideos.length) % index;
             //  feedViewModel.changeVideo(index);
 
-          if(indexx<index){
-      //   _stopController(currentPlaying);
-            setState(() {
-             // _controller(indexx+1).pause();
+            if (indexx < index) {
+              //   _stopController(currentPlaying);
+              setState(() {
+                // _controller(indexx+1).pause();
+              });
+              _previousVideo();
+              print("peviosss");
+              print(indexx);
 
-            });
-            _previousVideo();
-            print("peviosss");
-            print(indexx);
+              _checkController(index);
+            } else {
+              //  _stopController(currentPlaying);
 
-            _checkController( index);
-          }else{
-         //  _stopController(currentPlaying);
+              setState(() {
+                // _controller(indexx-1).pause();
+              });
+              _nextVideo();
 
-            setState(() {
-             // _controller(indexx-1).pause();
-
-            });
-            _nextVideo();
-
-            print("nexxxt");
-            print(indexx);
-            _checkController( index);
-          }
+              print("nexxxt");
+              print(indexx);
+              _checkController(index);
+            }
 
             // controller.pause();
             //
@@ -448,9 +443,9 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
           },
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
-           // final item = _urls != null ? arrList[index] : null;
+            // final item = _urls != null ? arrList[index] : null;
             //  index = (feedViewModel.videoSource.listVideos.length) % index;
-            return videoCard( index);
+            return videoCard(index);
           },
         ),
         Align(
@@ -458,13 +453,13 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
           child: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    Colors.black,
-                    Colors.transparent,
-                  ],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                )),
+              colors: [
+                Colors.black,
+                Colors.transparent,
+              ],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            )),
             height: 120,
           ),
         ),
@@ -479,27 +474,27 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: GestureDetector(
-                      onTap: (){
-
-                        if(isMute==true){
+                      onTap: () {
+                        if (isMute == true) {
                           controller.setVolume(1.0);
                           setState(() {
-                            isMute=false;
+                            isMute = false;
                           });
-                        }else{
+                        } else {
                           controller.setVolume(0.0);
                           setState(() {
-                            isMute=true;
+                            isMute = true;
                           });
                         }
-
                       },
                       child: Row(
                         children: [
                           Spacer(),
-                          isMute==true? Icon(Icons.volume_off_outlined,
-                              color: Colors.white, size: 25): Icon(Icons.volume_up_rounded,
-                              color: Colors.white, size: 25)
+                          isMute == true
+                              ? Icon(Icons.volume_off_outlined,
+                                  color: Colors.white, size: 25)
+                              : Icon(Icons.volume_up_rounded,
+                                  color: Colors.white, size: 25)
                         ],
                       ),
                     ),
@@ -528,10 +523,8 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
                         Spacer(),
                         Column(
                           children: [
-
-
                             GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 if (arrList[nowPlaying]['isLiked'] == true) {
                                   setState(() {
                                     arrList[nowPlaying]['isLiked'] = false;
@@ -546,7 +539,9 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
                                 backgroundColor: Colors.white,
                                 child: Icon(
                                   Icons.favorite,
-                                  color: arrList[nowPlaying]['isLiked'] == true ? Colors.red : Colors.grey,
+                                  color: arrList[nowPlaying]['isLiked'] == true
+                                      ? Colors.red
+                                      : Colors.grey,
                                 ),
                                 radius: 20,
                               ),
@@ -555,7 +550,10 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
                               height: 3,
                             ),
                             Text(
-                              arrList[nowPlaying]['isLiked']==true? (int.parse(arrList[nowPlaying]['like']) +1).toString() :arrList[nowPlaying]['like'].toString(),
+                              arrList[nowPlaying]['isLiked'] == true
+                                  ? (int.parse(arrList[nowPlaying]['like']) + 1)
+                                      .toString()
+                                  : arrList[nowPlaying]['like'].toString(),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -608,7 +606,7 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
                                       image: NetworkImage(arrList[nowPlaying]
-                                      ['author_img']
+                                              ['author_img']
                                           .toString()),
                                       fit: BoxFit.cover)),
                             ),
@@ -628,13 +626,14 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
         Positioned(
           top: 16,
           left: 16,
-          child: GestureDetector(onTap: (){
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => HomeScreen()));
-          },
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()));
+            },
             child: Container(
               decoration:
-              BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+                  BoxDecoration(shape: BoxShape.circle, color: Colors.black12),
               child: Icon(
                 Icons.arrow_back,
                 color: Colors.white,
@@ -648,7 +647,7 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
     );
   }
 
-  Widget videoCard( int index) {
+  Widget videoCard(int index) {
     print("vdoooolength");
 
     // print(controller.value.duration);
@@ -672,7 +671,7 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
               arrList[index]['isLiked'] = true;
             });
           },
-          child:  Center(
+          child: Center(
             child: AspectRatio(
               aspectRatio: _controller(index).value.aspectRatio,
               child: Center(child: VideoPlayer(_controller(index))),
@@ -689,10 +688,6 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
         //   ),
         // )
         ,
-
-
-
-
 
         // video.controller != null
         //     ? GestureDetector(
