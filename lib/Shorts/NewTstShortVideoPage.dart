@@ -976,7 +976,6 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
             //   controller2.play();
             // }
             // loadController(index);
-
             playControllers(index);
           },
           scrollDirection: Axis.vertical,
@@ -1188,6 +1187,10 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
             ),
           ),
         ),
+        Align(
+          alignment: Alignment.center,
+          child: Icon(Icons.pause, color: Colors.white, size: 30),
+        )
       ],
     );
   }
