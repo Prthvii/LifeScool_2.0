@@ -1,4 +1,5 @@
-final baseUrl = "https://lifescool.app/app/api-v0/";
+//2final baseUrl = "https://lifescool.app/app/api-v0/";
+final baseUrl = "https://lifescool.app/app/api-v1/";
 final secKey = "52be4fb86d8b01677bffd8718e3c8a24";
 
 ///req-headers
@@ -10,9 +11,13 @@ final checkNum = "check-mobile-number";
 final signUp = "sign-up";
 final getUser = "get-user-details";
 final getAllCrs = "get-all-courses";
+
+final getHomeDetails = "home-details";
 final getAllWrkshop = "get-all-workshops";
 final wrkshopDetail = "workshop-deails";
 final getAllCat = "get-all-categories";
+final getInAllBatches = "search-in-all-batches";
+final getInAllWorkshops = "search-in-all-workshops";
 final getChapDetails = "chapter-details";
 final certificateRequest = "certificate-request";
 final certificateValidate = "certificate-validate";

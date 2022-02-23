@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lifescool/Api/listWorkshop.dart';
 import 'package:lifescool/Const/Constants.dart';
+import 'package:lifescool/Helper/colorConverter.dart';
+import 'package:lifescool/Screens/CourseIntro.dart';
+import 'package:lifescool/Screens/TutorInfo.dart';
 
 class WorkshopForHome extends StatefulWidget {
-  const WorkshopForHome({Key key}) : super(key: key);
+  final arrWorkshop;
 
+
+  WorkshopForHome({this.arrWorkshop});
   @override
   _WorkshopForHomeState createState() => _WorkshopForHomeState();
 }
@@ -61,12 +66,12 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
           height: 15,
         ),
         shrinkWrap: true,
-        itemCount: 3,
-         //itemCount: arrList != null ? arrList.length : 0,
+      // itemCount: 3,
+         itemCount: widget.arrWorkshop != null ? widget.arrWorkshop.length : 0,
         itemBuilder: (context, index) {
-        //  final item = arrList != null ? arrList[index] : null;
-          return list(index);
-          // return list(item, index);
+         final item = widget.arrWorkshop != null ? widget.arrWorkshop[index] : null;
+         // return list(index);
+          return list(item, index);
         },
       ),
     );
@@ -105,8 +110,8 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
   //         context,
   //         MaterialPageRoute(
   //             builder: (context) => CourseIntro(
-  //                   id: item['id'].toString(),
-  //                 )),
+  //               id: item['id'].toString(),
+  //             )),
   //       );
   //     },
   //     child: Stack(
@@ -152,25 +157,27 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
   //                       ),
   //                       item['wctype'].toString() != "PAID"
   //                           ? Row(
-  //                               children: [
-  //                                 Icon(
-  //                                   Icons.star,
-  //                                   size: 12,
-  //                                   color: darkBlue            item['prime_color'].toString()),
-  //                                 ),
-  //                                 SizedBox(
-  //                                   width: 3,
-  //                                 ),
-  //                                 Text(
-  //                                   "Free Workshop",
-  //                                   style: TextStyle(
-  //                                       fontSize: 12,
-  //                                       fontFamily: 'Nunito',
-  //                                       fontWeight: FontWeight.bold,
-  //                                       color: darkBlue                item['prime_color'].toString())),
-  //                                 )
-  //                               ],
-  //                             )
+  //                         children: [
+  //                           Icon(
+  //                             Icons.star,
+  //                             size: 12,
+  //                             color: hexToColor(
+  //                                 item['prime_color'].toString()),
+  //                           ),
+  //                           SizedBox(
+  //                             width: 3,
+  //                           ),
+  //                           Text(
+  //                             "Free Workshop",
+  //                             style: TextStyle(
+  //                                 fontSize: 12,
+  //                                 fontFamily: 'Nunito',
+  //                                 fontWeight: FontWeight.bold,
+  //                                 color: hexToColor(
+  //                                     item['prime_color'].toString())),
+  //                           )
+  //                         ],
+  //                       )
   //                           : Container(),
   //                       SizedBox(
   //                         height: 3,
@@ -182,7 +189,7 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
   //                             fontWeight: FontWeight.bold,
   //                             fontFamily: 'Nunito',
   //                             color:
-  //                                 darkBlue,
+  //                             hexToColor(item['prime_color'].toString())),
   //                       ),
   //                       SizedBox(
   //                         height: 10,
@@ -202,7 +209,7 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
   //                                     decoration: BoxDecoration(
   //                                         shape: BoxShape.circle,
   //                                         border:
-  //                                             Border.all(color: Colors.black12),
+  //                                         Border.all(color: Colors.black12),
   //                                         image: DecorationImage(
   //                                             image: NetworkImage(
   //                                               item["authorImageUrl"]
@@ -232,7 +239,8 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
   //                             child: Container(
   //                               decoration: BoxDecoration(
   //                                   borderRadius: BorderRadius.circular(10),
-  //                                   color: darkBlue            item['prime_color'].toString())),
+  //                                   color: hexToColor(
+  //                                       item['prime_color'].toString())),
   //                               child: Padding(
   //                                 padding: const EdgeInsets.symmetric(
   //                                     horizontal: 10, vertical: 7),
@@ -273,18 +281,20 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
   //     ),
   //   );
   // }
-  list(int index) {
+
+
+  list(var item, int index) {
     final ss = MediaQuery.of(context).size;
 
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //       builder: (context) => CourseIntro(
-        //             id: item['id'].toString(),
-        //           )),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CourseIntro(
+                    id: item['id'].toString(),
+                  )),
+        );
       },
       child: Stack(
         children: [
@@ -313,7 +323,7 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                     ),
                     image: DecorationImage(
                       image: NetworkImage(
-                          "https://thumbs.dreamstime.com/z/banner-concept-writing-workshop-vector-illustration-50221025.jpg"),
+                          item['workshopThumbnail'].toString()),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -326,7 +336,7 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "ഗാർഡനിങ് : ഹോബിയ്ക്കപ്പുറം  പ്രൊഫഷണൽ ആയി തുടങ്ങുന്നതെങ്ങനെ? ",
+                          item['workshopNameMalayalam'].toString(),
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -354,14 +364,14 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                                   ),
                                 ),
                                 Text(
-                                  "1 hour",
+                                  item['courseDuration'].toString(),
                                   style: size14_400Blue,
                                 )
                               ],
                             ),
                             Spacer(),
                             Text(
-                              "Geetha K",
+                              item['tutorName'].toString(),
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
@@ -371,15 +381,25 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                             SizedBox(
                               width: 6,
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: Color(0xfffaf6f5)),
-                                  image: DecorationImage(
-                                      image: NetworkImage(testImg),
-                                      fit: BoxFit.cover)),
-                              height: 24,
-                              width: 24,
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          TutorInfo(id: item['authorId'].toString())),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Color(0xfffaf6f5)),
+                                    image: DecorationImage(
+                                        image: NetworkImage(item['tutorProfileImage'].toString()),
+                                        fit: BoxFit.cover)),
+                                height: 24,
+                                width: 24,
+                              ),
                             ),
                           ],
                         ),

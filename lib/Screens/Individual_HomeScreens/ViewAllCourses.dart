@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Api/getUser.dart';
+import 'package:lifescool/Api/listCatAndSub.dart';
 import 'package:lifescool/Api/listCourse.dart';
+import 'package:lifescool/Api/searchItem.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
+import 'package:lifescool/Screens/TutorInfo.dart';
 
 import '../EnterNum.dart';
 import '../NewTutorInfo.dart';
@@ -19,11 +22,13 @@ class ViewAllCourses extends StatefulWidget {
 
 class _ViewAllCoursesState extends State<ViewAllCourses> {
   var arrList = [];
+  var arrCat = [];
   var resList = [];
 
   var isLoading = true;
   var token;
   var id;
+  var currentIndex =900;
 
   //List<dynamic> data = [];
   @override
@@ -31,46 +36,13 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
     super.initState();
 
     print("xoxoxo");
-    this.getProfile();
+  //  this.getProfile();
+    this.getCat();
+    this.getsearch("","","");
     setState(() {});
   }
-
-  Future<String> getProfile() async {
-    token = await getSharedPrefrence(TOKEN);
-    print("Profileeeeeeeeeeeeeeee");
-    if (token == null) {
-      var rsp = await getUserApi();
-      print("Profileeeeeeeeeeeeeeee");
-      print(rsp);
-      if (rsp['attributes']['message'].toString() == "Success") {
-        var token = await setSharedPrefrence(
-            TOKEN, rsp['attributes']['studentInfo']['apiToken']);
-
-        var number = await setSharedPrefrence(
-            NUM, rsp['attributes']['studentInfo']['mobileNumber']);
-
-        var mail = await setSharedPrefrence(
-            MAIL, rsp['attributes']['studentInfo']['emailId']);
-        var name = await setSharedPrefrence(
-            NAME, rsp['attributes']['studentInfo']['fullname']);
-        getHome();
-      } else {
-        showToastSuccess(rsp['attributes']['message'].toString());
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => EntNum()),
-        );
-      }
-    } else {
-      getHome();
-    }
-
-    return "0";
-  }
-
-  Future<String> getHome() async {
-    var rsp = await listCourseApi();
+  Future<String> getCat() async {
+    var rsp = await listCatAndSub();
     print("courseeeeeeeeeeeeee");
     print(rsp);
 
@@ -78,9 +50,15 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
     //
     if (rsp['attributes']['message'].toString() == "Success") {
       setState(() {
-        arrList = rsp['attributes']['courselist'];
-        resList = rsp['attributes']['resumeCourse'];
+        arrCat = rsp['attributes']['categories'];
+
+        // totalSale = rsp['total_card_sale'].toString();
+        // totalProfit = "₹"+rsp['total_profit'].toString();
       });
+      print("arrCatList");
+      print(arrCat);
+    } else {
+      showToastSuccess(rsp['attributes']['message'].toString());
     }
 
     setState(() {
@@ -88,6 +66,38 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
     });
     return "0";
   }
+
+  Future<String> getsearch(cid, sid, key) async {
+    setState(() {
+      isLoading = true;
+    });
+    print("searchhhhhhhh");
+
+    var rsp = await searchItemApi(cid, sid, key);
+    print("searchhhhhhhh");
+    print(rsp);
+
+    // arrProdList = data;
+    //
+    if (rsp['attributes']['message'].toString() == "Success") {
+      setState(() {
+        arrList = rsp['attributes']['courselist'];
+
+        // totalSale = rsp['total_card_sale'].toString();
+        // totalProfit = "₹"+rsp['total_profit'].toString();
+      });
+      print("searchhhhhhhh");
+      print(arrList);
+    } else {
+      //showToastSuccess(rsp['attributes']['message'].toString());
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+    return "0";
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -175,17 +185,25 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Container(
-                            height: 56,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: grey2)),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 18),
-                              child: Text("All", style: size14_600),
+                          GestureDetector(
+                            onTap: (){
+                              this.getsearch("","","");
+                              setState(() {
+                                currentIndex=900;
+                              });
+                            },
+                            child: Container(
+                              height: 56,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: currentIndex==900?Colors.deepOrange.shade100: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: grey2)),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 18),
+                                child: Text("All", style: size14_600),
+                              ),
                             ),
                           ),
                           w(16),
@@ -204,7 +222,8 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
                 height: 10,
               ),
               shrinkWrap: true,
-              itemCount: 5,
+            //  itemCount: 5,
+              itemCount: arrList != null ? arrList.length : 0,
               itemBuilder: (context, index) {
                 final item = arrList != null ? arrList[index] : null;
                 return HomeCards(item, index);
@@ -226,41 +245,51 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
           width: 10,
         ),
         shrinkWrap: true,
-        itemCount: 10,
+        itemCount: arrCat != null ? arrCat.length : 0,
         itemBuilder: (context, index) {
-          return newList(index);
+          final item = arrCat != null ? arrCat[index] : null;
+          return newList(item,index);
         },
       ),
     );
   }
 
-  newList(int index) {
-    return Container(
-      height: 56,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          border: Border.all(color: grey2)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Row(
-          children: [
-            Image(
-              image: AssetImage("assets/images/gardening.png"),
-              fit: BoxFit.contain,
-              height: 32,
-              width: 32,
-            ),
-            w(16),
-            Text(
-              "Gardening",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontFamily: 'Nunito',
-                  fontWeight: FontWeight.w600),
-            ),
-          ],
+  newList(var item,int index) {
+    return GestureDetector(
+      onTap: ()async{
+        setState(() {
+          currentIndex = index;
+        });
+        var rsp = await    getsearch(item['id'].toString(), "", "");
+
+      },
+      child: Container(
+        height: 56,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: currentIndex==index?Colors.deepOrange.shade100: Colors.white,
+            border: Border.all(color: grey2)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Row(
+            children: [
+              Image(
+                image: NetworkImage(item['categoryIconUrl'].toString()),
+                fit: BoxFit.contain,
+                height: 32,
+                width: 32,
+              ),
+              w(16),
+              Text(
+                item['categoryName'].toString(),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -440,12 +469,12 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) =>
-                        //           TutorInfo(id: item['authorId'].toString())),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  TutorInfo(id: item['authorId'].toString())),
+                        );
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -467,7 +496,7 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
           SizedBox(
             height: 7,
           ),
-          Container(
+          item['announceText']!=null?Container(
             alignment: Alignment.centerLeft,
             width: double.infinity,
             decoration: BoxDecoration(
@@ -479,14 +508,14 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
-                "Course free till Dec 25",
+                item['announceText'].toString(),
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: Color(0xffCB9200)),
               ),
             ),
-          )
+          ):Container()
         ],
       ),
     );

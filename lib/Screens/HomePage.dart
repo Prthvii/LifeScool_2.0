@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Api/getUser.dart';
+import 'package:lifescool/Api/homePageSuggestion.dart';
 import 'package:lifescool/Api/listCourse.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/EnterNum.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
+import 'package:lifescool/Screens/TutorInfo.dart';
 import 'package:lifescool/Screens/workshopForHome.dart';
+import 'package:lifescool/Shorts/Data/listReels.dart';
 import 'package:lifescool/Shorts/HomeSuggestReels.dart';
 import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
 import 'package:lottie/lottie.dart';
@@ -31,6 +34,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var arrList = [];
+  var arrSuggestedCourse = [];
+  var arrSuggestedLiveBatch = [];
+  var arrSuggestedWorkshops = [];
+  var arrReels = [];
   var resList = [];
 
   var isLoading = true;
@@ -44,9 +51,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
     print("xoxoxo");
     this.getProfile();
+    this.getReels();
+    this.getHomePageSuggestion();
     setState(() {});
   }
+  Future<String> getReels() async {
+    var rsp = await reelsListApi();
+    print("courseeeeeeeeeeeeee");
+    print(rsp);
 
+    // arrProdList = data;
+    //
+    if (rsp != 0) {
+      setState(() {
+        arrReels = rsp['attributes']['shortslist'];
+      });
+
+
+    }
+
+    // setState(() {
+    //   isLoading = false;
+    // });
+    return "0";
+  }
   Future<String> getProfile() async {
     token = await getSharedPrefrence(TOKEN);
     print("Profileeeeeeeeeeeeeeee");
@@ -92,6 +120,30 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         arrList = rsp['attributes']['courselist'];
         resList = rsp['attributes']['resumeCourse'];
+      });
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+    return "0";
+  }
+
+  Future<String> getHomePageSuggestion() async {
+    print("suggesteddddddddd");
+
+    var rsp = await homePageSuggestionApi();
+    print("suggesteddddddddd");
+    print(rsp);
+
+    // arrProdList = data;
+    //
+    if (rsp['attributes']['message'].toString() == "Success") {
+      setState(() {
+        arrSuggestedCourse = rsp['attributes']['suggestedCourses'];
+        arrReels = rsp['attributes']['suggestedShorts'];
+        arrSuggestedWorkshops = rsp['attributes']['suggestedWorkshops'];
+        //resList = rsp['attributes']['resumeCourse'];
       });
     }
 
@@ -415,11 +467,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: 15,
                                   ),
                                   shrinkWrap: true,
-                                  itemCount: 2,
-                                  // itemCount: arrList != null ? arrList.length : 0,
+                                //  itemCount: 2,
+                                   itemCount: arrSuggestedCourse != null ? arrSuggestedCourse.length : 0,
                                   itemBuilder: (context, index) {
                                     final item =
-                                        arrList != null ? arrList[index] : null;
+                                    arrSuggestedCourse != null ? arrSuggestedCourse[index] : null;
                                     return HomeCards(item, index);
                                   },
                                 ),
@@ -466,10 +518,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         left: 17, top: 2, bottom: 2),
-                                    child: HomeReels(),
+                                    child: HomeReels(reelsArr: arrReels,),
                                   ),
                                 ),
-                                Padding(
+                                arrSuggestedWorkshops!=null?Padding(
                                   padding: const EdgeInsets.only(
                                       left: 16, top: 21, bottom: 8, right: 16),
                                   child: Row(
@@ -507,8 +559,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       )
                                     ],
                                   ),
-                                ),
-                                WorkshopForHome(),
+                                ):Container(),
+                                WorkshopForHome(arrWorkshop: arrSuggestedWorkshops,),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 16, top: 21, bottom: 8, right: 16),
@@ -772,12 +824,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     Spacer(),
                     GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) =>
-                        //           TutorInfo(id: item['authorId'].toString())),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  TutorInfo(id: item['authorId'].toString())),
+                        );
                       },
                       child: Text(
                         item['tutorName'].toString(),
@@ -793,12 +845,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) =>
-                        //           TutorInfo(id: item['authorId'].toString())),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  TutorInfo(id: item['authorId'].toString())),
+                        );
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -820,7 +872,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: 7,
           ),
-          Container(
+          item['announceText']!=null?Container(
             alignment: Alignment.centerLeft,
             width: double.infinity,
             decoration: BoxDecoration(
@@ -832,14 +884,14 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
-                "Course free till Dec 25",
+                item['announceText'].toString(),
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: themeOrange),
               ),
             ),
-          )
+          ):Container()
         ],
       ),
     );

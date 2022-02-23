@@ -77,7 +77,7 @@ class _FindCourseState extends State<FindCourse> {
     //
     if (rsp['attributes']['message'].toString() == "Success") {
       setState(() {
-        searchList = rsp['attributes']['courselist'];
+        arrList = rsp['attributes']['courselist'];
 
         // totalSale = rsp['total_card_sale'].toString();
         // totalProfit = "₹"+rsp['total_profit'].toString();
@@ -230,14 +230,15 @@ class _FindCourseState extends State<FindCourse> {
         height: 24,
       ),
       shrinkWrap: true,
-      itemCount: 5,
+      itemCount: arrList != null ? arrList.length : 0,
       itemBuilder: (context, index) {
-        return newList(index);
+        final item = arrList != null ? arrList[index] : null;
+        return newList(item,index);
       },
     );
   }
 
-  newList(int index) {
+  newList(var item,int index) {
     return Container(
       height: 56,
       child: Padding(
@@ -245,14 +246,14 @@ class _FindCourseState extends State<FindCourse> {
         child: Row(
           children: [
             Image(
-              image: AssetImage("assets/images/gardening.png"),
+              image: NetworkImage(item['categoryIconUrl'].toString()),
               fit: BoxFit.contain,
               height: 32,
               width: 32,
             ),
             w(16),
             Text(
-              "Gardening",
+              item['categoryName'].toString(),
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 14,

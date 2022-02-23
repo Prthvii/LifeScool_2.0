@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
 
 class HomeReels extends StatefulWidget {
   // const HomeReels({Key? key}) : super(key: key);
+  var reelsArr;
 
+
+  HomeReels({this.reelsArr});
   @override
   _HomeReelsState createState() => _HomeReelsState();
 }
 
 class _HomeReelsState extends State<HomeReels> {
-  final reelsArr = [
-    "https://iso.500px.com/wp-content/uploads/2014/07/Elliott-and-His-Hen-Cover-Image.jpg",
-    "https://i0.wp.com/digital-photography-school.com/wp-content/uploads/2021/03/portrait-photography-tips-4-1.jpg?resize=1500%2C1000&ssl=1",
-    "https://i0.wp.com/digital-photography-school.com/wp-content/uploads/2021/03/portrait-photography-tips-3.jpg?resize=1500%2C1000&ssl=1",
-    "https://stylecaster.com/wp-content/uploads/2020/08/insta-reels.gif",
-    "https://foundr.com/wp-content/uploads/2021/08/instagram-reels.png"
-  ];
+
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,9 +25,9 @@ class _HomeReelsState extends State<HomeReels> {
           width: 8,
         ),
         shrinkWrap: true,
-        itemCount: reelsArr.length != 0 ? reelsArr.length : 0,
+        itemCount: widget.reelsArr.length != 0 ?  widget.reelsArr.length : 0,
         itemBuilder: (context, index) {
-          final item = reelsArr != null ? reelsArr[index] : null;
+          final item =  widget.reelsArr != null ?  widget.reelsArr[index] : null;
           return reels(item, index);
         },
       ),
@@ -35,16 +35,26 @@ class _HomeReelsState extends State<HomeReels> {
   }
 
   reels(var item, int index) {
-    return Container(
-      height: 188,
-      width: 106,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          image: DecorationImage(
-              image: NetworkImage(
-                item.toString(),
-              ),
-              fit: BoxFit.cover)),
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            // builder: (context) => MyLearningNew()),
+              builder: (context) => NewTstShortsPlayerPage(highligts: item,)),
+        );
+      },
+      child: Container(
+        height: 188,
+        width: 106,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            image: DecorationImage(
+                image: NetworkImage(
+                  item['thumbnail_url'].toString(),
+                ),
+                fit: BoxFit.cover)),
+      ),
     );
   }
 }

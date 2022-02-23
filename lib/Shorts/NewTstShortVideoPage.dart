@@ -16,7 +16,10 @@ import 'package:video_player/video_player.dart';
 import 'bookmark.dart';
 
 class NewTstShortsPlayerPage extends StatefulWidget {
-  const NewTstShortsPlayerPage({Key key}) : super(key: key);
+  var highligts;
+
+
+  NewTstShortsPlayerPage({this.highligts});
 
   @override
   _ShortsPlayerPageState createState() => _ShortsPlayerPageState();
@@ -35,7 +38,9 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
   VideoPlayerController controller9;
 
   var arrList = [];
+
   var isLoading = true;
+  var isPlaying = true;
   var name;
   var nowPlaying = 0;
   var author_img;
@@ -100,50 +105,31 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
     return "0";
   }
 
-  // Future<Null> loadController(index) async {
-  //   print(arrList[index]['video_url']);
-  //
-  //   controller = VideoPlayerController.network(arrList[index]['video_url'].toString());
-  //
-  //
-  //   await controller?.initialize();
-  //   controller?.setLooping(true);
-  //   controller.play();
-  //
-  //
-  //   controller1 = VideoPlayerController.network(arrList[1]['video_url'].toString());
-  //
-  //
-  //   await controller1?.initialize();
-  //   controller1?.setLooping(true);
-  //
-  //
-  //
-  //   controller2 = VideoPlayerController.network(arrList[2]['video_url'].toString());
-  //
-  //
-  //   await controller2?.initialize();
-  //   controller2?.setLooping(true);
-  //   if(isMute==true){
-  //     controller.setVolume(1.0);
-  //     setState(() {
-  //       isMute=false;
-  //     });
-  //   }else{
-  //     controller.setVolume(0.0);
-  //     setState(() {
-  //       isMute=true;
-  //     });
-  //   }
-  //   setState(() {
-  //     isLoading = false;
-  //     name = arrList[index]['title'].toString();
-  //     author_img = arrList[index]['author_img'].toString();
-  //     nowPlaying = index;
-  //   });
-  // }
 
+  HighlightController() async {
+
+
+
+    controller0 =
+        VideoPlayerController.network(widget.highligts['video_url'].toString());
+
+    await controller0?.initialize();
+    controller0?.setLooping(true);
+    if (controller0.value.initialized) {
+      setState(() {
+        isLoading = false;
+        print("falsaaaaaaaaayi");
+        name = widget.highligts['title'].toString();
+        author_img = widget.highligts['author_img'].toString();
+        nowPlaying = 0;
+      });
+      controller0.play();
+    }
+  }
   Controller0() async {
+
+
+
     controller0 =
         VideoPlayerController.network(arrList[0]['video_url'].toString());
 
@@ -246,7 +232,13 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
 
   Future<Null> setupController(index) async {
     if (arrList.length > 0) {
-      Controller0();
+
+      if(widget.highligts==null){
+        Controller0();
+
+      }else{
+        HighlightController();
+      }
     }
     if (arrList.length > 1) {
       Controller1();
@@ -308,6 +300,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
     print(index);
     setState(() {
       isLoading = false;
+      isPlaying = true;
       name = arrList[index]['title'].toString();
       author_img = arrList[index]['author_img'].toString();
       nowPlaying = index;
@@ -1187,9 +1180,16 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
             ),
           ),
         ),
-        Align(
+        isPlaying==true?  Align(
           alignment: Alignment.center,
-          child: Icon(Icons.pause, color: Colors.white, size: 30),
+          child:Container(),
+        ):Align(
+          alignment: Alignment.center,
+        //  child: Icon(Icons.play_arrow, color: Colors.white, size: 30),
+          child: Image.asset(
+            "assets/images/pauseReels.png",
+            height: 40,
+          ),
         )
       ],
     );
@@ -1210,8 +1210,14 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
           onTap: () {
             if (checkPlaying(index) == true) {
               pauseControllers(index);
+              setState(() {
+                isPlaying=false;
+              });
             } else {
               resumeControllers(index);
+              setState(() {
+                isPlaying=true;
+              });
             }
             // if (controller0.value.isPlaying) {
             //   controller0?.pause();

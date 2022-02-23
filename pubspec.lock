@@ -139,6 +139,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.1"
+  flutter_fadein:
+    dependency: "direct dev"
+    description:
+      name: flutter_fadein
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   flutter_html:
     dependency: "direct dev"
     description:

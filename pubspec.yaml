@@ -57,6 +57,7 @@ dev_dependencies:
   shimmer: ^2.0.0
   jitsi_meet: ^2.1.0
   flutter_windowmanager: ^0.2.0
+  flutter_fadein: ^2.0.0
 
 
 #  flutter_bloc: ^8.0.1
