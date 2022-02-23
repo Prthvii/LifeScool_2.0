@@ -100,6 +100,11 @@ final size16_700Mallu = TextStyle(
     fontFamily: 'Mallu',
     fontWeight: FontWeight.w700,
     color: darkBlue);
+final size16_700Red = TextStyle(
+    fontSize: 16,
+    fontFamily: 'Mallu',
+    fontWeight: FontWeight.w700,
+    color: themeOrange);
 
 final txt14SemiWhite = TextStyle(
   fontSize: 14,
@@ -209,6 +214,18 @@ final size16_400 = TextStyle(
   fontWeight: FontWeight.w400,
   fontFamily: 'Nunito',
 );
+final size16_400Blue = TextStyle(
+  color: blckClr,
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  fontFamily: 'Nunito',
+);
+final size16_400Red = TextStyle(
+  color: themeOrange,
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  fontFamily: 'Nunito',
+);
 final size14_700W = TextStyle(
   color: Colors.white,
   fontSize: 14,
@@ -313,3 +330,4 @@ h(double w) {
 
 final liteRed = Color(0xffFFF4F1);
 final selectedRed = Color(0xffEA9985);
+final disableGrey = Color(0xffE4E4E4);
