@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lifescool/Const/Constants.dart';
+import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
+
 
 class liveBatchesBriefPage extends StatefulWidget {
   const liveBatchesBriefPage({Key key}) : super(key: key);
@@ -131,20 +133,28 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                   Row(
                     children: [
                       Spacer(),
-                      Container(
-                        height: 43,
-                        width: 103,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: disableGrey,
-                            // gradient: gradientHOME,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          child: Text(
-                            "Proceed",
-                            style: size14_700Grey,
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LiveClassScreen()),
+                          );
+                        },
+                        child: Container(
+                          height: 43,
+                          width: 103,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: disableGrey,
+                              // gradient: gradientHOME,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: Text(
+                              "Proceed",
+                              style: size14_700Grey,
+                            ),
                           ),
                         ),
                       )
