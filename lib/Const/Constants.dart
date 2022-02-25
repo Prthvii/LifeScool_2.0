@@ -240,6 +240,7 @@ final shadw = BoxShadow(
   offset: Offset(0, 0),
 );
 final themeOrange = Color(0xffFD5C36);
+final imgBgClr = Color(0xffF9BC5A);
 final gradientTopBottom = LinearGradient(
   colors: [
     Color(0xffFBA33A),

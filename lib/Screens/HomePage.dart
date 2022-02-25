@@ -22,7 +22,7 @@ import 'Individual_HomeScreens/ViewAllWorkshopsNew.dart';
 import 'LiveClasses/LiveClassesNewHome.dart';
 import 'MyLearningNew.dart';
 import 'PlayerScreen.dart';
-import 'findCourse.dart';
+import 'SearchSection/findCourse.dart';
 import 'newwwMyLearning.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -55,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
     this.getHomePageSuggestion();
     setState(() {});
   }
+
   Future<String> getReels() async {
     var rsp = await reelsListApi();
     print("courseeeeeeeeeeeeee");
@@ -66,8 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         arrReels = rsp['attributes']['shortslist'];
       });
-
-
     }
 
     // setState(() {
@@ -75,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // });
     return "0";
   }
+
   Future<String> getProfile() async {
     token = await getSharedPrefrence(TOKEN);
     print("Profileeeeeeeeeeeeeeee");
@@ -467,11 +467,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: 15,
                                   ),
                                   shrinkWrap: true,
-                                //  itemCount: 2,
-                                   itemCount: arrSuggestedCourse != null ? arrSuggestedCourse.length : 0,
+                                  //  itemCount: 2,
+                                  itemCount: arrSuggestedCourse != null
+                                      ? arrSuggestedCourse.length
+                                      : 0,
                                   itemBuilder: (context, index) {
-                                    final item =
-                                    arrSuggestedCourse != null ? arrSuggestedCourse[index] : null;
+                                    final item = arrSuggestedCourse != null
+                                        ? arrSuggestedCourse[index]
+                                        : null;
                                     return HomeCards(item, index);
                                   },
                                 ),
@@ -518,49 +521,58 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         left: 17, top: 2, bottom: 2),
-                                    child: HomeReels(reelsArr: arrReels,),
+                                    child: HomeReels(
+                                      reelsArr: arrReels,
+                                    ),
                                   ),
                                 ),
-                                arrSuggestedWorkshops!=null?Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 16, top: 21, bottom: 8, right: 16),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "Suggested workshops",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'Nunito',
+                                arrSuggestedWorkshops != null
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 16,
+                                            top: 21,
+                                            bottom: 8,
+                                            right: 16),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Suggested workshops",
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: 'Nunito',
+                                              ),
+                                            ),
+                                            Spacer(),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ViewAllWorkshopsNew()),
+                                                );
+                                              },
+                                              child: Text(
+                                                "View All",
+                                                style: size14_700,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            Icon(
+                                              Icons.arrow_forward_ios_rounded,
+                                              size: 10,
+                                              color: Colors.black,
+                                            )
+                                          ],
                                         ),
-                                      ),
-                                      Spacer(),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ViewAllWorkshopsNew()),
-                                          );
-                                        },
-                                        child: Text(
-                                          "View All",
-                                          style: size14_700,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      Icon(
-                                        Icons.arrow_forward_ios_rounded,
-                                        size: 10,
-                                        color: Colors.black,
                                       )
-                                    ],
-                                  ),
-                                ):Container(),
-                                WorkshopForHome(arrWorkshop: arrSuggestedWorkshops,),
+                                    : Container(),
+                                WorkshopForHome(
+                                  arrWorkshop: arrSuggestedWorkshops,
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 16, top: 21, bottom: 8, right: 16),
@@ -872,26 +884,29 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: 7,
           ),
-          item['announceText']!=null?Container(
-            alignment: Alignment.centerLeft,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: gradientRed,
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(24),
-                  bottomRight: Radius.circular(24)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Text(
-                item['announceText'].toString(),
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: themeOrange),
-              ),
-            ),
-          ):Container()
+          item['announceText'] != null
+              ? Container(
+                  alignment: Alignment.centerLeft,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: gradientRed,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(24),
+                        bottomRight: Radius.circular(24)),
+                  ),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Text(
+                      item['announceText'].toString(),
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: themeOrange),
+                    ),
+                  ),
+                )
+              : Container()
         ],
       ),
     );

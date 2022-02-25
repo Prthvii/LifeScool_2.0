@@ -8,6 +8,8 @@ import 'package:lifescool/Screens/PlayerScreen.dart';
 import 'package:lifescool/Screens/SingleCourseScreen.dart';
 import 'package:lifescool/Screens/TutorInfo.dart';
 
+import 'CategoryOpenedScreen.dart';
+
 class FindCourse extends StatefulWidget {
   // const FindCourse({Key? key}) : super(key: key);
 
@@ -203,7 +205,12 @@ class _FindCourseState extends State<FindCourse> {
           //           )
           //         :
           // listViewOld(),
-          newListView(),
+          Column(
+              children: [
+                // TopCategorySelect(),
+                newListView(),
+              ],
+            ),
     );
   }
 
@@ -233,39 +240,47 @@ class _FindCourseState extends State<FindCourse> {
       itemCount: arrList != null ? arrList.length : 0,
       itemBuilder: (context, index) {
         final item = arrList != null ? arrList[index] : null;
-        return newList(item,index);
+        return newList(item, index);
       },
     );
   }
 
-  newList(var item,int index) {
-    return Container(
-      height: 56,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          children: [
-            Image(
-              image: NetworkImage(item['categoryIconUrl'].toString()),
-              fit: BoxFit.contain,
-              height: 32,
-              width: 32,
-            ),
-            w(16),
-            Text(
-              item['categoryName'].toString(),
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontFamily: 'Nunito',
-                  fontWeight: FontWeight.w600),
-            ),
-            Spacer(),
-            Icon(
-              Icons.keyboard_arrow_right_rounded,
-              size: 18,
-            )
-          ],
+  newList(var item, int index) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CategoryOpenedScreen()),
+        );
+      },
+      child: Container(
+        height: 56,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              Image(
+                image: NetworkImage(item['categoryIconUrl'].toString()),
+                fit: BoxFit.contain,
+                height: 32,
+                width: 32,
+              ),
+              w(16),
+              Text(
+                item['categoryName'].toString(),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w600),
+              ),
+              Spacer(),
+              Icon(
+                Icons.keyboard_arrow_right_rounded,
+                size: 18,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -492,6 +507,47 @@ class _FindCourseState extends State<FindCourse> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget TopCategorySelect() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: grey2),
+                borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 19),
+              child: Text("Courses", style: size14_600),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: grey2),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 19),
+                child: Text("Live Batches", style: size14_600),
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: grey2),
+                borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 19),
+              child: Text("Workshops", style: size14_600),
+            ),
+          ),
+        ],
       ),
     );
   }
