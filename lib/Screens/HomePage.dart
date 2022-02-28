@@ -9,6 +9,7 @@ import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/EnterNum.dart';
+import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
 import 'package:lifescool/Screens/TutorInfo.dart';
 import 'package:lifescool/Screens/workshopForHome.dart';
@@ -143,6 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
         arrSuggestedCourse = rsp['attributes']['suggestedCourses'];
         arrReels = rsp['attributes']['suggestedShorts'];
         arrSuggestedWorkshops = rsp['attributes']['suggestedWorkshops'];
+        arrSuggestedLiveBatch = rsp['attributes']['suggestedLiveBatches'];
         //resList = rsp['attributes']['resumeCourse'];
       });
     }
@@ -573,7 +575,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 WorkshopForHome(
                                   arrWorkshop: arrSuggestedWorkshops,
                                 ),
-                                Padding(
+                                arrSuggestedLiveBatch.isNotEmpty? Padding(
                                   padding: const EdgeInsets.only(
                                       left: 16, top: 21, bottom: 8, right: 16),
                                   child: Row(
@@ -612,7 +614,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       )
                                     ],
                                   ),
-                                ),
+                                ):Container(),
                                 ListView.separated(
                                   scrollDirection: Axis.vertical,
                                   physics: NeverScrollableScrollPhysics(),
@@ -621,11 +623,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: 15,
                                   ),
                                   shrinkWrap: true,
-                                  itemCount: 2,
-                                  // itemCount: arrList != null ? arrList.length : 0,
+                                  itemCount: arrSuggestedLiveBatch != null
+                                      ? arrSuggestedLiveBatch.length
+                                      : 0,
                                   itemBuilder: (context, index) {
-                                    final item =
-                                        arrList != null ? arrList[index] : null;
+                                    final item = arrSuggestedLiveBatch != null
+                                        ? arrSuggestedLiveBatch[index]
+                                        : null;
                                     return LiveClassCards(item, index);
                                   },
                                 ),
@@ -655,66 +659,64 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   HomeCards(var item, int index) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 17, vertical: 2),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            spreadRadius: 1.5,
-            blurRadius: 5,
-            offset: Offset(0, 1),
-          )
-        ],
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-            child: Column(
-              children: [
-                item['cwtype'].toString() != "PAID"
-                    ? Row(
-                        children: [
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Icon(Icons.star, size: 12, color: darkBlue),
-                          SizedBox(
-                            width: 3,
-                          ),
-                          Text(
-                            "Free Course",
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'Nunito',
-                                fontWeight: FontWeight.bold,
-                                color: darkBlue),
-                          )
-                        ],
-                      )
-                    : Container(),
-                SizedBox(
-                  height: 5,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PlayerScreen(
-                                id: item['id'].toString(),
-                                cuid: item['courseUid'].toString(),
-                              )),
-                    );
-                  },
-                  child: Container(
+    return  GestureDetector(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PlayerScreen(
+                id: item['id'].toString(),
+                cuid: item['courseUid'].toString(),
+              )),
+        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => LiveClassScreen()),
+        // );
+
+        },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 17, vertical: 2),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              spreadRadius: 1.5,
+              blurRadius: 5,
+              offset: Offset(0, 1),
+            )
+          ],
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: Column(
+                children: [
+                  Container(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item['courseNameEng'].toString(),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'Mallu',
+                                    fontWeight: FontWeight.w700,
+                                    color: darkBlue),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 2),
                           child: Container(
@@ -726,88 +728,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                         item['thumbnailUrl'].toString()),
                                     fit: BoxFit.cover)),
                             height: 62,
-                            width: 62,
+                            width: 93,
                           ),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item['courseNameEng'].toString(),
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: 'Mallu',
-                                    fontWeight: FontWeight.bold,
-                                    color: darkBlue),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              // Text(
-                              //   item['courseNameMal'].toString(),
-                              //   maxLines: 3,
-                              //   overflow: TextOverflow.ellipsis,
-                              //   style: TextStyle(
-                              //       fontFamily: 'Nunito',
-                              //       fontSize: 14,
-                              //       fontWeight: FontWeight.w600),
-                              // ),
-                            ],
-                          ),
-                        )
                       ],
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PlayerScreen(
-                                    id: item['id'].toString(),
-                                    cuid: item['courseUid'].toString(),
-                                  )),
-                        );
-                      },
-                      // child: Container(
-                      //   decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(10),
-                      //       color: darkBlue                   //   child: Padding(
-                      //     padding: const EdgeInsets.symmetric(
-                      //         horizontal: 12, vertical: 7),
-                      //     child: Column(
-                      //       crossAxisAlignment: CrossAxisAlignment.start,
-                      //       children: [
-                      //         Text(
-                      //           item['chaptersCount'].toString() + " chapters",
-                      //           style: TextStyle(
-                      //               fontSize: 12,
-                      //               fontWeight: FontWeight.w700,
-                      //               fontFamily: 'Nunito',
-                      //               color: Colors.white),
-                      //         ),
-                      //         Text(
-                      //           item['totalVideolength'].toString(),
-                      //           style: TextStyle(
-                      //               fontSize: 12,
-                      //               fontWeight: FontWeight.w500,
-                      //               fontFamily: 'Nunito',
-                      //               color: Colors.white),
-                      //         )
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                      child: Row(
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    children: [
+                      Row(
                         children: [
                           Text(
                             item['chaptersCount'].toString() + " chapters",
@@ -820,94 +752,94 @@ class _HomeScreenState extends State<HomeScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: Container(
-                                height: 12, width: 1, color: darkBlue),
+                                height: 12, width: 2, color: darkBlue),
                           ),
                           Text(
                             item['totalVideolength'].toString(),
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w400,
                                 fontFamily: 'Nunito',
                                 color: darkBlue),
                           )
                         ],
                       ),
-                    ),
-                    Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  TutorInfo(id: item['authorId'].toString())),
-                        );
-                      },
-                      child: Text(
-                        item['tutorName'].toString(),
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Nunito',
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    TutorInfo(id: item['authorId'].toString())),
+                          );
+                        },
+                        child: Text(
+                          item['tutorName'].toString(),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Nunito',
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  TutorInfo(id: item['authorId'].toString())),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Color(0xfffaf6f5)),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    item['tutorProfileImage'].toString()),
-                                fit: BoxFit.cover)),
-                        height: 24,
-                        width: 24,
+                      SizedBox(
+                        width: 8,
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    TutorInfo(id: item['authorId'].toString())),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Color(0xfffaf6f5)),
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      item['tutorProfileImage'].toString()),
+                                  fit: BoxFit.cover)),
+                          height: 24,
+                          width: 24,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 7,
-          ),
-          item['announceText'] != null
-              ? Container(
-                  alignment: Alignment.centerLeft,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: gradientRed,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(24),
-                        bottomRight: Radius.circular(24)),
-                  ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Text(
-                      item['announceText'].toString(),
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          color: themeOrange),
-                    ),
-                  ),
-                )
-              : Container()
-        ],
+            SizedBox(
+              height: 7,
+            ),
+            item['announceText'] != null
+                ? Container(
+              alignment: Alignment.centerLeft,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: gradientGreen,
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(24),
+                    bottomRight: Radius.circular(24)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16, vertical: 8),
+                child: Text(
+                  item['announceText'].toString(),
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xff2FB134)),
+                ),
+              ),
+            )
+                : Container()
+          ],
+        ),
       ),
     );
   }
@@ -915,10 +847,22 @@ class _HomeScreenState extends State<HomeScreen> {
   LiveClassCards(var item, int index) {
     return GestureDetector(
       onTap: () {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => LiveClassScreen()),
+        // );
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => LiveClassScreen()),
+          MaterialPageRoute(builder: (context) => liveBatchesBriefPage(item: item,)),
         );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //       builder: (context) => PlayerScreen(
+        //         id: item['id'].toString(),
+        //         cuid: item['courseUid'].toString(),
+        //       )),
+        // );
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 17, vertical: 2),
@@ -987,7 +931,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Row(
                         children: [
                           Text(
-                            "4 weeks",
+                            item['chaptersCount'].toString() + " chapters",
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
@@ -1000,7 +944,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 12, width: 2, color: darkBlue),
                           ),
                           Text(
-                            "20 live sessions",
+                            item['totalVideolength'].toString(),
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
@@ -1010,27 +954,47 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       Spacer(),
-                      Text(
-                        item['tutorName'].toString(),
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'Nunito',
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    TutorInfo(id: item['authorId'].toString())),
+                          );
+                        },
+                        child: Text(
+                          item['tutorName'].toString(),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Nunito',
+                          ),
                         ),
                       ),
                       SizedBox(
                         width: 8,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Color(0xfffaf6f5)),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    item['tutorProfileImage'].toString()),
-                                fit: BoxFit.cover)),
-                        height: 24,
-                        width: 24,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    TutorInfo(id: item['authorId'].toString())),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Color(0xfffaf6f5)),
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      item['tutorProfileImage'].toString()),
+                                  fit: BoxFit.cover)),
+                          height: 24,
+                          width: 24,
+                        ),
                       ),
                     ],
                   ),
@@ -1040,7 +1004,8 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 7,
             ),
-            Container(
+            item['announceText'] != null
+                ? Container(
               alignment: Alignment.centerLeft,
               width: double.infinity,
               decoration: BoxDecoration(
@@ -1050,10 +1015,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     bottomRight: Radius.circular(24)),
               ),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16, vertical: 8),
                 child: Text(
-                  "Batch starts on Jan 26",
+                  item['announceText'].toString(),
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
@@ -1061,6 +1026,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             )
+                : Container()
           ],
         ),
       ),

@@ -105,6 +105,11 @@ final size16_700Red = TextStyle(
     fontFamily: 'Mallu',
     fontWeight: FontWeight.w700,
     color: themeOrange);
+final size16_700White = TextStyle(
+    fontSize: 16,
+    fontFamily: 'Mallu',
+    fontWeight: FontWeight.w700,
+    color: Colors.white);
 
 final txt14SemiWhite = TextStyle(
   fontSize: 14,
@@ -167,6 +172,7 @@ final size14_700Grey = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Nunito',
 );
+
 
 final size14_700 = TextStyle(
   color: Colors.black,

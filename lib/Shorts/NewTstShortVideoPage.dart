@@ -43,6 +43,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
   var isPlaying = true;
   var name;
   var nowPlaying = 0;
+  var currentPage = 0;
   var author_img;
   var likeTap = false;
   var isMute = false;

@@ -5,7 +5,7 @@ import 'package:lifescool/Const/network.dart';
 import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 
-Future listLiveBatchClassesApi(categoryId,searchString) async {
+Future modulesDataListApi(moduleId) async {
 
 
   var id = await getSharedPrefrence(ID);
@@ -14,12 +14,16 @@ Future listLiveBatchClassesApi(categoryId,searchString) async {
   print(id);
   print(token);
   final json = {
-    'request_header':getInAllBatches,
+    'request_header':moduleDataList,
     'secKey':secKey,
     'studentId':id.toString(),
     'apiToken':token.toString(),
-    'categoryId':categoryId,
-    'searchString':searchString,
+   'moduleId':moduleId,
+
+    // 'studentId':"LF44".toString(),
+    // 'apiToken':"b1824b5a80ab91cf40766a8ab4d01e53".toString(),
+    // 'moduleId':"3",
+
 
 
 

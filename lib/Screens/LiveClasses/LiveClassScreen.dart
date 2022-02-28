@@ -1,10 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lifescool/Const/Constants.dart';
+import 'package:lifescool/Helper/snackbar_toast_helper.dart';
+import 'package:lifescool/Screens/LiveClasses/Data/moduleDataList.dart';
+import 'package:lifescool/Screens/LiveClasses/Data/moduleList.dart';
+import 'package:lifescool/Screens/LiveClasses/Utils/catName.dart';
+import 'package:lifescool/Screens/webviewPlain.dart';
 
 class LiveClassScreen extends StatefulWidget {
-  const LiveClassScreen({Key key}) : super(key: key);
+ final id;
 
+
+
+ LiveClassScreen({this.id});
   @override
   _LiveClassScreenState createState() => _LiveClassScreenState();
 }
@@ -13,6 +21,93 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   bool menutap = false;
   var moduleTap = 0;
 
+
+  var arrList = [];
+
+  var arrCat = [];
+  var arrLive = [];
+
+  var isLoading = true;
+
+
+  var currentIndex = 3000;
+  //List<dynamic> data = [];
+  @override
+  void initState() {
+    super.initState();
+
+    print("xoxoxo");
+    print(widget.id);
+
+     this.getCat();
+    setState(() {
+
+    });
+  }
+
+
+  Future<String> getCat() async {
+
+    var rsp = await modulesListBatchApi(widget.id);
+    print("courseeeeeeeeeeeeee");
+    print(rsp);
+
+    // arrProdList = data;
+    //
+    if (rsp!=0) {
+      setState(() {
+        arrCat = rsp['attributes']['response'];
+
+        // totalSale = rsp['total_card_sale'].toString();
+        // totalProfit = "₹"+rsp['total_profit'].toString();
+      });
+      print("arrCatList");
+      print(arrCat);
+      if(arrCat.isNotEmpty){
+        getData(arrCat[0]['id']);
+      }
+
+    } else {
+
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+    return "0";
+  }
+
+  Future<String> getData(moduleID) async {
+    setState(() {
+      isLoading = true;
+    });
+    print("searchhhhhhhh");
+
+    var rsp = await modulesDataListApi(moduleID);
+    print("searchhhhhhhh");
+    print(rsp);
+
+    // arrProdList = data;
+    //
+    if (rsp['attributes']['message'].toString() == "Success") {
+      setState(() {
+        arrList = rsp['attributes']['response'];
+        arrLive = rsp['attributes']['livedata'];
+
+        // totalSale = rsp['total_card_sale'].toString();
+        // totalProfit = "₹"+rsp['total_profit'].toString();
+      });
+      print("searchhhhhhhh");
+      print(arrList);
+    } else {
+      //showToastSuccess(rsp['attributes']['message'].toString());
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+    return "0";
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,13 +199,16 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
                       child: ListView.separated(
                         scrollDirection: Axis.vertical,
                         physics: NeverScrollableScrollPhysics(),
+
+                        shrinkWrap: true,
+                        itemCount: arrList != null ? arrList.length : 0,
+                        itemBuilder: (context, index) {
+                          final item = arrList != null ? arrList[index] : null;
+                          return ChaptersList(item,index);
+                        },
+
                         separatorBuilder: (context, index) =>
                             QuestionListNew(index),
-                        shrinkWrap: true,
-                        itemCount: 4,
-                        itemBuilder: (context, index) {
-                          return ChaptersList(index);
-                        },
                       ),
                     ),
                     h(10),
@@ -125,7 +223,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     );
   }
 
-  ChaptersList(int index) {
+  ChaptersList(var item,int index) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: ExpansionTile(
@@ -133,41 +231,50 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         collapsedBackgroundColor: liteRed,
         collapsedIconColor: Colors.black,
         iconColor: Colors.black,
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "1",
-              style: size16_400,
-            ),
-            w(16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("What is gardening for you?", style: size16_400),
-                h(4),
-                Wrap(
-                  spacing: 8,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Text(
-                      "Video",
-                      style: size14_600grey,
-                    ),
-                    CircleAvatar(
-                      radius: 2,
-                      backgroundColor: Color(0xff6D6D6D),
-                    ),
-                    Text(
-                      "2 mins",
-                      style: size14_600grey,
-                    )
-                  ],
-                )
-              ],
-            )
-          ],
+        title: GestureDetector(
+          onTap: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => WebPagePlain(url: item['itemData']['url'].toString(),)),
+            );
+          },
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                (index+1).toString(),
+                style: size16_400,
+              ),
+              w(16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(item['itemData']['title'].toString(), style: size16_400),
+                  h(4),
+                  Wrap(
+                    spacing: 8,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text(
+                        catsName(item['itemType'].toString()),
+                        style: size14_600grey,
+                      ),
+                      // CircleAvatar(
+                      //   radius: 2,
+                      //   backgroundColor: Color(0xff6D6D6D),
+                      // ) ,
+                      // Text(
+                      //   "2 mins",
+                      //   style: size14_600grey,
+                      // )
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
         ),
+
         childrenPadding: EdgeInsets.only(left: 42, bottom: 12),
         children: [
           Row(
@@ -235,126 +342,79 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     );
   }
 
-  // QuestionsList(int index) {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(vertical: 8),
-  //     child: ClipRRect(
-  //       borderRadius: BorderRadius.circular(10),
-  //       child: ExpansionTile(
-  //         backgroundColor: liteRed,
-  //         collapsedBackgroundColor: liteRed,
-  //         collapsedIconColor: Colors.black,
-  //         iconColor: Colors.black,
-  //         title: Row(
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             Icon(
-  //               CupertinoIcons.question_circle_fill,
-  //               color: Color(0xffEA9985),
-  //               size: 18,
-  //             ),
-  //             w(16),
-  //             Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Text("What did we learn today?", style: size16_400),
-  //                 h(4),
-  //                 Text(
-  //                   "Quiz",
-  //                   style: size14_600grey,
-  //                 )
-  //               ],
-  //             )
-  //           ],
-  //         ),
-  //         childrenPadding: EdgeInsets.only(left: 42, bottom: 12),
-  //         children: [
-  //           Row(
-  //             children: [
-  //               Container(
-  //                 decoration: BoxDecoration(
-  //                     borderRadius: BorderRadius.circular(10),
-  //                     color: selectedRed),
-  //                 child: Padding(
-  //                   padding:
-  //                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-  //                   child: Text("Synopsis", style: size14_700W),
-  //                 ),
-  //               ),
-  //               w(16),
-  //               Container(
-  //                 decoration: BoxDecoration(
-  //                     borderRadius: BorderRadius.circular(10),
-  //                     color: selectedRed),
-  //                 child: Padding(
-  //                   padding:
-  //                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-  //                   child: Text("Downloads", style: size14_700W),
-  //                 ),
-  //               ),
-  //             ],
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 
   liveClassMessgaes() {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.green)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CircleAvatar(
-              radius: 10,
-              child: Icon(
-                Icons.sensors_rounded,
-                color: Colors.white,
-                size: 15,
+    return  ListView.separated(
+      scrollDirection: Axis.vertical,
+      separatorBuilder: (context, index) => SizedBox(height: 8),
+      shrinkWrap: true,
+      itemCount: arrLive != null ? arrLive.length : 0,
+      itemBuilder: (context, index) {
+        final item =arrLive != null ? arrLive[index] : null;
+        return GestureDetector(
+          onTap: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => WebPagePlain(url: item['itemData']['url'].toString(),)),
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.green)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 10,
+                    child: Icon(
+                      Icons.sensors_rounded,
+                      color: Colors.white,
+                      size: 15,
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                  w(12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item['itemData']['title'].toString(),
+                        style: size16_400,
+                      ),
+                      h(4),
+                      Wrap(
+                        spacing: 8,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Text(
+                            "LIVE",
+                            style: TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green),
+                          ),
+                          CircleAvatar(
+                            radius: 2,
+                            backgroundColor: Color(0xff6D6D6D),
+                          ),
+                          Text(
+                            item['itemData']['dateTime'].toString(),
+                            style: size14_600grey,
+                          )
+                        ],
+                      ),
+                    ],
+                  )
+                ],
               ),
-              backgroundColor: Colors.green,
             ),
-            w(12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Lets start together",
-                  style: size16_400,
-                ),
-                h(4),
-                Wrap(
-                  spacing: 8,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Text(
-                      "LIVE",
-                      style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green),
-                    ),
-                    CircleAvatar(
-                      radius: 2,
-                      backgroundColor: Color(0xff6D6D6D),
-                    ),
-                    Text(
-                      "Starts at 5:00 PM, Jan 10 ",
-                      style: size14_600grey,
-                    )
-                  ],
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -366,10 +426,12 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         separatorBuilder: (context, index) => SizedBox(
           width: 8,
         ),
+
         shrinkWrap: true,
-        itemCount: 5,
+        itemCount: arrCat != null ? arrCat.length : 0,
         itemBuilder: (context, index) {
-          return ModuleList(index);
+          final item = arrCat != null ? arrCat[index] : null;
+          return ModuleList(item,index);
         },
       ),
     );
@@ -388,9 +450,11 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     );
   }
 
-  ModuleList(int index) {
+  ModuleList(var item,int index) {
     return GestureDetector(
       onTap: (){
+
+        getData(item['id']);
         setState(() {
           moduleTap = index;
 
@@ -407,12 +471,12 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
           child: Column(
             children: [
               Text(
-                "Module",
+                item['moduleName'].toString(),
                 style: moduleTap==index? size14_700White:size14_700Red,
               ),
               h(5),
               Text(
-                "1",
+                item['moduleNo'].toString(),
                 style:  moduleTap==index? size14_700White:size14_700Red,
               ),
             ],

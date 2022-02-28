@@ -41,6 +41,7 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
     this.getsearch("","","");
     setState(() {});
   }
+
   Future<String> getCat() async {
     var rsp = await listCatAndSub();
     print("courseeeeeeeeeeeeee");
@@ -296,66 +297,64 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
   }
 
   HomeCards(var item, int index) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 17, vertical: 2),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            spreadRadius: 1.5,
-            blurRadius: 5,
-            offset: Offset(0, 1),
-          )
-        ],
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-            child: Column(
-              children: [
-                item['cwtype'].toString() != "PAID"
-                    ? Row(
-                        children: [
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Icon(Icons.star, size: 12, color: darkBlue),
-                          SizedBox(
-                            width: 3,
-                          ),
-                          Text(
-                            "Free Course",
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'Nunito',
-                                fontWeight: FontWeight.bold,
-                                color: darkBlue),
-                          )
-                        ],
-                      )
-                    : Container(),
-                SizedBox(
-                  height: 5,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PlayerScreen(
-                                id: item['id'].toString(),
-                                cuid: item['courseUid'].toString(),
-                              )),
-                    );
-                  },
-                  child: Container(
+    return  GestureDetector(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PlayerScreen(
+                id: item['id'].toString(),
+                cuid: item['courseUid'].toString(),
+              )),
+        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => LiveClassScreen()),
+        // );
+
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 17, vertical: 2),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              spreadRadius: 1.5,
+              blurRadius: 5,
+              offset: Offset(0, 1),
+            )
+          ],
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: Column(
+                children: [
+                  Container(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item['courseNameEng'].toString(),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'Mallu',
+                                    fontWeight: FontWeight.w700,
+                                    color: darkBlue),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 2),
                           child: Container(
@@ -367,64 +366,23 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
                                         item['thumbnailUrl'].toString()),
                                     fit: BoxFit.cover)),
                             height: 62,
-                            width: 62,
+                            width: 93,
                           ),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item['courseNameEng'].toString(),
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: 'Mallu',
-                                    fontWeight: FontWeight.bold,
-                                    color: darkBlue),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              // Text(
-                              //   item['courseNameMal'].toString(),
-                              //   maxLines: 3,
-                              //   overflow: TextOverflow.ellipsis,
-                              //   style: TextStyle(
-                              //       fontFamily: 'Nunito',
-                              //       fontSize: 14,
-                              //       fontWeight: FontWeight.w600),
-                              // ),
-                            ],
-                          ),
-                        )
                       ],
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PlayerScreen(
-                                    id: item['id'].toString(),
-                                    cuid: item['courseUid'].toString(),
-                                  )),
-                        );
-                      },
-                      child: Row(
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    children: [
+                      Row(
                         children: [
                           Text(
                             item['chaptersCount'].toString() + " chapters",
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'Nunito',
                                 color: darkBlue),
@@ -432,91 +390,94 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: Container(
-                                height: 12, width: 1, color: darkBlue),
+                                height: 12, width: 2, color: darkBlue),
                           ),
                           Text(
                             item['totalVideolength'].toString(),
                             style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
                                 fontFamily: 'Nunito',
                                 color: darkBlue),
                           )
                         ],
                       ),
-                    ),
-                    Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => TutorInfoNew(
-                                  id: item['authorId'].toString())),
-                        );
-                      },
-                      child: Text(
-                        item['tutorName'].toString(),
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Nunito',
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    TutorInfo(id: item['authorId'].toString())),
+                          );
+                        },
+                        child: Text(
+                          item['tutorName'].toString(),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Nunito',
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  TutorInfo(id: item['authorId'].toString())),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Color(0xfffaf6f5)),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    item['tutorProfileImage'].toString()),
-                                fit: BoxFit.cover)),
-                        height: 24,
-                        width: 24,
+                      SizedBox(
+                        width: 8,
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 7,
-          ),
-          item['announceText']!=null?Container(
-            alignment: Alignment.centerLeft,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: gradientYellow,
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(24),
-                  bottomRight: Radius.circular(24)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Text(
-                item['announceText'].toString(),
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xffCB9200)),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    TutorInfo(id: item['authorId'].toString())),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Color(0xfffaf6f5)),
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      item['tutorProfileImage'].toString()),
+                                  fit: BoxFit.cover)),
+                          height: 24,
+                          width: 24,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ):Container()
-        ],
+            SizedBox(
+              height: 7,
+            ),
+            item['announceText'] != null
+                ? Container(
+              alignment: Alignment.centerLeft,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: gradientGreen,
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(24),
+                    bottomRight: Radius.circular(24)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16, vertical: 8),
+                child: Text(
+                  item['announceText'].toString(),
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xff2FB134)),
+                ),
+              ),
+            )
+                : Container()
+          ],
+        ),
       ),
     );
   }

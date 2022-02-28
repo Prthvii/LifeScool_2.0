@@ -25,6 +25,7 @@ class _FindCourseState extends State<FindCourse> {
   var catogeryItems = [];
 
   var isLoading = true;
+  var isSearchActive = false;
   var token;
   var id;
 
@@ -79,13 +80,13 @@ class _FindCourseState extends State<FindCourse> {
     //
     if (rsp['attributes']['message'].toString() == "Success") {
       setState(() {
-        arrList = rsp['attributes']['courselist'];
+        searchList = rsp['attributes']['courselist'];
 
         // totalSale = rsp['total_card_sale'].toString();
         // totalProfit = "₹"+rsp['total_profit'].toString();
       });
       print("searchhhhhhhh");
-      print(arrList);
+      print(searchList);
     } else {
       //showToastSuccess(rsp['attributes']['message'].toString());
     }
@@ -156,11 +157,24 @@ class _FindCourseState extends State<FindCourse> {
                     autofocus: false,
                     textInputAction: TextInputAction.go,
                     controller: searchController,
+
                     onEditingComplete: () {
+                      setState(() {
+                        isSearchActive=true;
+                      });
                       getsearch("", "", searchController.text.toString());
                     },
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+
                     decoration: new InputDecoration(
+                      suffixIcon: IconButton(
+                          icon: Icon(Icons.clear),
+                          onPressed: () {
+                            setState(() {
+                              isSearchActive=false;
+                            });
+                          }
+                      ),
                       border: InputBorder.none,
                       // prefixIcon: GestureDetector(
                       //   onTap: () {
@@ -208,7 +222,7 @@ class _FindCourseState extends State<FindCourse> {
           Column(
               children: [
                 // TopCategorySelect(),
-                newListView(),
+                isSearchActive==true? listViewOld():newListView(),
               ],
             ),
     );
@@ -250,7 +264,7 @@ class _FindCourseState extends State<FindCourse> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CategoryOpenedScreen()),
+          MaterialPageRoute(builder: (context) => CategoryOpenedScreen(id: item['id'].toString(),)),
         );
       },
       child: Container(
@@ -336,15 +350,16 @@ class _FindCourseState extends State<FindCourse> {
           context,
           MaterialPageRoute(
               builder: (context) => PlayerScreen(
-                    id: item['id'].toString(),
-                  )),
+                id: item['id'].toString(),
+                cuid: item['courseUid'].toString(),
+              )),
         );
       },
-      child: Container(
+      child:  Container(
         margin: EdgeInsets.symmetric(horizontal: 17, vertical: 2),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          color: Colors.red,
+          color: Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
@@ -354,158 +369,156 @@ class _FindCourseState extends State<FindCourse> {
             )
           ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(18, 15, 18, 21),
-          child: Column(
-            children: [
-              Row(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: Column(
                 children: [
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(
-                    Icons.star,
-                    size: 12,
-                    color: hexToColor(item['primaryColor'].toString()),
-                  ),
-                  SizedBox(
-                    width: 3,
-                  ),
-                  Text(
-                    "Free Course",
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontFamily: 'Nunito',
-                        fontWeight: FontWeight.bold,
-                        color: hexToColor(item['primaryColor'].toString())),
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 2),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: Color(0xfffaf6f5)),
-                          image: DecorationImage(
-                              image:
-                                  NetworkImage(item['thumbnailUrl'].toString()),
-                              fit: BoxFit.cover)),
-                      height: 80,
-                      width: 80,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Column(
+                  Container(
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          item['courseNameEng'].toString(),
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'Mallu',
-                              fontWeight: FontWeight.bold,
-                              color:
-                                  hexToColor(item['primaryColor'].toString())),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item['courseNameEng'].toString(),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'Mallu',
+                                    fontWeight: FontWeight.w700,
+                                    color: darkBlue),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
                         ),
-                        Text(
-                          item['courseNameMal'].toString(),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontFamily: 'Nunito',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(color: Color(0xfffaf6f5)),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        item['thumbnailUrl'].toString()),
+                                    fit: BoxFit.cover)),
+                            height: 62,
+                            width: 93,
+                          ),
                         ),
                       ],
                     ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                TutorInfo(id: item['authorId'].toString())),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Color(0xfffaf6f5)),
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  item['tutorProfileImage'].toString()),
-                              fit: BoxFit.contain)),
-                      height: 36,
-                      width: 36,
-                    ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                TutorInfo(id: item['authorId'].toString())),
-                      );
-                    },
-                    child: Text(
-                      item['tutorName'].toString(),
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Nunito',
-                      ),
-                    ),
+                  SizedBox(
+                    height: 12,
                   ),
-                  Spacer(),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.orange),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
+                  Row(
+                    children: [
+                      Row(
                         children: [
                           Text(
                             item['chaptersCount'].toString() + " chapters",
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'Nunito',
-                                color: Colors.white),
+                                color: darkBlue),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: Container(
+                                height: 12, width: 2, color: darkBlue),
                           ),
                           Text(
                             item['totalVideolength'].toString(),
                             style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
                                 fontFamily: 'Nunito',
-                                color: Colors.white),
+                                color: darkBlue),
                           )
                         ],
                       ),
-                    ),
-                  )
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    TutorInfo(id: item['authorId'].toString())),
+                          );
+                        },
+                        child: Text(
+                          item['tutorName'].toString(),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Nunito',
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    TutorInfo(id: item['authorId'].toString())),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Color(0xfffaf6f5)),
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      item['tutorProfileImage'].toString()),
+                                  fit: BoxFit.cover)),
+                          height: 24,
+                          width: 24,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
-              )
-            ],
-          ),
+              ),
+            ),
+            SizedBox(
+              height: 7,
+            ),
+            item['announceText'] != null
+                ? Container(
+              alignment: Alignment.centerLeft,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: gradientGreen,
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(24),
+                    bottomRight: Radius.circular(24)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16, vertical: 8),
+                child: Text(
+                  item['announceText'].toString(),
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xff2FB134)),
+                ),
+              ),
+            )
+                : Container()
+          ],
         ),
       ),
     );

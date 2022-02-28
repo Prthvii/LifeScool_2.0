@@ -50,7 +50,16 @@ class _LiveClassState extends State<LiveClass> {
 
   LiveClassCards(var item, int index) {
     return GestureDetector(
-      onTap: (){Navigator.push(
+      onTap: (){
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //       builder: (context) => PlayerScreen(
+        //         id: item['id'].toString(),
+        //         cuid: item['courseUid'].toString(),
+        //       )),
+        // );
+        Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => LiveClassScreen()),
       );},

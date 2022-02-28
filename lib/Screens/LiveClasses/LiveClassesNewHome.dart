@@ -219,9 +219,9 @@ class _ViewAllLiveClassesNewState extends State<ViewAllLiveClassesNew> {
                 height: 10,
               ),
               shrinkWrap: true,
-              itemCount: 5,
+              itemCount: arrList != null ? arrList.length : 0,
               itemBuilder: (context, index) {
-                final item = widget.data != null ? widget.data[index] : null;
+                final item = arrList != null ? arrList[index] : null;
                 return LiveClassCards(item, index);
               },
             ),
@@ -299,7 +299,7 @@ class _ViewAllLiveClassesNewState extends State<ViewAllLiveClassesNew> {
         // );
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => liveBatchesBriefPage()),
+          MaterialPageRoute(builder: (context) => liveBatchesBriefPage(item: item,)),
         );
         // Navigator.push(
         //   context,

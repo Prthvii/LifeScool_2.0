@@ -40,7 +40,7 @@ Future listLiveBatchCatsApi(key) async {
     // then parse the JSON.
   } else {
     convertDataToJson = 0;
-    showToastSuccess("Something went wrong, Check internet connection!");
+    showToastSuccess(response.body.toString());
     print("courseeeeeessssssssssss");
 
     print(response.body);

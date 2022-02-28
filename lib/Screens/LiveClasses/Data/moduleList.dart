@@ -5,21 +5,27 @@ import 'package:lifescool/Const/network.dart';
 import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 
-Future listLiveBatchClassesApi(categoryId,searchString) async {
+Future modulesListBatchApi(batchId) async {
 
 
   var id = await getSharedPrefrence(ID);
   var token = await getSharedPrefrence(TOKEN);
-  print("idddddddd");
-  print(id);
-  print(token);
+  print("pattyyyyy");
+   print(id);
+   print(token);
+  print(batchId);
+  print("pattyyyyy");
+
   final json = {
-    'request_header':getInAllBatches,
+    'request_header':modulesListBatch,
     'secKey':secKey,
     'studentId':id.toString(),
     'apiToken':token.toString(),
-    'categoryId':categoryId,
-    'searchString':searchString,
+    'batchUid':batchId,
+    // 'studentId':"LF44".toString(),
+    // 'apiToken':"b1824b5a80ab91cf40766a8ab4d01e53".toString(),
+    // 'batchUid':"11dc9f88-067d-4f7d-9557-a7fda8beb160",
+
 
 
 

@@ -16,6 +16,10 @@ final getHomeDetails = "home-details";
 final getAllWrkshop = "get-all-workshops";
 final wrkshopDetail = "workshop-deails";
 final getAllCat = "get-all-categories";
+final moduleDataList = "module-data-list";
+
+final applyBatch = "apply-batch";
+final modulesListBatch = "modules-list-batch";
 final getInAllBatches = "search-in-all-batches";
 final getInAllWorkshops = "search-in-all-workshops";
 final getChapDetails = "chapter-details";
