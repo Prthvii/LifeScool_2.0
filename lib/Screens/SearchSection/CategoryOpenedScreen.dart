@@ -23,7 +23,7 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
   var catogeryItems = [];
 
   var isLoading = true;
-  var isSearchActive = false;
+  var isSelected = 1;
   var token;
   var id;
 
@@ -104,37 +104,63 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: grey2),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 19),
-                    child: Text("Courses", style: size14_600),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      isSelected=1;
+                    });
+                  },
                   child: Container(
                     decoration: BoxDecoration(
+                         color: isSelected==1?Color(0xffFEE9E4):Colors.white,
                         border: Border.all(color: grey2),
                         borderRadius: BorderRadius.circular(10)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 19),
-                      child: Text("Live Batches", style: size14_600),
+                      child: Text("Courses", style: size14_600),
                     ),
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: grey2),
-                      borderRadius: BorderRadius.circular(10)),
+                GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      isSelected=2;
+                    });
+                  },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 19),
-                    child: Text("Workshops", style: size14_600),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Container(
+
+                      decoration: BoxDecoration(
+                          color: isSelected==2?Color(0xffFEE9E4):Colors.white,
+                          border: Border.all(color: grey2),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 19),
+                        child: Text("Live Batches", style: size14_600),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      isSelected=3;
+                    });
+                  },
+                  child: Container(
+
+                    decoration: BoxDecoration(
+                        color: isSelected==3?Color(0xffFEE9E4):Colors.white,
+                        border: Border.all(color: grey2),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 19),
+                      child: Text("Workshops", style: size14_600),
+                    ),
                   ),
                 ),
               ],

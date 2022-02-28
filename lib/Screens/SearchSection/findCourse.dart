@@ -167,8 +167,8 @@ class _FindCourseState extends State<FindCourse> {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
 
                     decoration: new InputDecoration(
-                      suffixIcon: IconButton(
-                          icon: Icon(Icons.clear),
+                      suffixIcon:  IconButton(
+                          icon: Icon(Icons.clear,color: isSearchActive==true?Colors.black:greyClr,),
                           onPressed: () {
                             setState(() {
                               isSearchActive=false;
@@ -219,12 +219,18 @@ class _FindCourseState extends State<FindCourse> {
           //           )
           //         :
           // listViewOld(),
-          Column(
-              children: [
-                // TopCategorySelect(),
-                isSearchActive==true? listViewOld():newListView(),
-              ],
-            ),
+      SingleChildScrollView(
+    child: Padding(
+    padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        children: [
+          // TopCategorySelect(),
+          isSearchActive==true? listViewOld():newListView(),
+        ],
+      ),
+    )
+
+          ),
     );
   }
 

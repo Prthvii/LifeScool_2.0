@@ -71,6 +71,7 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
     return "0";
   }
   Future<String> getsearch(cid, sid, key) async {
+    arrList.clear();
     setState(() {
       isLoading = true;
     });

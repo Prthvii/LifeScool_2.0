@@ -128,6 +128,12 @@ final txt16_700Orng = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Nunito',
 );
+final txt16_700Blk = TextStyle(
+  fontSize: 16,
+  color: Colors.black,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Nunito',
+);
 final txt12_400 = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w400,

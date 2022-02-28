@@ -197,7 +197,7 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
                               height: 56,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                  color: currentIndex==900?Colors.deepOrange.shade100: Colors.white,
+                                  color: currentIndex==900?liteYellow: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(color: grey2)),
                               child: Padding(
@@ -268,7 +268,7 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
         height: 56,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: currentIndex==index?Colors.deepOrange.shade100: Colors.white,
+            color: currentIndex==index?liteYellow: Colors.white,
             border: Border.all(color: grey2)),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
