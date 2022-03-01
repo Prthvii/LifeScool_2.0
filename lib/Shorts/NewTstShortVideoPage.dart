@@ -11,13 +11,13 @@ import 'package:lifescool/Screens/PlayerScreen.dart';
 import 'package:lifescool/Screens/TutorInfo.dart';
 import 'package:lifescool/Shorts/Data/listReels.dart';
 import 'package:lifescool/Shorts/share.dart';
+import 'package:lottie/lottie.dart';
 import 'package:video_player/video_player.dart';
 
 import 'bookmark.dart';
 
 class NewTstShortsPlayerPage extends StatefulWidget {
   var highligts;
-
 
   NewTstShortsPlayerPage({this.highligts});
 
@@ -106,11 +106,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
     return "0";
   }
 
-
   HighlightController() async {
-
-
-
     controller0 =
         VideoPlayerController.network(widget.highligts['video_url'].toString());
 
@@ -127,10 +123,8 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
       controller0.play();
     }
   }
+
   Controller0() async {
-
-
-
     controller0 =
         VideoPlayerController.network(arrList[0]['video_url'].toString());
 
@@ -233,11 +227,9 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
 
   Future<Null> setupController(index) async {
     if (arrList.length > 0) {
-
-      if(widget.highligts==null){
+      if (widget.highligts == null) {
         Controller0();
-
-      }else{
+      } else {
         HighlightController();
       }
     }
@@ -844,11 +836,25 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
       ),
       body: isLoading == true
           ? Container(
-              color: Colors.black,
+              color: Colors.white,
               child: Center(
-                child: Image.asset(
-                  "assets/images/loading.gif",
-                  height: 40,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset("assets/images/loadingShorts.json",
+                        height: 85, width: 144),
+                    Divider(
+                      color: Color(0xffB6B6B6),
+                      indent: 150,
+                      endIndent: 150,
+                    ),
+                    h(5),
+                    Text(
+                      "Good things, when short, \nare twice as good",
+                      textAlign: TextAlign.center,
+                      style: size14_400,
+                    )
+                  ],
                 ),
               ),
             )
@@ -1181,17 +1187,19 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
             ),
           ),
         ),
-        isPlaying==true?  Align(
-          alignment: Alignment.center,
-          child:Container(),
-        ):Align(
-          alignment: Alignment.center,
-        //  child: Icon(Icons.play_arrow, color: Colors.white, size: 30),
-          child: Image.asset(
-            "assets/images/pauseReels.png",
-            height: 40,
-          ),
-        )
+        isPlaying == true
+            ? Align(
+                alignment: Alignment.center,
+                child: Container(),
+              )
+            : Align(
+                alignment: Alignment.center,
+                //  child: Icon(Icons.play_arrow, color: Colors.white, size: 30),
+                child: Image.asset(
+                  "assets/images/pauseReels.png",
+                  height: 40,
+                ),
+              )
       ],
     );
   }
@@ -1212,12 +1220,12 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
             if (checkPlaying(index) == true) {
               pauseControllers(index);
               setState(() {
-                isPlaying=false;
+                isPlaying = false;
               });
             } else {
               resumeControllers(index);
               setState(() {
-                isPlaying=true;
+                isPlaying = true;
               });
             }
             // if (controller0.value.isPlaying) {
