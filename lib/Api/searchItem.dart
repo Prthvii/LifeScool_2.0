@@ -14,7 +14,7 @@ Future searchItemApi(cid,sid,typed) async {
      print("cid");
      print(cid);
   final json = {
-    'request_header':search,
+    'request_header':searchInAll,
     'secKey':secKey,
     'studentId':id.toString(),
     'apiToken':token.toString(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lifescool/Api/searchItem.dart';
 import 'package:lifescool/Const/Constants.dart';
+import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
 import 'package:lifescool/Screens/PlayerScreen.dart';
 import 'package:lifescool/Screens/TutorInfo.dart';
 
@@ -18,7 +19,8 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
 
   bool isExpanded = false;
 
-  var arrList = [];
+  var arrLive = [];
+  var arrWorkshop = [];
   var searchList = [];
   var catogeryItems = [];
 
@@ -55,6 +57,8 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
     if (rsp['attributes']['message'].toString() == "Success") {
       setState(() {
         searchList = rsp['attributes']['courselist'];
+        arrLive = rsp['attributes']['livebatchlist'];
+        arrWorkshop = rsp['attributes']['workshoplist'];
 
         // totalSale = rsp['total_card_sale'].toString();
         // totalProfit = "₹"+rsp['total_profit'].toString();
@@ -167,7 +171,7 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
             ),
           ),
           h(16),
-          Expanded(
+          isSelected==1?Expanded(
             child: Scrollbar(
               child: ListView.separated(
                 scrollDirection: Axis.vertical,
@@ -181,6 +185,42 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
                 itemCount: searchList != null ? searchList.length : 0,
                 itemBuilder: (context, index) {
                   final item = searchList != null ? searchList[index] : null;
+                  return HomeCards(item,index);
+                },
+              ),
+            ),
+          ):isSelected==2?Expanded(
+            child: Scrollbar(
+              child: ListView.separated(
+                scrollDirection: Axis.vertical,
+                physics: BouncingScrollPhysics(),
+                separatorBuilder: (context, index) => SizedBox(
+                  height: 15,
+                ),
+                shrinkWrap: true,
+                //  itemCount: 2,
+
+                itemCount: arrLive != null ? arrLive.length : 0,
+                itemBuilder: (context, index) {
+                  final item = arrLive != null ? arrLive[index] : null;
+                  return HomeCards(item,index);
+                },
+              ),
+            ),
+          ):Expanded(
+            child: Scrollbar(
+              child: ListView.separated(
+                scrollDirection: Axis.vertical,
+                physics: BouncingScrollPhysics(),
+                separatorBuilder: (context, index) => SizedBox(
+                  height: 15,
+                ),
+                shrinkWrap: true,
+                //  itemCount: 2,
+
+                itemCount: arrWorkshop != null ? arrWorkshop.length : 0,
+                itemBuilder: (context, index) {
+                  final item = arrWorkshop != null ? arrWorkshop[index] : null;
                   return HomeCards(item,index);
                 },
               ),
@@ -462,14 +502,23 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
     return GestureDetector(
       onTap: () {
         print('tap');
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PlayerScreen(
-                id: item['id'].toString(),
-                cuid: item['courseUid'].toString(),
-              )),
-        );
+        if(isSelected==1){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PlayerScreen(
+                  id: item['id'].toString(),
+                  cuid: item['courseUid'].toString(),
+                )),
+          );
+        }
+        if(isSelected==2){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => liveBatchesBriefPage(item: item,)),
+          );
+        }
+
       },
       child:  Container(
         margin: EdgeInsets.symmetric(horizontal: 17, vertical: 2),

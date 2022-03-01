@@ -931,7 +931,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Row(
                         children: [
                           Text(
-                            item['chaptersCount'].toString() + " chapters",
+                            item['chaptersCount'].toString(),
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,

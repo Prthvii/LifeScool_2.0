@@ -34,6 +34,7 @@ final subsCourse = "subscribe-course";
 final subWrkshop = "subscribe-workshop";
 final courseIntroduc = "course-intro";
 final search = "search-in-all-courses";
+final searchInAll = "search-in-all";
 final postComments = "post-comments";
 final editComments = "edit-post";
 final deleteComments = "delete-post";
