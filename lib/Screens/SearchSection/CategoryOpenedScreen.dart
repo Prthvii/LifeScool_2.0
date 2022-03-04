@@ -3,20 +3,17 @@ import 'package:lifescool/Api/searchItem.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
 import 'package:lifescool/Screens/PlayerScreen.dart';
-import 'package:lifescool/Screens/TutorInfo.dart';
+import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 
 class CategoryOpenedScreen extends StatefulWidget {
- final id;
- CategoryOpenedScreen({this.id});
+  final id;
+  CategoryOpenedScreen({this.id});
 
   @override
   _CategoryOpenedScreenState createState() => _CategoryOpenedScreenState();
 }
 
 class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
-
-
-
   bool isExpanded = false;
 
   var arrLive = [];
@@ -35,12 +32,10 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
     super.initState();
 
     print("xoxoxo");
-    this.getsearch("","","");
+    this.getsearch("", "", "");
 
     setState(() {});
   }
-
-
 
   Future<String> getsearch(cid, sid, key) async {
     setState(() {
@@ -74,6 +69,7 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
     });
     return "0";
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,14 +105,15 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
             child: Row(
               children: [
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     setState(() {
-                      isSelected=1;
+                      isSelected = 1;
                     });
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                         color: isSelected==1?Color(0xffFEE9E4):Colors.white,
+                        color:
+                            isSelected == 1 ? Color(0xffFEE9E4) : Colors.white,
                         border: Border.all(color: grey2),
                         borderRadius: BorderRadius.circular(10)),
                     child: Padding(
@@ -127,17 +124,18 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     setState(() {
-                      isSelected=2;
+                      isSelected = 2;
                     });
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Container(
-
                       decoration: BoxDecoration(
-                          color: isSelected==2?Color(0xffFEE9E4):Colors.white,
+                          color: isSelected == 2
+                              ? Color(0xffFEE9E4)
+                              : Colors.white,
                           border: Border.all(color: grey2),
                           borderRadius: BorderRadius.circular(10)),
                       child: Padding(
@@ -149,15 +147,15 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     setState(() {
-                      isSelected=3;
+                      isSelected = 3;
                     });
                   },
                   child: Container(
-
                     decoration: BoxDecoration(
-                        color: isSelected==3?Color(0xffFEE9E4):Colors.white,
+                        color:
+                            isSelected == 3 ? Color(0xffFEE9E4) : Colors.white,
                         border: Border.all(color: grey2),
                         borderRadius: BorderRadius.circular(10)),
                     child: Padding(
@@ -171,61 +169,69 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
             ),
           ),
           h(16),
-          isSelected==1?Expanded(
-            child: Scrollbar(
-              child: ListView.separated(
-                scrollDirection: Axis.vertical,
-                physics: BouncingScrollPhysics(),
-                separatorBuilder: (context, index) => SizedBox(
-                  height: 15,
-                ),
-                shrinkWrap: true,
-                //  itemCount: 2,
+          isSelected == 1
+              ? Expanded(
+                  child: Scrollbar(
+                    child: ListView.separated(
+                      scrollDirection: Axis.vertical,
+                      physics: BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) => SizedBox(
+                        height: 15,
+                      ),
+                      shrinkWrap: true,
+                      //  itemCount: 2,
 
-                itemCount: searchList != null ? searchList.length : 0,
-                itemBuilder: (context, index) {
-                  final item = searchList != null ? searchList[index] : null;
-                  return HomeCards(item,index);
-                },
-              ),
-            ),
-          ):isSelected==2?Expanded(
-            child: Scrollbar(
-              child: ListView.separated(
-                scrollDirection: Axis.vertical,
-                physics: BouncingScrollPhysics(),
-                separatorBuilder: (context, index) => SizedBox(
-                  height: 15,
-                ),
-                shrinkWrap: true,
-                //  itemCount: 2,
+                      itemCount: searchList != null ? searchList.length : 0,
+                      itemBuilder: (context, index) {
+                        final item =
+                            searchList != null ? searchList[index] : null;
+                        return HomeCards(item, index);
+                      },
+                    ),
+                  ),
+                )
+              : isSelected == 2
+                  ? Expanded(
+                      child: Scrollbar(
+                        child: ListView.separated(
+                          scrollDirection: Axis.vertical,
+                          physics: BouncingScrollPhysics(),
+                          separatorBuilder: (context, index) => SizedBox(
+                            height: 15,
+                          ),
+                          shrinkWrap: true,
+                          //  itemCount: 2,
 
-                itemCount: arrLive != null ? arrLive.length : 0,
-                itemBuilder: (context, index) {
-                  final item = arrLive != null ? arrLive[index] : null;
-                  return HomeCards(item,index);
-                },
-              ),
-            ),
-          ):Expanded(
-            child: Scrollbar(
-              child: ListView.separated(
-                scrollDirection: Axis.vertical,
-                physics: BouncingScrollPhysics(),
-                separatorBuilder: (context, index) => SizedBox(
-                  height: 15,
-                ),
-                shrinkWrap: true,
-                //  itemCount: 2,
+                          itemCount: arrLive != null ? arrLive.length : 0,
+                          itemBuilder: (context, index) {
+                            final item =
+                                arrLive != null ? arrLive[index] : null;
+                            return HomeCards(item, index);
+                          },
+                        ),
+                      ),
+                    )
+                  : Expanded(
+                      child: Scrollbar(
+                        child: ListView.separated(
+                          scrollDirection: Axis.vertical,
+                          physics: BouncingScrollPhysics(),
+                          separatorBuilder: (context, index) => SizedBox(
+                            height: 15,
+                          ),
+                          shrinkWrap: true,
+                          //  itemCount: 2,
 
-                itemCount: arrWorkshop != null ? arrWorkshop.length : 0,
-                itemBuilder: (context, index) {
-                  final item = arrWorkshop != null ? arrWorkshop[index] : null;
-                  return HomeCards(item,index);
-                },
-              ),
-            ),
-          ),
+                          itemCount:
+                              arrWorkshop != null ? arrWorkshop.length : 0,
+                          itemBuilder: (context, index) {
+                            final item =
+                                arrWorkshop != null ? arrWorkshop[index] : null;
+                            return HomeCards(item, index);
+                          },
+                        ),
+                      ),
+                    ),
           h(16)
         ],
       ),
@@ -502,25 +508,27 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
     return GestureDetector(
       onTap: () {
         print('tap');
-        if(isSelected==1){
+        if (isSelected == 1) {
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => PlayerScreen(
-                  id: item['id'].toString(),
-                  cuid: item['courseUid'].toString(),
-                )),
+                      id: item['id'].toString(),
+                      cuid: item['courseUid'].toString(),
+                    )),
           );
         }
-        if(isSelected==2){
+        if (isSelected == 2) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => liveBatchesBriefPage(item: item,)),
+            MaterialPageRoute(
+                builder: (context) => liveBatchesBriefPage(
+                      item: item,
+                    )),
           );
         }
-
       },
-      child:  Container(
+      child: Container(
         margin: EdgeInsets.symmetric(horizontal: 17, vertical: 2),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
@@ -662,26 +670,26 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
             ),
             item['announceText'] != null
                 ? Container(
-              alignment: Alignment.centerLeft,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: gradientGreen,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(24),
-                    bottomRight: Radius.circular(24)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 8),
-                child: Text(
-                  item['announceText'].toString(),
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xff2FB134)),
-                ),
-              ),
-            )
+                    alignment: Alignment.centerLeft,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: gradientGreen,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(24),
+                          bottomRight: Radius.circular(24)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Text(
+                        item['announceText'].toString(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xff2FB134)),
+                      ),
+                    ),
+                  )
                 : Container()
           ],
         ),

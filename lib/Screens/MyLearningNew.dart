@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Screens/Settings.dart';
+import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
 
 import 'HomePage.dart';
-import 'MyLearningTabs/Upcoming.dart';
 
 class MyLearningNew extends StatefulWidget {
   const MyLearningNew({Key key}) : super(key: key);
@@ -16,12 +16,144 @@ class MyLearningNew extends StatefulWidget {
 class _MyLearningNewState extends State<MyLearningNew> {
   final dataKeyUpcoming = new GlobalKey();
   final dataKeyOngoing = new GlobalKey();
-  final dataKeyCompleted= new GlobalKey();
+  final dataKeyCompleted = new GlobalKey();
   var isSelected = 1;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final ss = MediaQuery.of(context).size;
 
+    return Scaffold(
+      bottomNavigationBar: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: (Colors.grey[300]),
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  offset: Offset(0, -1),
+                ),
+              ],
+              color: Colors.white,
+            ),
+            height: 78,
+            // height: ss.height * 0.1,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: ss.width * 0.06),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NewTstShortsPlayerPage()),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.play_circle_outline,
+                              color: themeOrange,
+                              size: 20,
+                            ),
+                            Text(
+                              "Shorts",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: themeOrange),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              // builder: (context) => MyLearningNew()),
+                              builder: (context) => HomeScreen()),
+                        );
+                      },
+                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.home_outlined,
+                                color: themeOrange,
+                                size: 20,
+                              ),
+                              Text(
+                                "Home",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: themeOrange),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyLearningNew()),
+                        );
+                      },
+                      child: Container(
+                        height: 62,
+                        width: 118,
+                        decoration: BoxDecoration(
+                            color: lifescool_highlight,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.lightbulb_outline,
+                                color: themeOrange,
+                                size: 20,
+                              ),
+                              Text(
+                                "My Learning",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: themeOrange),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -141,7 +273,7 @@ class _MyLearningNewState extends State<MyLearningNew> {
                                 style: size14_700),
                             h(4),
                             Text(
-                              "You earn upto 25 for referring a friend and your friend gets 250. You recieve a reward for 300 when they enroll in a course.",
+                              "You earn upto 25 for referring a friend and your friend gets 250. You receive a reward for 300 when they enroll in a course.",
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -162,16 +294,16 @@ class _MyLearningNewState extends State<MyLearningNew> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
-                        isSelected=1;
+                        isSelected = 1;
                       });
                       Scrollable.ensureVisible(dataKeyUpcoming.currentContext);
                     },
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: isSelected==1?Color(0xffFEE9E4):greyClr),
+                          color: isSelected == 1 ? Color(0xffFEE9E4) : greyClr),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
@@ -181,18 +313,17 @@ class _MyLearningNewState extends State<MyLearningNew> {
                   ),
                   SizedBox(width: 16),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
-                        isSelected=2;
+                        isSelected = 2;
                       });
 
                       Scrollable.ensureVisible(dataKeyOngoing.currentContext);
-
                     },
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: isSelected==2?Color(0xffFEE9E4):greyClr),
+                          color: isSelected == 2 ? Color(0xffFEE9E4) : greyClr),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
@@ -202,18 +333,17 @@ class _MyLearningNewState extends State<MyLearningNew> {
                   ),
                   SizedBox(width: 16),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
-                        isSelected=3;
+                        isSelected = 3;
                       });
 
                       Scrollable.ensureVisible(dataKeyCompleted.currentContext);
-
                     },
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: isSelected==3?Color(0xffFEE9E4):greyClr),
+                          color: isSelected == 3 ? Color(0xffFEE9E4) : greyClr),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
@@ -239,28 +369,29 @@ class _MyLearningNewState extends State<MyLearningNew> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text( "Upcoming (2)", style: size14_700, key: dataKeyUpcoming ),
+            Text("Upcoming (2)", style: size14_700, key: dataKeyUpcoming),
             h(8),
             Upcoming(),
             h(24),
-            Text( "Ongoing (3)", style: size14_700,key: dataKeyOngoing),
+            Text("Ongoing (3)", style: size14_700, key: dataKeyOngoing),
             h(8),
             Ongoing(),
             h(24),
-            Text("Completed (3)", style: size14_700, key: dataKeyCompleted,),
+            Text(
+              "Completed (3)",
+              style: size14_700,
+              key: dataKeyCompleted,
+            ),
             h(8),
             Completed()
           ],
         ),
       ),
     );
-
   }
-
 
   Upcoming() {
     return ListView.separated(
-
       scrollDirection: Axis.vertical,
       physics: NeverScrollableScrollPhysics(),
       separatorBuilder: (context, index) => SizedBox(
@@ -385,7 +516,6 @@ class _MyLearningNewState extends State<MyLearningNew> {
 
   Ongoing() {
     return ListView.separated(
-
       scrollDirection: Axis.vertical,
       physics: NeverScrollableScrollPhysics(),
       separatorBuilder: (context, index) => SizedBox(
@@ -509,7 +639,6 @@ class _MyLearningNewState extends State<MyLearningNew> {
 
   Completed() {
     return ListView.separated(
-
       scrollDirection: Axis.vertical,
       physics: NeverScrollableScrollPhysics(),
       separatorBuilder: (context, index) => SizedBox(
@@ -630,5 +759,4 @@ class _MyLearningNewState extends State<MyLearningNew> {
       ),
     );
   }
-
 }

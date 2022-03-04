@@ -10,7 +10,6 @@ import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/EnterNum.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
-import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
 import 'package:lifescool/Screens/TutorInfo.dart';
 import 'package:lifescool/Screens/workshopForHome.dart';
 import 'package:lifescool/Shorts/Data/listReels.dart';
@@ -575,46 +574,51 @@ class _HomeScreenState extends State<HomeScreen> {
                                 WorkshopForHome(
                                   arrWorkshop: arrSuggestedWorkshops,
                                 ),
-                                arrSuggestedLiveBatch.isNotEmpty? Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 16, top: 21, bottom: 8, right: 16),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "Suggested live batches",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'Nunito',
+                                arrSuggestedLiveBatch.isNotEmpty
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 16,
+                                            top: 21,
+                                            bottom: 8,
+                                            right: 16),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Suggested live batches",
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: 'Nunito',
+                                              ),
+                                            ),
+                                            Spacer(),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ViewAllLiveClassesNew(
+                                                              data: arrList)),
+                                                );
+                                              },
+                                              child: Text(
+                                                "View All",
+                                                style: size14_700,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            Icon(
+                                              Icons.arrow_forward_ios_rounded,
+                                              size: 10,
+                                              color: Colors.black,
+                                            )
+                                          ],
                                         ),
-                                      ),
-                                      Spacer(),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ViewAllLiveClassesNew(
-                                                        data: arrList)),
-                                          );
-                                        },
-                                        child: Text(
-                                          "View All",
-                                          style: size14_700,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      Icon(
-                                        Icons.arrow_forward_ios_rounded,
-                                        size: 10,
-                                        color: Colors.black,
                                       )
-                                    ],
-                                  ),
-                                ):Container(),
+                                    : Container(),
                                 ListView.separated(
                                   scrollDirection: Axis.vertical,
                                   physics: NeverScrollableScrollPhysics(),
@@ -659,22 +663,21 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   HomeCards(var item, int index) {
-    return  GestureDetector(
-      onTap: (){
+    return GestureDetector(
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => PlayerScreen(
-                id: item['id'].toString(),
-                cuid: item['courseUid'].toString(),
-              )),
+                    id: item['id'].toString(),
+                    cuid: item['courseUid'].toString(),
+                  )),
         );
         // Navigator.push(
         //   context,
         //   MaterialPageRoute(builder: (context) => LiveClassScreen()),
         // );
-
-        },
+      },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 17, vertical: 2),
         decoration: BoxDecoration(
@@ -817,26 +820,26 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             item['announceText'] != null
                 ? Container(
-              alignment: Alignment.centerLeft,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: gradientGreen,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(24),
-                    bottomRight: Radius.circular(24)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 8),
-                child: Text(
-                  item['announceText'].toString(),
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xff2FB134)),
-                ),
-              ),
-            )
+                    alignment: Alignment.centerLeft,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: gradientGreen,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(24),
+                          bottomRight: Radius.circular(24)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Text(
+                        item['announceText'].toString(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xff2FB134)),
+                      ),
+                    ),
+                  )
                 : Container()
           ],
         ),
@@ -853,7 +856,10 @@ class _HomeScreenState extends State<HomeScreen> {
         // );
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => liveBatchesBriefPage(item: item,)),
+          MaterialPageRoute(
+              builder: (context) => liveBatchesBriefPage(
+                    item: item,
+                  )),
         );
         // Navigator.push(
         //   context,
@@ -1006,26 +1012,26 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             item['announceText'] != null
                 ? Container(
-              alignment: Alignment.centerLeft,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: gradientGreen,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(24),
-                    bottomRight: Radius.circular(24)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 8),
-                child: Text(
-                  item['announceText'].toString(),
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xff2FB134)),
-                ),
-              ),
-            )
+                    alignment: Alignment.centerLeft,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: gradientGreen,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(24),
+                          bottomRight: Radius.circular(24)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Text(
+                        item['announceText'].toString(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xff2FB134)),
+                      ),
+                    ),
+                  )
                 : Container()
           ],
         ),

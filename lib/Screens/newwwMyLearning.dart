@@ -264,7 +264,7 @@ class _NewwwLearinggState extends State<NewwwLearingg> {
                                           style: size14_700),
                                       h(4),
                                       Text(
-                                        "You earn upto 25 for referring a friend and your friend gets 250. You recieve a reward for 300 when they enroll in a course.",
+                                        "You earn upto 25 for referring a friend and your friend gets 250. You receive a reward for 300 when they enroll in a course.",
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400,

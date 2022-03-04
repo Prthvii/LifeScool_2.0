@@ -6,13 +6,12 @@ import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/CourseIntro.dart';
 import 'package:lifescool/Screens/HomePage.dart';
 import 'package:lifescool/Screens/PlayerScreen.dart';
-import 'package:lifescool/Screens/TutorInfo.dart';
+import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 import 'package:lifescool/Shorts/Data/listReels.dart';
 import 'package:lifescool/Shorts/share.dart';
 import 'package:video_player/video_player.dart';
 
 import 'bookmark.dart';
-import 'like.dart';
 
 class ShortsPlayerPage extends StatefulWidget {
   const ShortsPlayerPage({Key key}) : super(key: key);
@@ -72,24 +71,22 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   Future<Null> loadController(index) async {
     print(arrList[index]['video_url']);
 
-    controller = VideoPlayerController.network(arrList[index]['video_url'].toString());
-
+    controller =
+        VideoPlayerController.network(arrList[index]['video_url'].toString());
 
     await controller?.initialize();
     controller?.setLooping(true);
     controller.play();
 
-
-
-    if(isMute==true){
+    if (isMute == true) {
       controller.setVolume(1.0);
       setState(() {
-        isMute=false;
+        isMute = false;
       });
-    }else{
+    } else {
       controller.setVolume(0.0);
       setState(() {
-        isMute=true;
+        isMute = true;
       });
     }
     setState(() {
@@ -99,10 +96,6 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       nowPlaying = index;
     });
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -227,7 +220,6 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
             viewportFraction: 1,
           ),
           itemCount: arrList != null ? arrList.length : 0,
-
           onPageChanged: (index) {
             // index = (feedViewModel.videoSource.listVideos.length) % index;
             //  feedViewModel.changeVideo(index);
@@ -269,27 +261,27 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: GestureDetector(
-                      onTap: (){
-
-                        if(isMute==true){
+                      onTap: () {
+                        if (isMute == true) {
                           controller.setVolume(1.0);
                           setState(() {
-                            isMute=false;
+                            isMute = false;
                           });
-                        }else{
+                        } else {
                           controller.setVolume(0.0);
                           setState(() {
-                            isMute=true;
+                            isMute = true;
                           });
                         }
-
                       },
                       child: Row(
                         children: [
                           Spacer(),
-                         isMute==true? Icon(Icons.volume_off_outlined,
-                              color: Colors.white, size: 25): Icon(Icons.volume_up_rounded,
-                             color: Colors.white, size: 25)
+                          isMute == true
+                              ? Icon(Icons.volume_off_outlined,
+                                  color: Colors.white, size: 25)
+                              : Icon(Icons.volume_up_rounded,
+                                  color: Colors.white, size: 25)
                         ],
                       ),
                     ),
@@ -318,10 +310,8 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                         Spacer(),
                         Column(
                           children: [
-
-
                             GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 if (arrList[nowPlaying]['isLiked'] == true) {
                                   setState(() {
                                     arrList[nowPlaying]['isLiked'] = false;
@@ -336,7 +326,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                                 backgroundColor: Colors.white,
                                 child: Icon(
                                   Icons.favorite,
-                                  color: arrList[nowPlaying]['isLiked'] == true ? Colors.red : Colors.grey,
+                                  color: arrList[nowPlaying]['isLiked'] == true
+                                      ? Colors.red
+                                      : Colors.grey,
                                 ),
                                 radius: 20,
                               ),
@@ -345,7 +337,10 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                               height: 3,
                             ),
                             Text(
-    arrList[nowPlaying]['isLiked']==true? (int.parse(arrList[nowPlaying]['like']) +1).toString() :arrList[nowPlaying]['like'].toString(),
+                              arrList[nowPlaying]['isLiked'] == true
+                                  ? (int.parse(arrList[nowPlaying]['like']) + 1)
+                                      .toString()
+                                  : arrList[nowPlaying]['like'].toString(),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -418,10 +413,11 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
         Positioned(
           top: 16,
           left: 16,
-          child: GestureDetector(onTap: (){
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => HomeScreen()));
-          },
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()));
+            },
             child: Container(
               decoration:
                   BoxDecoration(shape: BoxShape.circle, color: Colors.black),
@@ -449,43 +445,40 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     return Stack(
       children: [
         controller.value.initialized
-            ?GestureDetector(
-          onTap: () {
-            if (controller.value.isPlaying) {
-              controller?.pause();
-            } else {
-              controller?.play();
-            }
-          },
-          onDoubleTap: () {
-            setState(() {
-              arrList[index]['isLiked'] = true;
-            });
-          },
-          child: SizedBox.expand(
-              child: FittedBox(
-            fit: BoxFit.cover,
-            child: SizedBox(
-              width: controller.value.size.width ?? 0,
-              height: controller.value.size.height ?? 0,
-              // width: MediaQuery. of(context). size. width ,
-              //   height: MediaQuery. of(context). size. height,
-              child: VideoPlayer(controller),
-            ),
-          )),
-        ):Container(
-          color: Colors.black,
-          child: Center(
-            child: Image.asset(
-              "assets/images/loading.gif",
-              height: 40,
-            ),
-          ),
-        ),
-
-
-
-
+            ? GestureDetector(
+                onTap: () {
+                  if (controller.value.isPlaying) {
+                    controller?.pause();
+                  } else {
+                    controller?.play();
+                  }
+                },
+                onDoubleTap: () {
+                  setState(() {
+                    arrList[index]['isLiked'] = true;
+                  });
+                },
+                child: SizedBox.expand(
+                    child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: SizedBox(
+                    width: controller.value.size.width ?? 0,
+                    height: controller.value.size.height ?? 0,
+                    // width: MediaQuery. of(context). size. width ,
+                    //   height: MediaQuery. of(context). size. height,
+                    child: VideoPlayer(controller),
+                  ),
+                )),
+              )
+            : Container(
+                color: Colors.black,
+                child: Center(
+                  child: Image.asset(
+                    "assets/images/loading.gif",
+                    height: 40,
+                  ),
+                ),
+              ),
 
         // video.controller != null
         //     ? GestureDetector(

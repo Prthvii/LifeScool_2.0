@@ -6,7 +6,7 @@ import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/colorConverter.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/PlayerScreen.dart';
-import 'package:lifescool/Screens/TutorInfo.dart';
+import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CourseIntroduction extends StatefulWidget {
