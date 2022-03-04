@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Const/Constants.dart';
+import 'package:lifescool/Screens/MyLearningTabs/SavedShortsMyLearning.dart';
 import 'package:lifescool/Screens/Settings.dart';
 import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
 
 import 'HomePage.dart';
 
-class MyLearningNew extends StatefulWidget {
-  const MyLearningNew({Key key}) : super(key: key);
+class MyLearningNew2 extends StatefulWidget {
+  const MyLearningNew2({Key key}) : super(key: key);
 
   @override
-  _MyLearningNewState createState() => _MyLearningNewState();
+  _MyLearningNew2State createState() => _MyLearningNew2State();
 }
 
-class _MyLearningNewState extends State<MyLearningNew> {
+class _MyLearningNew2State extends State<MyLearningNew2> {
   final dataKeyUpcoming = new GlobalKey();
   final dataKeyOngoing = new GlobalKey();
   final dataKeyCompleted = new GlobalKey();
@@ -39,14 +40,14 @@ class _MyLearningNewState extends State<MyLearningNew> {
               ],
               color: Colors.white,
             ),
-            height: 78,
-            // height: ss.height * 0.1,
+            // height: 78,
+            height: ss.height * 0.1,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: ss.width * 0.06),
               child: Row(
                 children: [
                   Expanded(
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
@@ -116,33 +117,39 @@ class _MyLearningNewState extends State<MyLearningNew> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MyLearningNew()),
+                              builder: (context) => MyLearningNew2()),
                         );
                       },
-                      child: Container(
-                        height: 62,
-                        width: 118,
-                        decoration: BoxDecoration(
-                            color: lifescool_highlight,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.lightbulb_outline,
-                                color: themeOrange,
-                                size: 20,
-                              ),
-                              Text(
-                                "My Learning",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                    color: themeOrange),
-                              )
-                            ],
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 8,
+                          bottom: 8,
+                        ),
+                        child: Container(
+                          // height: 62,
+                          // width: 118,
+                          decoration: BoxDecoration(
+                              color: lifescool_highlight,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.lightbulb_outline,
+                                  color: themeOrange,
+                                  size: 20,
+                                ),
+                                Text(
+                                  "My Learning",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      color: themeOrange),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -211,19 +218,27 @@ class _MyLearningNewState extends State<MyLearningNew> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
-                  Container(
-                    height: 56,
-                    width: 117,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: lifescool_highlight),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset("assets/svg/saved.svg", height: 17),
-                        h(4),
-                        Text("Saved", style: size14_700Red)
-                      ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SavedShorts()),
+                      );
+                    },
+                    child: Container(
+                      height: 56,
+                      width: 117,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: lifescool_highlight),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset("assets/svg/saved.svg", height: 17),
+                          h(4),
+                          Text("Saved", style: size14_700Red)
+                        ],
+                      ),
                     ),
                   ),
                   w(16),
@@ -303,7 +318,7 @@ class _MyLearningNewState extends State<MyLearningNew> {
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: isSelected == 1 ? Color(0xffFEE9E4) : greyClr),
+                          color: isSelected == 1 ? greyClr : Colors.white),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
@@ -323,7 +338,7 @@ class _MyLearningNewState extends State<MyLearningNew> {
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: isSelected == 2 ? Color(0xffFEE9E4) : greyClr),
+                          color: isSelected == 1 ? greyClr : Colors.white),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
@@ -343,7 +358,7 @@ class _MyLearningNewState extends State<MyLearningNew> {
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: isSelected == 3 ? Color(0xffFEE9E4) : greyClr),
+                          color: isSelected == 1 ? greyClr : Colors.white),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
@@ -383,7 +398,8 @@ class _MyLearningNewState extends State<MyLearningNew> {
               key: dataKeyCompleted,
             ),
             h(8),
-            Completed()
+            Completed(),
+            h(20),
           ],
         ),
       ),

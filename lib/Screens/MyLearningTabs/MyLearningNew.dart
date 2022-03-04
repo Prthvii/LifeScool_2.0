@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Api/getUser.dart';
-import 'package:lifescool/Api/searchItem.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
 import 'package:lifescool/Screens/MyLearningTabs/Data/myLearning.dart';
 import 'package:lifescool/Screens/PlayerScreen.dart';
 import 'package:lifescool/Screens/Settings.dart';
-import 'package:lifescool/Screens/TutorInfo.dart';
+import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
+import 'package:lifescool/Shorts/ShortVideoPage.dart';
 
 import '../HomePage.dart';
-import 'Upcoming.dart';
 
 class MyLearningNew extends StatefulWidget {
   const MyLearningNew({Key key}) : super(key: key);
@@ -22,15 +21,14 @@ class MyLearningNew extends StatefulWidget {
 class _MyLearningNewState extends State<MyLearningNew> {
   final dataKeyUpcoming = new GlobalKey();
   final dataKeyOngoing = new GlobalKey();
-  final dataKeyCompleted= new GlobalKey();
+  final dataKeyCompleted = new GlobalKey();
   var isSelected = 1;
   var arrUpcoming = [];
   var arrOngoing = [];
   var arrCompleted = [];
 
- var userName="";
+  var userName = "";
   var isLoading = true;
-
 
   @override
   void initState() {
@@ -43,8 +41,6 @@ class _MyLearningNewState extends State<MyLearningNew> {
     setState(() {});
   }
 
-
-
   Future<String> getData() async {
     setState(() {
       isLoading = true;
@@ -55,20 +51,15 @@ class _MyLearningNewState extends State<MyLearningNew> {
     print("searchhhhhhhh");
     print(rsp);
 
-
     if (rsp['attributes']['message'].toString() == "Success") {
       setState(() {
-        arrUpcoming =rsp['attributes']['upcoming'];
-        arrOngoing =rsp['attributes']['ongoing'];
-        arrCompleted =rsp['attributes']['completed'];
-
-
+        arrUpcoming = rsp['attributes']['upcoming'];
+        arrOngoing = rsp['attributes']['ongoing'];
+        arrCompleted = rsp['attributes']['completed'];
       });
       print("searchhhhhhhh");
       print(arrUpcoming);
-    } else {
-
-    }
+    } else {}
 
     setState(() {
       isLoading = false;
@@ -93,10 +84,10 @@ class _MyLearningNewState extends State<MyLearningNew> {
     });
     return "0";
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -237,16 +228,16 @@ class _MyLearningNewState extends State<MyLearningNew> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
-                        isSelected=1;
+                        isSelected = 1;
                       });
                       Scrollable.ensureVisible(dataKeyUpcoming.currentContext);
                     },
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: isSelected==1?Color(0xffFEE9E4):greyClr),
+                          color: isSelected == 1 ? Color(0xffFEE9E4) : greyClr),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
@@ -256,18 +247,17 @@ class _MyLearningNewState extends State<MyLearningNew> {
                   ),
                   SizedBox(width: 16),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
-                        isSelected=2;
+                        isSelected = 2;
                       });
 
                       Scrollable.ensureVisible(dataKeyOngoing.currentContext);
-
                     },
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: isSelected==2?Color(0xffFEE9E4):greyClr),
+                          color: isSelected == 2 ? Color(0xffFEE9E4) : greyClr),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
@@ -277,18 +267,17 @@ class _MyLearningNewState extends State<MyLearningNew> {
                   ),
                   SizedBox(width: 16),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
-                        isSelected=3;
+                        isSelected = 3;
                       });
 
                       Scrollable.ensureVisible(dataKeyCompleted.currentContext);
-
                     },
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: isSelected==3?Color(0xffFEE9E4):greyClr),
+                          color: isSelected == 3 ? Color(0xffFEE9E4) : greyClr),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
@@ -304,6 +293,119 @@ class _MyLearningNewState extends State<MyLearningNew> {
           ],
         ),
       ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: (Colors.grey[300]),
+              spreadRadius: 1,
+              blurRadius: 1,
+              offset: Offset(0, -1),
+            ),
+          ],
+          color: Colors.white,
+        ),
+        height: MediaQuery.of(context).size.height * 0.1,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.06),
+          child: Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ShortsPlayerPage()),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.play_circle_outline,
+                          color: themeOrange,
+                          size: 20,
+                        ),
+                        Text(
+                          "Shorts",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: themeOrange),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          // builder: (context) => MyLearningNew()),
+                          builder: (context) => HomeScreen()),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.home_outlined,
+                          color: themeOrange,
+                          size: 20,
+                        ),
+                        Text(
+                          "Home",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: themeOrange),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xffE6E6E6),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.lightbulb_outline,
+                          color: themeOrange,
+                          size: 20,
+                        ),
+                        Text(
+                          "My Learning",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: themeOrange),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -314,28 +416,37 @@ class _MyLearningNewState extends State<MyLearningNew> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            arrUpcoming.isNotEmpty?Text( "Upcoming ("+arrUpcoming.length.toString()+")", style: size14_700, key: dataKeyUpcoming ):Container(),
+            arrUpcoming.isNotEmpty
+                ? Text("Upcoming (" + arrUpcoming.length.toString() + ")",
+                    style: size14_700, key: dataKeyUpcoming)
+                : Container(),
             h(8),
             Upcoming(),
             h(24),
-            arrOngoing.isNotEmpty?Text("Ongoing ("+arrOngoing.length.toString()+")", style: size14_700,key: dataKeyOngoing):Container(),
+            arrOngoing.isNotEmpty
+                ? Text("Ongoing (" + arrOngoing.length.toString() + ")",
+                    style: size14_700, key: dataKeyOngoing)
+                : Container(),
             h(8),
             Ongoing(),
             h(24),
-            arrCompleted.isNotEmpty?Text("Completed ("+arrCompleted.length.toString()+")", style: size14_700, key: dataKeyCompleted,):Container(),
+            arrCompleted.isNotEmpty
+                ? Text(
+                    "Completed (" + arrCompleted.length.toString() + ")",
+                    style: size14_700,
+                    key: dataKeyCompleted,
+                  )
+                : Container(),
             h(8),
             Completed()
           ],
         ),
       ),
     );
-
   }
-
 
   Upcoming() {
     return ListView.separated(
-
       scrollDirection: Axis.vertical,
       physics: NeverScrollableScrollPhysics(),
       separatorBuilder: (context, index) => SizedBox(
@@ -345,50 +456,50 @@ class _MyLearningNewState extends State<MyLearningNew> {
       itemCount: arrUpcoming != null ? arrUpcoming.length : 0,
       itemBuilder: (context, index) {
         final item = arrUpcoming != null ? arrUpcoming[index] : null;
-        return UpcomingList(item,index);
+        return UpcomingList(item, index);
       },
     );
   }
 
-  UpcomingList(var item,int index) {
+  UpcomingList(var item, int index) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         var grade = item['type'].toString();
-        switch(grade) {
-          case "Course": {
+        switch (grade) {
+          case "Course":
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PlayerScreen(
+                          id: item['id'].toString(),
+                          cuid: item['courseUid'].toString(),
+                        )),
+              );
+            }
+            break;
 
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PlayerScreen(
-                    id: item['id'].toString(),
-                    cuid: item['courseUid'].toString(),
-                  )),
-            );
+          case "Workshop":
+            {}
+            break;
 
-          }
-          break;
+          case "Live batch":
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => liveBatchesBriefPage(
+                          item: item,
+                        )),
+              );
+            }
+            break;
 
-          case "Workshop": {
-
-
-
-          }
-          break;
-
-          case "Live batch": {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => liveBatchesBriefPage(item: item,)),
-            );
-
-          }
-          break;
-
-
-
-          default: { print("Invalid choice"); }
-          break;
+          default:
+            {
+              print("Invalid choice");
+            }
+            break;
         }
       },
       child: Container(
@@ -429,44 +540,47 @@ class _MyLearningNewState extends State<MyLearningNew> {
                   SizedBox(
                     height: 16,
                   ),
-                 Row(
+                  Row(
                     children: [
-                      item['type']=="Course"?Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image(
-                            image: NetworkImage(item['progressImg'] != null
-                                ?item['progressImg'].toString()
-                                : "https://www.freeiconspng.com/uploads/green-video-play-icon-13.jpeg"),
-                            height: 15,
-                            width: 15,
-                          ),
-                          w(5),
-                          Text(
-                            item['learningProgress'],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          ),
-                        ],
-                      ): Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.calendar_today,
-                              size: 13, color: themeOrange),
-                          w(5),
-                          Text(
-                            item['displayText'],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          ),
-                        ],
-                      ),
+                      item['type'] == "Course"
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: NetworkImage(item['progressImg'] !=
+                                          null
+                                      ? item['progressImg'].toString()
+                                      : "https://www.freeiconspng.com/uploads/green-video-play-icon-13.jpeg"),
+                                  height: 15,
+                                  width: 15,
+                                ),
+                                w(5),
+                                Text(
+                                  item['learningProgress'],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Nunito',
+                                      color: darkBlue),
+                                ),
+                              ],
+                            )
+                          : Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.calendar_today,
+                                    size: 13, color: themeOrange),
+                                w(5),
+                                Text(
+                                  item['displayText'],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Nunito',
+                                      color: darkBlue),
+                                ),
+                              ],
+                            ),
                       Spacer(),
                       GestureDetector(
                         onTap: () {
@@ -503,7 +617,8 @@ class _MyLearningNewState extends State<MyLearningNew> {
                               shape: BoxShape.circle,
                               border: Border.all(color: Color(0xfffaf6f5)),
                               image: DecorationImage(
-                                  image: NetworkImage(item['tutorProfileImage'].toString()),
+                                  image: NetworkImage(
+                                      item['tutorProfileImage'].toString()),
                                   fit: BoxFit.cover)),
                           height: 24,
                           width: 24,
@@ -522,7 +637,6 @@ class _MyLearningNewState extends State<MyLearningNew> {
 
   Ongoing() {
     return ListView.separated(
-
       scrollDirection: Axis.vertical,
       physics: NeverScrollableScrollPhysics(),
       separatorBuilder: (context, index) => SizedBox(
@@ -532,50 +646,50 @@ class _MyLearningNewState extends State<MyLearningNew> {
       itemCount: arrOngoing != null ? arrOngoing.length : 0,
       itemBuilder: (context, index) {
         final item = arrOngoing != null ? arrOngoing[index] : null;
-        return OngoingList(item,index);
+        return OngoingList(item, index);
       },
     );
   }
 
-  OngoingList(var item,int index) {
+  OngoingList(var item, int index) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         var grade = item['type'].toString();
-        switch(grade) {
-          case "Course": {
+        switch (grade) {
+          case "Course":
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PlayerScreen(
+                          id: item['id'].toString(),
+                          cuid: item['courseUid'].toString(),
+                        )),
+              );
+            }
+            break;
 
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PlayerScreen(
-                    id: item['id'].toString(),
-                    cuid: item['courseUid'].toString(),
-                  )),
-            );
+          case "Workshop":
+            {}
+            break;
 
-          }
-          break;
+          case "Live batch":
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => liveBatchesBriefPage(
+                          item: item,
+                        )),
+              );
+            }
+            break;
 
-          case "Workshop": {
-
-
-
-          }
-          break;
-
-          case "Live batch": {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => liveBatchesBriefPage(item: item,)),
-            );
-
-          }
-          break;
-
-
-
-          default: { print("Invalid choice"); }
-          break;
+          default:
+            {
+              print("Invalid choice");
+            }
+            break;
         }
       },
       child: Container(
@@ -618,42 +732,45 @@ class _MyLearningNewState extends State<MyLearningNew> {
                   ),
                   Row(
                     children: [
-                      item['type']=="Course"?Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image(
-                            image: NetworkImage(item['progressImg'] != null
-                                ?item['progressImg'].toString()
-                                : "https://www.freeiconspng.com/uploads/green-video-play-icon-13.jpeg"),
-                            height: 15,
-                            width: 15,
-                          ),
-                          w(5),
-                          Text(
-                            item['learningProgress'],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          ),
-                        ],
-                      ): Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.calendar_today,
-                              size: 13, color: themeOrange),
-                          w(5),
-                          Text(
-                            item['displayText'],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          ),
-                        ],
-                      ),
+                      item['type'] == "Course"
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: NetworkImage(item['progressImg'] !=
+                                          null
+                                      ? item['progressImg'].toString()
+                                      : "https://www.freeiconspng.com/uploads/green-video-play-icon-13.jpeg"),
+                                  height: 15,
+                                  width: 15,
+                                ),
+                                w(5),
+                                Text(
+                                  item['learningProgress'],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Nunito',
+                                      color: darkBlue),
+                                ),
+                              ],
+                            )
+                          : Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.calendar_today,
+                                    size: 13, color: themeOrange),
+                                w(5),
+                                Text(
+                                  item['displayText'],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Nunito',
+                                      color: darkBlue),
+                                ),
+                              ],
+                            ),
                       Spacer(),
                       GestureDetector(
                         onTap: () {
@@ -690,7 +807,8 @@ class _MyLearningNewState extends State<MyLearningNew> {
                               shape: BoxShape.circle,
                               border: Border.all(color: Color(0xfffaf6f5)),
                               image: DecorationImage(
-                                  image: NetworkImage(item['tutorProfileImage'].toString()),
+                                  image: NetworkImage(
+                                      item['tutorProfileImage'].toString()),
                                   fit: BoxFit.cover)),
                           height: 24,
                           width: 24,
@@ -709,7 +827,6 @@ class _MyLearningNewState extends State<MyLearningNew> {
 
   Completed() {
     return ListView.separated(
-
       scrollDirection: Axis.vertical,
       physics: NeverScrollableScrollPhysics(),
       separatorBuilder: (context, index) => SizedBox(
@@ -719,50 +836,50 @@ class _MyLearningNewState extends State<MyLearningNew> {
       itemCount: arrCompleted != null ? arrCompleted.length : 0,
       itemBuilder: (context, index) {
         final item = arrCompleted != null ? arrCompleted[index] : null;
-        return CompletedList(item,index);
+        return CompletedList(item, index);
       },
     );
   }
 
-  CompletedList(var item,int index) {
+  CompletedList(var item, int index) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         var grade = item['type'].toString();
-        switch(grade) {
-          case "Course": {
+        switch (grade) {
+          case "Course":
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PlayerScreen(
+                          id: item['id'].toString(),
+                          cuid: item['courseUid'].toString(),
+                        )),
+              );
+            }
+            break;
 
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PlayerScreen(
-                    id: item['id'].toString(),
-                    cuid: item['courseUid'].toString(),
-                  )),
-            );
+          case "Workshop":
+            {}
+            break;
 
-          }
-          break;
+          case "Live batch":
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => liveBatchesBriefPage(
+                          item: item,
+                        )),
+              );
+            }
+            break;
 
-          case "Workshop": {
-
-
-
-          }
-          break;
-
-          case "Live batch": {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => liveBatchesBriefPage(item: item,)),
-            );
-
-          }
-          break;
-
-
-
-          default: { print("Invalid choice"); }
-          break;
+          default:
+            {
+              print("Invalid choice");
+            }
+            break;
         }
       },
       child: Container(
@@ -805,42 +922,45 @@ class _MyLearningNewState extends State<MyLearningNew> {
                   ),
                   Row(
                     children: [
-                      item['type']=="Course"?Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image(
-                            image: NetworkImage(item['progressImg'] != null
-                                ?item['progressImg'].toString()
-                                : "https://www.freeiconspng.com/uploads/green-video-play-icon-13.jpeg"),
-                            height: 15,
-                            width: 15,
-                          ),
-                          w(5),
-                          Text(
-                            item['learningProgress'],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          ),
-                        ],
-                      ): Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.calendar_today,
-                              size: 13, color: themeOrange),
-                          w(5),
-                          Text(
-                            item['displayText'],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          ),
-                        ],
-                      ),
+                      item['type'] == "Course"
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: NetworkImage(item['progressImg'] !=
+                                          null
+                                      ? item['progressImg'].toString()
+                                      : "https://www.freeiconspng.com/uploads/green-video-play-icon-13.jpeg"),
+                                  height: 15,
+                                  width: 15,
+                                ),
+                                w(5),
+                                Text(
+                                  item['learningProgress'],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Nunito',
+                                      color: darkBlue),
+                                ),
+                              ],
+                            )
+                          : Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.calendar_today,
+                                    size: 13, color: themeOrange),
+                                w(5),
+                                Text(
+                                  item['displayText'],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Nunito',
+                                      color: darkBlue),
+                                ),
+                              ],
+                            ),
                       Spacer(),
                       GestureDetector(
                         onTap: () {
@@ -877,7 +997,8 @@ class _MyLearningNewState extends State<MyLearningNew> {
                               shape: BoxShape.circle,
                               border: Border.all(color: Color(0xfffaf6f5)),
                               image: DecorationImage(
-                                  image: NetworkImage(item['tutorProfileImage'].toString()),
+                                  image: NetworkImage(
+                                      item['tutorProfileImage'].toString()),
                                   fit: BoxFit.cover)),
                           height: 24,
                           width: 24,
@@ -893,5 +1014,4 @@ class _MyLearningNewState extends State<MyLearningNew> {
       ),
     );
   }
-
 }

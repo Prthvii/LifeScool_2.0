@@ -10,7 +10,7 @@ import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/EnterNum.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
-import 'package:lifescool/Screens/TutorInfo.dart';
+import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 import 'package:lifescool/Screens/workshopForHome.dart';
 import 'package:lifescool/Shorts/Data/listReels.dart';
 import 'package:lifescool/Shorts/HomeSuggestReels.dart';
@@ -20,10 +20,9 @@ import 'package:lottie/lottie.dart';
 import 'Individual_HomeScreens/ViewAllCourses.dart';
 import 'Individual_HomeScreens/ViewAllWorkshopsNew.dart';
 import 'LiveClasses/LiveClassesNewHome.dart';
-import 'MyLearningTabs/MyLearningNew.dart';
+import 'MyLearningNew.dart';
 import 'PlayerScreen.dart';
 import 'SearchSection/findCourse.dart';
-import 'newwwMyLearning.dart';
 
 class HomeScreen extends StatefulWidget {
   // const HomeScreen({Key? key}) : super(key: key);
@@ -312,8 +311,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  // builder: (context) => MyLearningNew()),
-                                  builder: (context) => MyLearningNew()),
+                                  builder: (context) => MyLearningNew2()),
                             );
                           },
                           child: Container(
@@ -409,7 +407,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => NewwwLearingg()),
+                                builder: (context) => MyLearningNew2()),
                           );
                         }
                       },

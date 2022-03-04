@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lifescool/Api/getAuther.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/colorConverter.dart';
+import 'package:lifescool/Screens/TutorInfo/TutorInfoRest.dart';
 
 import '../PlayerScreen.dart';
-import 'TutorShortsTab.dart';
 
 class TutorInfo extends StatefulWidget {
   final id;
@@ -96,8 +96,8 @@ class _TutorInfoState extends State<TutorInfo> {
                                         authorInfo['profileImageUrl']
                                             .toString()),
                                     fit: BoxFit.contain)),
-                            height: 40,
-                            width: 40,
+                            height: 44,
+                            width: 44,
                           ),
                           w(16),
                           Column(
@@ -105,14 +105,11 @@ class _TutorInfoState extends State<TutorInfo> {
                             children: [
                               Text(
                                 authorInfo['authorName'].toString(),
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: blckClr),
+                                style: size14_700,
                               ),
                               Text(
                                 authorInfo['shortDescription'].toString(),
-                                style: TextStyle(fontSize: 14, color: blckClr),
+                                style: size14_400,
                               )
                             ],
                           ),
@@ -150,119 +147,104 @@ class _TutorInfoState extends State<TutorInfo> {
                     h(16),
                     Padding(
                       padding: const EdgeInsets.only(left: 16),
-                      child: TabBar(
-                        isScrollable: true,
-                        labelColor: Colors.white,
-                        unselectedLabelColor: Color(0xffFE5C36),
-                        labelStyle: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'Nunito',
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                        unselectedLabelStyle: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Nunito',
-                            color: Color(0xffFE5C36)),
-                        indicator: BoxDecoration(
-                          color: lifescool_highlight,
-                          borderRadius: BorderRadius.circular(10),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                // setState(() {
+                                //   isSelected = 1;
+                                // });
+                                // Scrollable.ensureVisible(dataKeyUpcoming.currentContext);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: greyClr
+                                    // color: isSelected == 1 ? greyClr : Colors.white
+                                    ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  child: Text("Shorts", style: txt16_700Orng),
+                                ),
+                              ),
+                            ),
+                            // SizedBox(width: 16),
+                            GestureDetector(
+                              onTap: () {
+                                // setState(() {
+                                //   isSelected = 2;
+                                // });
+                                //
+                                // Scrollable.ensureVisible(dataKeyOngoing.currentContext);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white
+                                    // color: isSelected == 1 ? greyClr : Colors.white
+                                    ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  child: Text("Courses", style: txt16_700Orng),
+                                ),
+                              ),
+                            ),
+                            // SizedBox(width: 16),
+                            GestureDetector(
+                              onTap: () {
+                                // setState(() {
+                                //   isSelected = 3;
+                                // });
+                                //
+                                // Scrollable.ensureVisible(dataKeyCompleted.currentContext);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white
+                                    // color: isSelected == 1 ? greyClr : Colors.white
+                                    ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  child: Text("Live Batches",
+                                      style: txt16_700Orng),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                // setState(() {
+                                //   isSelected = 3;
+                                // });
+                                //
+                                // Scrollable.ensureVisible(dataKeyCompleted.currentContext);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white
+                                    // color: isSelected == 1 ? greyClr : Colors.white
+                                    ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  child:
+                                      Text("Workshops", style: txt16_700Orng),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        tabs: [
-                          Container(
-                            height: 36,
-                            // width: 82,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Tab(
-                                child: Text(
-                                  "Shorts",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: themeOrange),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 36,
-                            // width: 82,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Tab(
-                                child: Text(
-                                  "Courses",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: themeOrange),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 36,
-                            // width: 82,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Tab(
-                                child: Text(
-                                  "Live Batches",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: themeOrange),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 36,
-                            // width: 82,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Tab(
-                                child: Text(
-                                  "Workshops",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: themeOrange),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ),
-                    Expanded(
-                      child: TabBarView(
-                        children: [
-                          TutorShortsTab(),
-                          Container(),
-                          Container(),
-                          Container(),
-                        ],
-                      ),
-                    )
-
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(
-                    //       horizontal: 20, vertical: 20),
-                    //   child: Text(
-                    //     "Courses",
-                    //     style: TextStyle(
-                    //         fontSize: 18,
-                    //         fontWeight: FontWeight.bold,
-                    //         color: Color(0xff2F455C)),
-                    //   ),
-                    // ),
-                    // Flexible(child: listViewOld())
+                    h(16),
+                    Expanded(child: TutorPageRestItems())
                   ],
                 ),
               ),
