@@ -230,7 +230,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
   ///video--
 
   Future<void> initializePlayer() async {
-    _videoPlayerController1 = VideoPlayerController.network(url.toString());
+  _videoPlayerController1 = VideoPlayerController.network(url.toString());
+  //  _videoPlayerController1 = VideoPlayerController.network("https://firebasestorage.googleapis.com/v0/b/togo-be1ba.appspot.com/o/www.DVDPLay.Rest%20-%20Meppadiyan%20(2022)%20Malayalam%20HQ%20HDRip%20-%20400MB%20-%20x264%20-%20AAC%20-%20ESub.mkv?alt=media&token=bd5a2f1c-5ac5-416b-8e51-d0d7fa7e4118".toString());
 
     await _videoPlayerController1.initialize();
 
