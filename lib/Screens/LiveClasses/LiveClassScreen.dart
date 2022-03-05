@@ -6,6 +6,8 @@ import 'package:lifescool/Screens/LiveClasses/Data/moduleDataList.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/moduleList.dart';
 import 'package:lifescool/Screens/LiveClasses/Utils/catName.dart';
 import 'package:lifescool/Screens/webviewPlain.dart';
+import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
 
 class LiveClassScreen extends StatefulWidget {
  final id;
@@ -24,6 +26,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   var url = "";
   var dec1 = "";
   var dec2 = "";
+  var img = "";
   var type;
 
 
@@ -36,6 +39,11 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
 
 
   var currentIndex = 3000;
+
+  VideoPlayerController _videoPlayerController1;
+
+  ChewieController _chewieController;
+
   //List<dynamic> data = [];
   @override
   void initState() {
@@ -102,8 +110,15 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         // totalSale = rsp['total_card_sale'].toString();
         // totalProfit = "₹"+rsp['total_profit'].toString();
 
-
-
+         // title = arrList[index]['itemData']['title'].toString();
+         // img = arrList[index]['itemData']['thumbnail'].toString();
+         // url = arrList[index]['itemData']['link'].toString();
+         // dec1 = arrList[index]['itemData']['discTitle'].toString();
+         // dec2 = arrList[index]['itemData']['disc'].toString();
+         // type=arrList[index]['itemType'].toString();
+            if(type=="MIVIDEO"){
+              initializePlayer(url,index);
+            }
       });
       print("searchhhhhhhh");
       print(arrList);
@@ -121,7 +136,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   }
 
 
-  Future<void> initializePlayer() async {}
+  Future<void> initializePlayer(url,index) async {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,6 +147,47 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.3,
+            child: Center(
+              child: _chewieController != null &&
+                  _chewieController
+                      .videoPlayerController
+                      .value
+                      .initialized
+                  ? Chewie(
+                controller:
+                ChewieController(
+                  videoPlayerController:
+                  _videoPlayerController1,
+                  allowPlaybackSpeedChanging:
+                  true,
+                  showControls: true,
+                  materialProgressColors:
+                  ChewieProgressColors(
+                    playedColor:
+                    Colors.grey[900],
+                    handleColor:
+                    Colors.blue,
+                    backgroundColor:
+                    Colors.grey,
+                    bufferedColor:
+                    Colors.grey[400],
+                  ),
+                ),
+              )
+                  : Column(
+                mainAxisAlignment:
+                MainAxisAlignment
+                    .center,
+                crossAxisAlignment:
+                CrossAxisAlignment
+                    .center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 20),
+                  Text('Loading'),
+                ],
+              ),
+            ),
             decoration: BoxDecoration(gradient: gradientHOME),
           ),
           Padding(
