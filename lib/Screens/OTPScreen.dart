@@ -95,7 +95,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                   print("rsp['attributes']");
                                   if (rsp['attributes']['message'].toString() ==
                                       "Success") {
-                                    showToastSuccess("OTP Resented!");
+                                    showToastSuccess("OTP Resent!");
                                   }
                                 },
                                 child: Padding(

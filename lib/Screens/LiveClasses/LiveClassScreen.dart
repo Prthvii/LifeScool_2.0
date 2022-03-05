@@ -20,6 +20,11 @@ class LiveClassScreen extends StatefulWidget {
 class _LiveClassScreenState extends State<LiveClassScreen> {
   bool menutap = false;
   var moduleTap = 0;
+  var title = "";
+  var url = "";
+  var dec1 = "";
+  var dec2 = "";
+  var type;
 
 
   var arrList = [];
@@ -64,20 +69,20 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       print("arrCatList");
       print(arrCat);
       if(arrCat.isNotEmpty){
-        getData(arrCat[0]['id']);
+        getData(arrCat[0]['id'],0);
       }
 
     } else {
 
     }
 
-    setState(() {
-      isLoading = false;
-    });
+    // setState(() {
+    //   isLoading = false;
+    // });
     return "0";
   }
 
-  Future<String> getData(moduleID) async {
+  Future<String> getData(moduleID,index) async {
     setState(() {
       isLoading = true;
     });
@@ -96,9 +101,15 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
 
         // totalSale = rsp['total_card_sale'].toString();
         // totalProfit = "₹"+rsp['total_profit'].toString();
+
+
+
       });
       print("searchhhhhhhh");
       print(arrList);
+
+
+
     } else {
       //showToastSuccess(rsp['attributes']['message'].toString());
     }
@@ -108,6 +119,9 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     });
     return "0";
   }
+
+
+  Future<void> initializePlayer() async {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -454,7 +468,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     return GestureDetector(
       onTap: (){
 
-        getData(item['id']);
+        getData(item['id'],index);
         setState(() {
           moduleTap = index;
 

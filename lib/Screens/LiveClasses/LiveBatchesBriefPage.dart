@@ -50,7 +50,12 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
               padding: const EdgeInsets.only(left: 0),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LiveClassScreen(id:widget.item['courseUid'].toString())),
+                  );
                 },
                 child: CircleAvatar(
                   child: Icon(
