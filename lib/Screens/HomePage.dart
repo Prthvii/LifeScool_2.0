@@ -20,7 +20,7 @@ import 'package:lottie/lottie.dart';
 import 'Individual_HomeScreens/ViewAllCourses.dart';
 import 'Individual_HomeScreens/ViewAllWorkshopsNew.dart';
 import 'LiveClasses/LiveClassesNewHome.dart';
-import 'MyLearningNew.dart';
+import 'MyLearningTabs/MyLearningNew.dart';
 import 'PlayerScreen.dart';
 import 'SearchSection/findCourse.dart';
 
