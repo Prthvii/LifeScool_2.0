@@ -1,18 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lifescool/Const/Constants.dart';
-import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/moduleDataList.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/moduleList.dart';
 import 'package:lifescool/Screens/LiveClasses/Utils/catName.dart';
 import 'package:lifescool/Screens/webviewPlain.dart';
 
 class LiveClassScreen extends StatefulWidget {
- final id;
+  final id;
 
-
-
- LiveClassScreen({this.id});
+  LiveClassScreen({this.id});
   @override
   _LiveClassScreenState createState() => _LiveClassScreenState();
 }
@@ -26,14 +23,12 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   var dec2 = "";
   var type;
 
-
   var arrList = [];
 
   var arrCat = [];
   var arrLive = [];
 
   var isLoading = true;
-
 
   var currentIndex = 3000;
   //List<dynamic> data = [];
@@ -44,22 +39,18 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     print("xoxoxo");
     print(widget.id);
 
-     this.getCat();
-    setState(() {
-
-    });
+    this.getCat();
+    setState(() {});
   }
 
-
   Future<String> getCat() async {
-
     var rsp = await modulesListBatchApi(widget.id);
     print("courseeeeeeeeeeeeee");
     print(rsp);
 
     // arrProdList = data;
     //
-    if (rsp!=0) {
+    if (rsp != 0) {
       setState(() {
         arrCat = rsp['attributes']['response'];
 
@@ -68,13 +59,10 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       });
       print("arrCatList");
       print(arrCat);
-      if(arrCat.isNotEmpty){
-        getData(arrCat[0]['id'],0);
+      if (arrCat.isNotEmpty) {
+        getData(arrCat[0]['id'], 0);
       }
-
-    } else {
-
-    }
+    } else {}
 
     // setState(() {
     //   isLoading = false;
@@ -82,7 +70,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     return "0";
   }
 
-  Future<String> getData(moduleID,index) async {
+  Future<String> getData(moduleID, index) async {
     setState(() {
       isLoading = true;
     });
@@ -101,15 +89,9 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
 
         // totalSale = rsp['total_card_sale'].toString();
         // totalProfit = "₹"+rsp['total_profit'].toString();
-
-
-
       });
       print("searchhhhhhhh");
       print(arrList);
-
-
-
     } else {
       //showToastSuccess(rsp['attributes']['message'].toString());
     }
@@ -120,7 +102,6 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     return "0";
   }
 
-
   Future<void> initializePlayer() async {}
   @override
   Widget build(BuildContext context) {
@@ -130,9 +111,34 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
           child: AppBar(elevation: 0, backgroundColor: Colors.white)),
       body: Column(
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            decoration: BoxDecoration(gradient: gradientHOME),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.3,
+                child: Image.network(testImg, fit: BoxFit.cover),
+                decoration: BoxDecoration(gradient: gradientHOME),
+              ),
+              Align(
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  color: Colors.black38,
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: gradientHOME),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    child: Text("Start Quiz", style: size14_700W),
+                  ),
+                ),
+              )
+            ],
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -148,17 +154,15 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-
-                    if(menutap==true){
+                    if (menutap == true) {
                       setState(() {
                         menutap = false;
                       });
-                    }else{
+                    } else {
                       setState(() {
                         menutap = true;
                       });
                     }
-
 
                     print("menttaap");
                     print(menutap);
@@ -203,6 +207,58 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
               ],
             ),
           ),
+          h(24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Module 2 : Introduction to Concepts",
+                    style: size16_700Mallu),
+                h(4),
+                Text(
+                    "This is the descripton for the second module that acts as an introduction to the course",
+                    style: size14_600grey)
+              ],
+            ),
+          ),
+          h(12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: grey2),
+                      borderRadius: BorderRadius.circular(10),
+                      color: greyClr),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Text(
+                      "Downloads",
+                      style: size14_700Grey,
+                    ),
+                  ),
+                ),
+                w(8),
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: grey2),
+                      borderRadius: BorderRadius.circular(10),
+                      color: greyClr),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Text(
+                      "Links",
+                      style: size14_700Grey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -213,16 +269,13 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
                       child: ListView.separated(
                         scrollDirection: Axis.vertical,
                         physics: NeverScrollableScrollPhysics(),
-
                         shrinkWrap: true,
                         itemCount: arrList != null ? arrList.length : 0,
                         itemBuilder: (context, index) {
                           final item = arrList != null ? arrList[index] : null;
-                          return ChaptersList(item,index);
+                          return ChaptersList(item, index);
                         },
-
-                        separatorBuilder: (context, index) =>
-                            QuestionListNew(index),
+                        separatorBuilder: (context, index) => h(8),
                       ),
                     ),
                     h(10),
@@ -237,86 +290,47 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     );
   }
 
-  ChaptersList(var item,int index) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: ExpansionTile(
-        backgroundColor: liteRed,
-        collapsedBackgroundColor: liteRed,
-        collapsedIconColor: Colors.black,
-        iconColor: Colors.black,
-        title: GestureDetector(
-          onTap: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => WebPagePlain(url: item['itemData']['url'].toString(),)),
-            );
-          },
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                (index+1).toString(),
-                style: size16_400,
-              ),
-              w(16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(item['itemData']['title'].toString(), style: size16_400),
-                  h(4),
-                  Wrap(
-                    spacing: 8,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Text(
-                        catsName(item['itemType'].toString()),
-                        style: size14_600grey,
-                      ),
-                      // CircleAvatar(
-                      //   radius: 2,
-                      //   backgroundColor: Color(0xff6D6D6D),
-                      // ) ,
-                      // Text(
-                      //   "2 mins",
-                      //   style: size14_600grey,
-                      // )
-                    ],
-                  )
-                ],
-              )
-            ],
-          ),
+  ChaptersList(var item, int index) {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10), color: lifescool_highlight),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              (index + 1).toString(),
+              style: size16_400,
+            ),
+            w(16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(item['itemData']['title'].toString(), style: size16_400),
+                h(4),
+                Wrap(
+                  spacing: 8,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Text(
+                      catsName(item['itemType'].toString()),
+                      style: size14_600grey,
+                    ),
+                    CircleAvatar(
+                      radius: 2,
+                      backgroundColor: Color(0xff6D6D6D),
+                    ),
+                    Text(
+                      "2 mins",
+                      style: size14_600grey,
+                    )
+                  ],
+                )
+              ],
+            )
+          ],
         ),
-
-        childrenPadding: EdgeInsets.only(left: 42, bottom: 12),
-        children: [
-          Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: selectedRed),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Text("Synopsis", style: size14_700W),
-                ),
-              ),
-              w(16),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: selectedRed),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Text("Downloads", style: size14_700W),
-                ),
-              ),
-            ],
-          )
-        ],
       ),
     );
   }
@@ -356,20 +370,23 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     );
   }
 
-
   liveClassMessgaes() {
-    return  ListView.separated(
+    return ListView.separated(
       scrollDirection: Axis.vertical,
+      physics: NeverScrollableScrollPhysics(),
       separatorBuilder: (context, index) => SizedBox(height: 8),
       shrinkWrap: true,
       itemCount: arrLive != null ? arrLive.length : 0,
       itemBuilder: (context, index) {
-        final item =arrLive != null ? arrLive[index] : null;
+        final item = arrLive != null ? arrLive[index] : null;
         return GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => WebPagePlain(url: item['itemData']['url'].toString(),)),
+              MaterialPageRoute(
+                  builder: (context) => WebPagePlain(
+                        url: item['itemData']['url'].toString(),
+                      )),
             );
           },
           child: Container(
@@ -440,12 +457,11 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         separatorBuilder: (context, index) => SizedBox(
           width: 8,
         ),
-
         shrinkWrap: true,
         itemCount: arrCat != null ? arrCat.length : 0,
         itemBuilder: (context, index) {
           final item = arrCat != null ? arrCat[index] : null;
-          return ModuleList(item,index);
+          return ModuleList(item, index);
         },
       ),
     );
@@ -464,20 +480,18 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     );
   }
 
-  ModuleList(var item,int index) {
+  ModuleList(var item, int index) {
     return GestureDetector(
-      onTap: (){
-
-        getData(item['id'],index);
+      onTap: () {
+        getData(item['id'], index);
         setState(() {
           moduleTap = index;
-
         });
       },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: moduleTap==index? themeOrange: greyClr,
+          color: moduleTap == index ? themeOrange : greyClr,
         ),
         height: 58,
         child: Padding(
@@ -486,12 +500,12 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
             children: [
               Text(
                 item['moduleName'].toString(),
-                style: moduleTap==index? size14_700White:size14_700Red,
+                style: moduleTap == index ? size14_700White : size14_700Red,
               ),
               h(5),
               Text(
                 item['moduleNo'].toString(),
-                style:  moduleTap==index? size14_700White:size14_700Red,
+                style: moduleTap == index ? size14_700White : size14_700Red,
               ),
             ],
           ),
