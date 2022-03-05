@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lifescool/Api/getUser.dart';
 import 'package:lifescool/Api/listCatAndSub.dart';
-import 'package:lifescool/Api/listCourse.dart';
 import 'package:lifescool/Api/searchItem.dart';
 import 'package:lifescool/Const/Constants.dart';
-import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
-import 'package:lifescool/Screens/TutorInfo.dart';
+import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 
-import '../EnterNum.dart';
-import '../NewTutorInfo.dart';
 import '../PlayerScreen.dart';
 
 class ViewAllCourses extends StatefulWidget {
@@ -28,7 +23,7 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
   var isLoading = true;
   var token;
   var id;
-  var currentIndex =900;
+  var currentIndex = 900;
 
   //List<dynamic> data = [];
   @override
@@ -36,9 +31,9 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
     super.initState();
 
     print("xoxoxo");
-  //  this.getProfile();
+    //  this.getProfile();
     this.getCat();
-    this.getsearch("","","");
+    this.getsearch("", "", "");
     setState(() {});
   }
 
@@ -98,7 +93,6 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
     });
     return "0";
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -187,17 +181,19 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           GestureDetector(
-                            onTap: (){
-                              this.getsearch("","","");
+                            onTap: () {
+                              this.getsearch("", "", "");
                               setState(() {
-                                currentIndex=900;
+                                currentIndex = 900;
                               });
                             },
                             child: Container(
                               height: 56,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                  color: currentIndex==900?liteYellow: Colors.white,
+                                  color: currentIndex == 900
+                                      ? liteYellow
+                                      : Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(color: grey2)),
                               child: Padding(
@@ -223,7 +219,7 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
                 height: 10,
               ),
               shrinkWrap: true,
-            //  itemCount: 5,
+              //  itemCount: 5,
               itemCount: arrList != null ? arrList.length : 0,
               itemBuilder: (context, index) {
                 final item = arrList != null ? arrList[index] : null;
@@ -249,26 +245,25 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
         itemCount: arrCat != null ? arrCat.length : 0,
         itemBuilder: (context, index) {
           final item = arrCat != null ? arrCat[index] : null;
-          return newList(item,index);
+          return newList(item, index);
         },
       ),
     );
   }
 
-  newList(var item,int index) {
+  newList(var item, int index) {
     return GestureDetector(
-      onTap: ()async{
+      onTap: () async {
         setState(() {
           currentIndex = index;
         });
-        var rsp = await    getsearch(item['id'].toString(), "", "");
-
+        var rsp = await getsearch(item['id'].toString(), "", "");
       },
       child: Container(
         height: 56,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: currentIndex==index?liteYellow: Colors.white,
+            color: currentIndex == index ? liteYellow : Colors.white,
             border: Border.all(color: grey2)),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -297,21 +292,20 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
   }
 
   HomeCards(var item, int index) {
-    return  GestureDetector(
-      onTap: (){
+    return GestureDetector(
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => PlayerScreen(
-                id: item['id'].toString(),
-                cuid: item['courseUid'].toString(),
-              )),
+                    id: item['id'].toString(),
+                    cuid: item['courseUid'].toString(),
+                  )),
         );
         // Navigator.push(
         //   context,
         //   MaterialPageRoute(builder: (context) => LiveClassScreen()),
         // );
-
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 17, vertical: 2),
@@ -455,26 +449,26 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
             ),
             item['announceText'] != null
                 ? Container(
-              alignment: Alignment.centerLeft,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: gradientGreen,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(24),
-                    bottomRight: Radius.circular(24)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 8),
-                child: Text(
-                  item['announceText'].toString(),
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xff2FB134)),
-                ),
-              ),
-            )
+                    alignment: Alignment.centerLeft,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: gradientGreen,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(24),
+                          bottomRight: Radius.circular(24)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Text(
+                        item['announceText'].toString(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xff2FB134)),
+                      ),
+                    ),
+                  )
                 : Container()
           ],
         ),

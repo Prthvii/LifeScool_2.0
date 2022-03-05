@@ -4,7 +4,7 @@ import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/listLiveBatchCat.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/listLiveBatchClasses.dart';
-import 'package:lifescool/Screens/TutorInfo.dart';
+import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 
 import 'LiveBatchesBriefPage.dart';
 
@@ -299,7 +299,10 @@ class _ViewAllLiveClassesNewState extends State<ViewAllLiveClassesNew> {
         // );
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => liveBatchesBriefPage(item: item,)),
+          MaterialPageRoute(
+              builder: (context) => liveBatchesBriefPage(
+                    item: item,
+                  )),
         );
         // Navigator.push(
         //   context,

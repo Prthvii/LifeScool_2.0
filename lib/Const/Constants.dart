@@ -179,7 +179,6 @@ final size14_700Grey = TextStyle(
   fontFamily: 'Nunito',
 );
 
-
 final size14_700 = TextStyle(
   color: Colors.black,
   fontSize: 14,
@@ -238,6 +237,12 @@ final size16_400Red = TextStyle(
   fontWeight: FontWeight.w400,
   fontFamily: 'Nunito',
 );
+final size12_700Blue = TextStyle(
+  color: Color(0xff2780D2),
+  fontSize: 12,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Nunito',
+);
 final size14_700W = TextStyle(
   color: Colors.white,
   fontSize: 14,
@@ -272,6 +277,14 @@ final gradientLeftRyt = LinearGradient(
 final gradientRed = LinearGradient(
   colors: [
     Color(0xffFFE1E1),
+    Colors.white,
+  ],
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+);
+final gradientBlue = LinearGradient(
+  colors: [
+    Color(0xffEBF5FF),
     Colors.white,
   ],
   begin: Alignment.centerLeft,

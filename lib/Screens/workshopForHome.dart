@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lifescool/Api/listWorkshop.dart';
 import 'package:lifescool/Const/Constants.dart';
-import 'package:lifescool/Helper/colorConverter.dart';
 import 'package:lifescool/Screens/CourseIntro.dart';
-import 'package:lifescool/Screens/TutorInfo.dart';
+import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 
 class WorkshopForHome extends StatefulWidget {
   final arrWorkshop;
-
 
   WorkshopForHome({this.arrWorkshop});
   @override
@@ -66,11 +64,12 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
           height: 15,
         ),
         shrinkWrap: true,
-      // itemCount: 3,
-         itemCount: widget.arrWorkshop != null ? widget.arrWorkshop.length : 0,
+        // itemCount: 3,
+        itemCount: widget.arrWorkshop != null ? widget.arrWorkshop.length : 0,
         itemBuilder: (context, index) {
-         final item = widget.arrWorkshop != null ? widget.arrWorkshop[index] : null;
-         // return list(index);
+          final item =
+              widget.arrWorkshop != null ? widget.arrWorkshop[index] : null;
+          // return list(index);
           return list(item, index);
         },
       ),
@@ -282,7 +281,6 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
   //   );
   // }
 
-
   list(var item, int index) {
     final ss = MediaQuery.of(context).size;
 
@@ -322,8 +320,7 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                       topRight: Radius.circular(24),
                     ),
                     image: DecorationImage(
-                      image: NetworkImage(
-                          item['workshopThumbnail'].toString()),
+                      image: NetworkImage(item['workshopThumbnail'].toString()),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -382,20 +379,23 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                               width: 6,
                             ),
                             GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          TutorInfo(id: item['authorId'].toString())),
+                                      builder: (context) => TutorInfo(
+                                          id: item['authorId'].toString())),
                                 );
                               },
                               child: Container(
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: Color(0xfffaf6f5)),
+                                    border:
+                                        Border.all(color: Color(0xfffaf6f5)),
                                     image: DecorationImage(
-                                        image: NetworkImage(item['tutorProfileImage'].toString()),
+                                        image: NetworkImage(
+                                            item['tutorProfileImage']
+                                                .toString()),
                                         fit: BoxFit.cover)),
                                 height: 24,
                                 width: 24,

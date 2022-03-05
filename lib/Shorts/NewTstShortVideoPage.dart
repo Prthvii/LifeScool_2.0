@@ -8,7 +8,7 @@ import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/CourseIntro.dart';
 import 'package:lifescool/Screens/HomePage.dart';
 import 'package:lifescool/Screens/PlayerScreen.dart';
-import 'package:lifescool/Screens/TutorInfo.dart';
+import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 import 'package:lifescool/Shorts/Data/listReels.dart';
 import 'package:lifescool/Shorts/share.dart';
 import 'package:lottie/lottie.dart';

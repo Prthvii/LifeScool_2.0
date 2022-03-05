@@ -4,7 +4,7 @@ import 'package:lifescool/Api/searchItem.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/colorConverter.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
-import 'package:lifescool/Screens/TutorInfo.dart';
+import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 
 import 'PlayerScreen.dart';
 

@@ -2,18 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Api/listAllNewWorkshops.dart';
-import 'package:lifescool/Api/listWorkshop.dart';
 import 'package:lifescool/Const/Constants.dart';
-import 'package:lifescool/Helper/colorConverter.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/listLiveBatchCat.dart';
-import 'package:lifescool/Screens/LiveClasses/Data/listLiveBatchClasses.dart';
-import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
 import 'package:lifescool/Screens/NewTutorInfo.dart';
 import 'package:lifescool/Screens/PlayerScreen.dart';
-import 'package:lifescool/Screens/TutorInfo.dart';
-
-import '../CourseIntro.dart';
+import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 
 class ViewAllWorkshopsNew extends StatefulWidget {
   final data;
@@ -32,7 +26,7 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
   var token;
   var id;
 
-  var currentIndex =900;
+  var currentIndex = 900;
   //List<dynamic> data = [];
   @override
   void initState() {
@@ -40,10 +34,9 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
 
     print("xoxoxo");
     this.getCat();
-    this.getsearch("","","");
+    this.getsearch("", "", "");
     setState(() {});
   }
-
 
   Future<String> getCat() async {
     var rsp = await listLiveBatchCatsApi("WORKSHOP");
@@ -70,8 +63,8 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
     });
     return "0";
   }
-  Future<String> getsearch(cid, sid, key) async {
 
+  Future<String> getsearch(cid, sid, key) async {
     setState(() {
       isLoading = true;
     });
@@ -101,6 +94,7 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
     });
     return "0";
   }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -190,22 +184,24 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           GestureDetector(
-                            onTap: (){
-                              this.getsearch("","","");
+                            onTap: () {
+                              this.getsearch("", "", "");
                               setState(() {
-                                currentIndex=900;
+                                currentIndex = 900;
                               });
                             },
                             child: Container(
                               height: 56,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                  color: currentIndex==900?liteBlue: Colors.white,
+                                  color: currentIndex == 900
+                                      ? liteBlue
+                                      : Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(color: grey2)),
                               child: Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 18),
+                                    const EdgeInsets.symmetric(horizontal: 18),
                                 child: Text("All", style: size14_600),
                               ),
                             ),
@@ -251,26 +247,25 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
         itemCount: arrCat != null ? arrCat.length : 0,
         itemBuilder: (context, index) {
           final item = arrCat != null ? arrCat[index] : null;
-          return newList(item,index);
+          return newList(item, index);
         },
       ),
     );
   }
 
-  newList(var item,int index) {
+  newList(var item, int index) {
     return GestureDetector(
-      onTap: ()async{
+      onTap: () async {
         setState(() {
           currentIndex = index;
         });
-        var rsp = await    getsearch(item['id'].toString(), "", "");
-
+        var rsp = await getsearch(item['id'].toString(), "", "");
       },
       child: Container(
         height: 56,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: currentIndex==index?liteBlue: Colors.white,
+            color: currentIndex == index ? liteBlue : Colors.white,
             border: Border.all(color: grey2)),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -298,8 +293,6 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
     );
   }
 
-
-
   HomeCards(var item, int index) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 17, vertical: 2),
@@ -323,24 +316,24 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
               children: [
                 item['cwtype'].toString() != "PAID"
                     ? Row(
-                  children: [
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Icon(Icons.star, size: 12, color: darkBlue),
-                    SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      "Free Course",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: 'Nunito',
-                          fontWeight: FontWeight.bold,
-                          color: darkBlue),
-                    )
-                  ],
-                )
+                        children: [
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Icon(Icons.star, size: 12, color: darkBlue),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          Text(
+                            "Free Course",
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'Nunito',
+                                fontWeight: FontWeight.bold,
+                                color: darkBlue),
+                          )
+                        ],
+                      )
                     : Container(),
                 SizedBox(
                   height: 5,
@@ -351,9 +344,9 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => PlayerScreen(
-                            id: item['id'].toString(),
-                            cuid: item['courseUid'].toString(),
-                          )),
+                                id: item['id'].toString(),
+                                cuid: item['courseUid'].toString(),
+                              )),
                     );
                   },
                   child: Container(
@@ -419,9 +412,9 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => PlayerScreen(
-                                id: item['id'].toString(),
-                                cuid: item['courseUid'].toString(),
-                              )),
+                                    id: item['id'].toString(),
+                                    cuid: item['courseUid'].toString(),
+                                  )),
                         );
                       },
                       child: Row(
@@ -501,27 +494,29 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
           SizedBox(
             height: 7,
           ),
-          item['announceText']!=null?Container(
-            alignment: Alignment.centerLeft,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: gradientGreen,
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(24),
-                  bottomRight: Radius.circular(24)),
-            ),
-            child: Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Text(
-                item['announceText'].toString(),
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xff2FB134)),
-              ),
-            ),
-          ):Container()
+          item['announceText'] != null
+              ? Container(
+                  alignment: Alignment.centerLeft,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: gradientGreen,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(24),
+                        bottomRight: Radius.circular(24)),
+                  ),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Text(
+                      item['announceText'].toString(),
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xff2FB134)),
+                    ),
+                  ),
+                )
+              : Container()
         ],
       ),
     );
@@ -539,9 +534,9 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
           context,
           MaterialPageRoute(
               builder: (context) => PlayerScreen(
-                id: item['id'].toString(),
-                cuid: item['courseUid'].toString(),
-              )),
+                    id: item['id'].toString(),
+                    cuid: item['courseUid'].toString(),
+                  )),
         );
       },
       child: Container(
@@ -684,27 +679,29 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
             SizedBox(
               height: 7,
             ),
-            item['announceText']!=null?Container(
-              alignment: Alignment.centerLeft,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: gradientGreen,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(24),
-                    bottomRight: Radius.circular(24)),
-              ),
-              child: Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Text(
-                  item['announceText'].toString(),
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: liteBlue),
-                ),
-              ),
-            ):Container()
+            item['announceText'] != null
+                ? Container(
+                    alignment: Alignment.centerLeft,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: gradientGreen,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(24),
+                          bottomRight: Radius.circular(24)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Text(
+                        item['announceText'].toString(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: liteBlue),
+                      ),
+                    ),
+                  )
+                : Container()
           ],
         ),
       ),

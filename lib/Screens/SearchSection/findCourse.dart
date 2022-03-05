@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lifescool/Api/listCatAndSub.dart';
 import 'package:lifescool/Api/searchItem.dart';
 import 'package:lifescool/Const/Constants.dart';
-import 'package:lifescool/Helper/colorConverter.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/PlayerScreen.dart';
 import 'package:lifescool/Screens/SingleCourseScreen.dart';
-import 'package:lifescool/Screens/TutorInfo.dart';
+import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 
 import 'CategoryOpenedScreen.dart';
 
@@ -157,24 +156,25 @@ class _FindCourseState extends State<FindCourse> {
                     autofocus: false,
                     textInputAction: TextInputAction.go,
                     controller: searchController,
-
                     onEditingComplete: () {
                       setState(() {
-                        isSearchActive=true;
+                        isSearchActive = true;
                       });
                       getsearch("", "", searchController.text.toString());
                     },
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-
                     decoration: new InputDecoration(
-                      suffixIcon:  IconButton(
-                          icon: Icon(Icons.clear,color: isSearchActive==true?Colors.black:greyClr,),
+                      suffixIcon: IconButton(
+                          icon: Icon(
+                            Icons.clear,
+                            color:
+                                isSearchActive == true ? Colors.black : greyClr,
+                          ),
                           onPressed: () {
                             setState(() {
-                              isSearchActive=false;
+                              isSearchActive = false;
                             });
-                          }
-                      ),
+                          }),
                       border: InputBorder.none,
                       // prefixIcon: GestureDetector(
                       //   onTap: () {
@@ -219,18 +219,16 @@ class _FindCourseState extends State<FindCourse> {
           //           )
           //         :
           // listViewOld(),
-      SingleChildScrollView(
-    child: Padding(
-    padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        children: [
-          // TopCategorySelect(),
-          isSearchActive==true? listViewOld():newListView(),
-        ],
-      ),
-    )
-
-          ),
+          SingleChildScrollView(
+              child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Column(
+                children: [
+                  // TopCategorySelect(),
+                  isSearchActive == true ? listViewOld() : newListView(),
+                ],
+              ),
+            )),
     );
   }
 
@@ -270,7 +268,10 @@ class _FindCourseState extends State<FindCourse> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CategoryOpenedScreen(id: item['id'].toString(),)),
+          MaterialPageRoute(
+              builder: (context) => CategoryOpenedScreen(
+                    id: item['id'].toString(),
+                  )),
         );
       },
       child: Container(
@@ -356,12 +357,12 @@ class _FindCourseState extends State<FindCourse> {
           context,
           MaterialPageRoute(
               builder: (context) => PlayerScreen(
-                id: item['id'].toString(),
-                cuid: item['courseUid'].toString(),
-              )),
+                    id: item['id'].toString(),
+                    cuid: item['courseUid'].toString(),
+                  )),
         );
       },
-      child:  Container(
+      child: Container(
         margin: EdgeInsets.symmetric(horizontal: 17, vertical: 2),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
@@ -503,26 +504,26 @@ class _FindCourseState extends State<FindCourse> {
             ),
             item['announceText'] != null
                 ? Container(
-              alignment: Alignment.centerLeft,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: gradientGreen,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(24),
-                    bottomRight: Radius.circular(24)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 8),
-                child: Text(
-                  item['announceText'].toString(),
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xff2FB134)),
-                ),
-              ),
-            )
+                    alignment: Alignment.centerLeft,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: gradientGreen,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(24),
+                          bottomRight: Radius.circular(24)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Text(
+                        item['announceText'].toString(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xff2FB134)),
+                      ),
+                    ),
+                  )
                 : Container()
           ],
         ),
