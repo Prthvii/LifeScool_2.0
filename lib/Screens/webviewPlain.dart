@@ -41,6 +41,7 @@ class WebViewExampleState extends State<WebPagePlain> {
       body: Stack(
         children: <Widget>[
           InAppWebView(
+
               initialUrlRequest:
                   URLRequest(url: Uri.parse(widget.url.toString())),
               //  initialUrlRequest: "https://appr.tc/r/158489234",

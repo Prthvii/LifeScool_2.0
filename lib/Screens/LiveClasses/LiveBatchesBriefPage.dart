@@ -50,12 +50,12 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
               padding: const EdgeInsets.only(left: 0),
               child: GestureDetector(
                 onTap: () {
-                  // Navigator.pop(context);
+              Navigator.pop(context);
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LiveClassScreen(id:widget.item['courseUid'].toString())),
-                  );
+                  // Navigator.pushReplacement(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => LiveClassScreen(id:widget.item['courseUid'].toString(),item: widget.item,)),
+                  // );
                 },
                 child: CircleAvatar(
                   child: Icon(
@@ -105,9 +105,9 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                 onTap: () {
                  if (widget.item['isApplied']==true&&widget.item['startFlag']=="1"){
 
-                   Navigator.push(
+                   Navigator.pushReplacement(
                      context,
-                     MaterialPageRoute(builder: (context) => LiveClassScreen(id:widget.item['courseUid'].toString())),
+                     MaterialPageRoute(builder: (context) => LiveClassScreen(id:widget.item['courseUid'].toString(),item: widget.item,)),
                    );
                   }else{
                    applyBottomSheet();

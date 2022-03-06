@@ -323,7 +323,14 @@ final gradientHOME = LinearGradient(
   begin: Alignment.centerLeft,
   end: Alignment.centerRight,
 );
-
+final gradientLive = LinearGradient(
+  colors: [
+    Color(0xff38C258),
+    Color(0xff38C258),
+  ],
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+);
 final DarkBlue = Color(0xff110C10);
 final greyBG = Color(0xffE9E9E9);
 final greyClr = Color(0xffF6F6F6);

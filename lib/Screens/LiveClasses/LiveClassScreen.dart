@@ -3,13 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/moduleDataList.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/moduleList.dart';
+import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
 import 'package:lifescool/Screens/LiveClasses/Utils/catName.dart';
+import 'package:lifescool/Screens/LiveClasses/webviewLiveClass.dart';
 import 'package:lifescool/Screens/webviewPlain.dart';
+import 'package:chewie/chewie.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'package:video_player/video_player.dart';
 class LiveClassScreen extends StatefulWidget {
   final id;
+  final item;
 
-  LiveClassScreen({this.id});
+  LiveClassScreen({this.id,this.item});
   @override
   _LiveClassScreenState createState() => _LiveClassScreenState();
 }
@@ -19,9 +25,11 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   var moduleTap = 0;
   var title = "";
   var url = "";
+  var img = "";
   var dec1 = "";
   var dec2 = "";
-  var type;
+ // var type ="MIVIDEO";
+  var type ="";
 
   var arrList = [];
 
@@ -29,9 +37,14 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   var arrLive = [];
 
   var isLoading = true;
+  var isVdoLoading = true;
 
   var currentIndex = 3000;
   //List<dynamic> data = [];
+
+  VideoPlayerController _videoPlayerController1;
+
+  ChewieController _chewieController;
   @override
   void initState() {
     super.initState();
@@ -87,8 +100,20 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         arrList = rsp['attributes']['response'];
         arrLive = rsp['attributes']['livedata'];
 
-        // totalSale = rsp['total_card_sale'].toString();
-        // totalProfit = "₹"+rsp['total_profit'].toString();
+
+         title = arrList[0]['itemData']['title'];
+         url = arrList[0]['itemData']['link'];
+         img = arrList[0]['itemData']['thumbnail'];
+         // dec1 = arrList[index]['itemData']['discTitle'];
+         // dec2 = arrList[index]['itemData']['disc'];
+
+        type= arrList[0]['itemType'];
+
+
+         if(type=="MIVIDEO"){
+           initializePlayer();
+         }
+
       });
       print("searchhhhhhhh");
       print(arrList);
@@ -102,234 +127,410 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     return "0";
   }
 
-  Future<void> initializePlayer() async {}
+  Future<void> initializePlayer() async {
+    setState(() {
+    //  isLoading = false;
+      isVdoLoading = true;
+    });
+   _videoPlayerController1 = VideoPlayerController.network(url.toString());
+  //  _videoPlayerController1 = VideoPlayerController.network("https://firebasestorage.googleapis.com/v0/b/togo-be1ba.appspot.com/o/www.DVDPLay.Rest%20-%20Meppadiyan%20(2022)%20Malayalam%20HQ%20HDRip%20-%20400MB%20-%20x264%20-%20AAC%20-%20ESub.mkv?alt=media&token=bd5a2f1c-5ac5-416b-8e51-d0d7fa7e4118".toString());
+
+    await _videoPlayerController1.initialize();
+
+
+
+    _chewieController = ChewieController(
+      videoPlayerController: _videoPlayerController1,
+      autoPlay: true,
+      looping: false,
+    );
+
+
+    setState(() {
+      isLoading = false;
+      isVdoLoading = false;
+    });
+  }
+
+  Future<void> selectCourse(index) async {
+    title = arrList[index]['itemData']['title'];
+    url = arrList[index]['itemData']['link'];
+    img = arrList[index]['itemData']['thumbnail'];
+    // dec1 = arrList[index]['itemData']['discTitle'];
+    // dec2 = arrList[index]['itemData']['disc'];
+
+    type= arrList[index]['itemType'];
+
+
+    if(type=="MIVIDEO"){
+      initializePlayer();
+    }
+  }
+
+  Future<void> selectLive(index) async {
+
+    setState(() {
+      title = arrLive[index]['itemData']['title'];
+      url = arrLive[index]['itemData']['link'];
+      img = arrLive[index]['itemData']['thumbnail'];
+      // dec1 = arrList[index]['itemData']['discTitle'];
+      // dec2 = arrList[index]['itemData']['disc'];
+
+      type= arrLive[index]['itemType'];
+
+
+      if(type=="MIVIDEO"){
+        initializePlayer();
+      }
+    });
+
+  }
+  Future<bool> _onBackPressed() async {
+    _videoPlayerController1.pause();
+  //  _videoPlayerController1.dispose();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => liveBatchesBriefPage(item: widget.item,)),
+    );
+
+
+
+
+
+    return Future<bool>.value(true);
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0.1),
-          child: AppBar(elevation: 0, backgroundColor: Colors.white)),
-      body: Column(
-        children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                child: Image.network(testImg, fit: BoxFit.cover),
-                decoration: BoxDecoration(gradient: gradientHOME),
-              ),
-              Align(
-                child: Container(
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(0.1),
+            child: AppBar(elevation: 0, backgroundColor: Colors.white)),
+        body: Column(
+          children: [
+            type!="MIVIDEO"?Stack(
+              alignment: Alignment.center,
+              children: [
+          Container(
                   height: MediaQuery.of(context).size.height * 0.3,
-                  color: Colors.black38,
+                  child: Image.network(img!=null?img:testImg, fit: BoxFit.cover),
+                  decoration: BoxDecoration(gradient: gradientHOME),
                 ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: gradientHOME),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    child: Text("Start Quiz", style: size14_700W),
+                Align(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    color: Colors.black38,
                   ),
                 ),
-              )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-                "ഗാർഡനിങ് : ഹോബിയ്ക്കപ്പുറം  പ്രൊഫഷണൽ ആയി തുടങ്ങുന്നതെങ്ങനെ? ",
-                style: size16_700Mallu),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 16,
-            ),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    if (menutap == true) {
-                      setState(() {
-                        menutap = false;
-                      });
-                    } else {
-                      setState(() {
-                        menutap = true;
-                      });
-                    }
+                Align(
+                  alignment: Alignment.center,
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => WebViewLive(url: url,type: type,)),
+                      );
 
-                    print("menttaap");
-                    print(menutap);
-                  },
-                  child: menutap == true
-                      ? Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: themeOrange,
-                              border: Border.all(color: Colors.black12)),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Icon(
-                              Icons.close,
-                              size: 25,
-                              color: Colors.white,
-                            ),
-                          ),
-                          height: 58,
-                          width: 62,
-                        )
-                      : Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: greyClr,
-                              border: Border.all(color: Colors.black12)),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Icon(
-                              Icons.list,
-                              size: 25,
-                              color: Color(0xff6D6D6D),
-                            ),
-                          ),
-                          height: 58,
-                          width: 62,
-                        ),
-                ),
-                w(16),
-                Expanded(child: menutap == true ? MenuItems() : moduleList())
-                // Expanded(child: MenuItems())
-              ],
-            ),
-          ),
-          h(24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Module 2 : Introduction to Concepts",
-                    style: size16_700Mallu),
-                h(4),
-                Text(
-                    "This is the descripton for the second module that acts as an introduction to the course",
-                    style: size14_600grey)
-              ],
-            ),
-          ),
-          h(12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: grey2),
-                      borderRadius: BorderRadius.circular(10),
-                      color: greyClr),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Text(
-                      "Downloads",
-                      style: size14_700Grey,
-                    ),
-                  ),
-                ),
-                w(8),
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: grey2),
-                      borderRadius: BorderRadius.circular(10),
-                      color: greyClr),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Text(
-                      "Links",
-                      style: size14_700Grey,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Scrollbar(
-                      child: ListView.separated(
-                        scrollDirection: Axis.vertical,
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: arrList != null ? arrList.length : 0,
-                        itemBuilder: (context, index) {
-                          final item = arrList != null ? arrList[index] : null;
-                          return ChaptersList(item, index);
-                        },
-                        separatorBuilder: (context, index) => h(8),
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          gradient:type=="GROUPLIVE"?gradientLive: gradientHOME),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                        child: Text(viewCatName(type), style: size14_700W),
                       ),
                     ),
-                    h(10),
-                    liveClassMessgaes()
-                  ],
+                  ),
+                )
+              ],
+            ):Stack(
+              alignment: Alignment.center,
+              children: [
+                type=="MIVIDEO"?isVdoLoading == true
+                    ? Container(
+                  height: MediaQuery.of(context)
+                      .size
+                      .height *
+                      0.3,
+                  color: Colors.white,
+                  child: Column(
+                    mainAxisAlignment:
+                    MainAxisAlignment.center,
+                    crossAxisAlignment:
+                    CrossAxisAlignment.center,
+                    children: [
+                      SpinKitThreeBounce(
+                        color: Color(0xffFD5C36),
+                        size: 20.0,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Loading...',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14),
+                      ),
+                    ],
+                  ),
+                )
+                    :Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  child: Center(
+                    child: _chewieController != null &&
+                        _chewieController
+                            .videoPlayerController
+                            .value
+                            .initialized
+                        ? Chewie(
+                      controller:
+                      ChewieController(
+                        videoPlayerController:
+                        _videoPlayerController1,
+                        allowPlaybackSpeedChanging:
+                        true,
+                        showControls: true,
+                        materialProgressColors:
+                        ChewieProgressColors(
+                          playedColor:
+                          Colors.grey[900],
+                          handleColor:
+                          Colors.blue,
+                          backgroundColor:
+                          Colors.grey,
+                          bufferedColor:
+                          Colors.grey[400],
+                        ),
+                      ),
+                    )
+                        : Column(
+                      mainAxisAlignment:
+                      MainAxisAlignment
+                          .center,
+                      crossAxisAlignment:
+                      CrossAxisAlignment
+                          .center,
+                      children: [
+                        CircularProgressIndicator(),
+                        SizedBox(height: 20),
+                        Text('Loading'),
+                      ],
+                    ),
+                  ),
+                  decoration: BoxDecoration(color: Colors.white),
+                ): Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                 // child: Image.network(testImg, fit: BoxFit.cover),
+                  decoration: BoxDecoration(color: Colors.black),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                  title,
+
+                  style: size16_700Mallu),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+              ),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      if (menutap == true) {
+                        setState(() {
+                          menutap = false;
+                        });
+                      } else {
+                        setState(() {
+                          menutap = true;
+                        });
+                      }
+
+                      print("menttaap");
+                      print(menutap);
+                    },
+                    child: menutap == true
+                        ? Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: themeOrange,
+                                border: Border.all(color: Colors.black12)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Icon(
+                                Icons.close,
+                                size: 25,
+                                color: Colors.white,
+                              ),
+                            ),
+                            height: 58,
+                            width: 62,
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: greyClr,
+                                border: Border.all(color: Colors.black12)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Icon(
+                                Icons.list,
+                                size: 25,
+                                color: Color(0xff6D6D6D),
+                              ),
+                            ),
+                            height: 58,
+                            width: 62,
+                          ),
+                  ),
+                  w(16),
+                  Expanded(child: menutap == true ? MenuItems() : moduleList())
+                  // Expanded(child: MenuItems())
+                ],
+              ),
+            ),
+            h(24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(dec1,
+                      style: size16_700Mallu),
+                  h(4),
+                  Text(
+                      dec2,
+                      style: size14_600grey)
+                ],
+              ),
+            ),
+            h(12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: grey2),
+                        borderRadius: BorderRadius.circular(10),
+                        color: greyClr),
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      child: Text(
+                        "Downloads",
+                        style: size14_700Grey,
+                      ),
+                    ),
+                  ),
+                  w(8),
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: grey2),
+                        borderRadius: BorderRadius.circular(10),
+                        color: greyClr),
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      child: Text(
+                        "Links",
+                        style: size14_700Grey,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Scrollbar(
+                        child: ListView.separated(
+                          scrollDirection: Axis.vertical,
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: arrList != null ? arrList.length : 0,
+                          itemBuilder: (context, index) {
+                            final item = arrList != null ? arrList[index] : null;
+                            return ChaptersList(item, index);
+                          },
+                          separatorBuilder: (context, index) => h(8),
+                        ),
+                      ),
+                      h(10),
+                      liveClassMessgaes()
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   ChaptersList(var item, int index) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), color: lifescool_highlight),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              (index + 1).toString(),
-              style: size16_400,
-            ),
-            w(16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(item['itemData']['title'].toString(), style: size16_400),
-                h(4),
-                Wrap(
-                  spacing: 8,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Text(
-                      catsName(item['itemType'].toString()),
-                      style: size14_600grey,
-                    ),
-                    CircleAvatar(
-                      radius: 2,
-                      backgroundColor: Color(0xff6D6D6D),
-                    ),
-                    Text(
-                      "2 mins",
-                      style: size14_600grey,
-                    )
-                  ],
-                )
-              ],
-            )
-          ],
+    return GestureDetector(
+      onTap: () {
+        print("index");
+        print(index);
+       // getData(item['id'], index);
+
+        selectCourse(index);
+        setState(() {
+          moduleTap = index;
+        });
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: lifescool_highlight),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                (index + 1).toString(),
+                style: size16_400,
+              ),
+              w(16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(item['itemData']['title'].toString(), style: size16_400),
+                  h(4),
+                  Wrap(
+                    spacing: 8,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text(
+                        catsName(item['itemType'].toString()),
+                        style: size14_600grey,
+                      ),
+                      CircleAvatar(
+                        radius: 2,
+                        backgroundColor: Color(0xff6D6D6D),
+                      ),
+                      Text(
+                        "2 mins",
+                        style: size14_600grey,
+                      )
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -381,13 +582,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         final item = arrLive != null ? arrLive[index] : null;
         return GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => WebPagePlain(
-                        url: item['itemData']['url'].toString(),
-                      )),
-            );
+            selectLive(index);
           },
           child: Container(
             decoration: BoxDecoration(
@@ -483,6 +678,8 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   ModuleList(var item, int index) {
     return GestureDetector(
       onTap: () {
+        print("index");
+        print(index);
         getData(item['id'], index);
         setState(() {
           moduleTap = index;
