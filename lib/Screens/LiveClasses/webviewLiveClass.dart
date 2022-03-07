@@ -20,6 +20,9 @@ class WebViewState extends State<WebViewLive>{
 
   @override
   Widget build(BuildContext context) {
+
+    print("widget.url");
+    print(widget.url);
     return Scaffold(
 
       body: Stack(

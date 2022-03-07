@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lifescool/Api/getAuther.dart';
+import 'TutorInfo/Data/getAuther.dart';
 import 'package:lifescool/Const/Constants.dart';
 
 class TutorInfoNew extends StatefulWidget {

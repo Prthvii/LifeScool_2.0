@@ -592,7 +592,7 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
                   ),
                   Row(
                     children: [
-                      Row(
+                    isSelected==1?   Row(
                         children: [
                           Text(
                             item['chaptersCount'].toString() + " chapters",
@@ -616,7 +616,31 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
                                 color: darkBlue),
                           )
                         ],
-                      ),
+                      ):Row(
+                         children: [
+                           Text(
+                             item['courseDuration'].toString(),
+                             style: TextStyle(
+                                 fontSize: 14,
+                                 fontWeight: FontWeight.w700,
+                                 fontFamily: 'Nunito',
+                                 color: darkBlue),
+                           ),
+                           Padding(
+                             padding: const EdgeInsets.symmetric(horizontal: 5),
+                             child: Container(
+                                 height: 12, width: 2, color: darkBlue),
+                           ),
+                           Text(
+                             item['totalVideolength'].toString(),
+                             style: TextStyle(
+                                 fontSize: 14,
+                                 fontWeight: FontWeight.w400,
+                                 fontFamily: 'Nunito',
+                                 color: darkBlue),
+                           )
+                         ],
+                       ) ,
                       Spacer(),
                       GestureDetector(
                         onTap: () {

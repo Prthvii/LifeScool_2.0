@@ -9,11 +9,15 @@ Future getAutherApi(auid) async {
 
 
   var id = await getSharedPrefrence(ID);
-   print(id);
+  var token = await getSharedPrefrence(TOKEN);
+
+  print(id);
   final json = {
     'request_header':authorDetails,
     'secKey':secKey,
     'studentId':id.toString(),
+    'apiToken':token.toString(),
+
     'autherId':auid.toString(),
 
 

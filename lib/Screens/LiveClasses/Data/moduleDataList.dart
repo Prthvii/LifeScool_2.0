@@ -11,8 +11,8 @@ Future modulesDataListApi(moduleId) async {
   var id = await getSharedPrefrence(ID);
   var token = await getSharedPrefrence(TOKEN);
   print("idddddddd");
-  print(id);
-  print(token);
+  print(moduleId);
+
   final json = {
     'request_header':moduleDataList,
     'secKey':secKey,

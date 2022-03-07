@@ -380,7 +380,7 @@ class _ViewAllLiveClassesNewState extends State<ViewAllLiveClassesNew> {
                       Row(
                         children: [
                           Text(
-                            item['chaptersCount'].toString() + " chapters",
+                            item['courseDuration'].toString(),
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,

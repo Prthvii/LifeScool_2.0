@@ -37,9 +37,11 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   var arrLive = [];
 
   var isLoading = true;
+  var moduleLoading = true;
   var isVdoLoading = true;
 
   var currentIndex = 3000;
+  var currentPlaying = 0;
   //List<dynamic> data = [];
 
   VideoPlayerController _videoPlayerController1;
@@ -58,40 +60,42 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
 
   Future<String> getCat() async {
     var rsp = await modulesListBatchApi(widget.id);
-    print("courseeeeeeeeeeeeee");
-    print(rsp);
 
-    // arrProdList = data;
-    //
     if (rsp != 0) {
       setState(() {
         arrCat = rsp['attributes']['response'];
 
-        // totalSale = rsp['total_card_sale'].toString();
-        // totalProfit = "₹"+rsp['total_profit'].toString();
       });
-      print("arrCatList");
-      print(arrCat);
+
       if (arrCat.isNotEmpty) {
         getData(arrCat[0]['id'], 0);
       }
-    } else {}
+    } else {
+      setState(() {
+        isLoading = false;
+        moduleLoading = false;
+      });
 
-    // setState(() {
-    //   isLoading = false;
-    // });
+    }
+
+
     return "0";
   }
 
   Future<String> getData(moduleID, index) async {
+
+
     setState(() {
-      isLoading = true;
+     // isLoading = true;
+      moduleLoading = true;
+      currentPlaying =index+1;
     });
+
+
     print("searchhhhhhhh");
 
     var rsp = await modulesDataListApi(moduleID);
-    print("searchhhhhhhh");
-    print(rsp);
+
 
     // arrProdList = data;
     //
@@ -101,37 +105,58 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         arrLive = rsp['attributes']['livedata'];
 
 
-         title = arrList[0]['itemData']['title'];
-         url = arrList[0]['itemData']['link'];
-         img = arrList[0]['itemData']['thumbnail'];
-         // dec1 = arrList[index]['itemData']['discTitle'];
-         // dec2 = arrList[index]['itemData']['disc'];
 
-        type= arrList[0]['itemType'];
+        type= arrList[index]['itemType'];
 
-
+        print("daaaaaaaaaaaata");
+        print(arrList[index]);
          if(type=="MIVIDEO"){
+           title = arrList[index]['itemName'];
+           url = arrList[index]['itemData']['videohls'];
+           img = arrList[index]['itemData']['thumbnail'];
+           dec1 = arrList[index]['itemData']['title'];
+           dec2 = arrList[index]['itemData']['desc'];
+
            initializePlayer();
+         }else{
+
+           title = arrList[index]['itemName'];
+           url = arrList[index]['itemData']['link'];
+           img = arrList[index]['itemData']['thumbnail'];
+
+           dec1 = arrList[index]['itemData']['title'];
+           dec2 = arrList[index]['itemData']['desc'];
+
+
+           setState(() {
+             isLoading = false;
+             moduleLoading = false;
+           });
          }
 
       });
       print("searchhhhhhhh");
-      print(arrList);
+      print(url);
     } else {
+      setState(() {
+        isLoading = false;
+        moduleLoading = false;
+      });
+
       //showToastSuccess(rsp['attributes']['message'].toString());
     }
 
-    setState(() {
-      isLoading = false;
-    });
     return "0";
   }
 
   Future<void> initializePlayer() async {
+    print("url");
+    print(url);
     setState(() {
     //  isLoading = false;
       isVdoLoading = true;
     });
+   //_videoPlayerController1 = VideoPlayerController.network("https://player.vimeo.com/external/685172136.m3u8?s=c2bad28611536ff026a7181fef97d52416f07a2e&oauth2_token_id=1526368676".toString());
    _videoPlayerController1 = VideoPlayerController.network(url.toString());
   //  _videoPlayerController1 = VideoPlayerController.network("https://firebasestorage.googleapis.com/v0/b/togo-be1ba.appspot.com/o/www.DVDPLay.Rest%20-%20Meppadiyan%20(2022)%20Malayalam%20HQ%20HDRip%20-%20400MB%20-%20x264%20-%20AAC%20-%20ESub.mkv?alt=media&token=bd5a2f1c-5ac5-416b-8e51-d0d7fa7e4118".toString());
 
@@ -149,32 +174,57 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     setState(() {
       isLoading = false;
       isVdoLoading = false;
+      moduleLoading = false;
     });
   }
 
   Future<void> selectCourse(index) async {
-    title = arrList[index]['itemData']['title'];
-    url = arrList[index]['itemData']['link'];
-    img = arrList[index]['itemData']['thumbnail'];
-    // dec1 = arrList[index]['itemData']['discTitle'];
-    // dec2 = arrList[index]['itemData']['disc'];
+
+    if(_videoPlayerController1.value.isPlaying){
+      _videoPlayerController1.pause();
+    }
 
     type= arrList[index]['itemType'];
 
 
     if(type=="MIVIDEO"){
+      title = arrList[index]['itemName'];
+      url = arrList[index]['itemData']['videohls'];
+      img = arrList[index]['itemData']['thumbnail'];
+
+      dec1 = arrList[index]['itemData']['title'];
+      dec2 = arrList[index]['itemData']['desc'];
+
       initializePlayer();
+    }else{
+
+      title = arrList[index]['itemName'];
+      url = arrList[index]['itemData']['link'];
+      print("Courseeeeeee");
+      print(url);
+      img = arrList[index]['itemData']['thumbnail'];
+      dec1 = arrList[index]['itemData']['title'];
+      dec2 = arrList[index]['itemData']['desc'];
+
+
+      setState(() {
+        isLoading = false;
+        moduleLoading = false;
+      });
     }
+
   }
 
   Future<void> selectLive(index) async {
-
+    if(_videoPlayerController1.value.isPlaying){
+      _videoPlayerController1.pause();
+    }
     setState(() {
-      title = arrLive[index]['itemData']['title'];
-      url = arrLive[index]['itemData']['link'];
+      title = arrLive[index]['itemName'];
+      url = arrLive[index]['itemData']['url'];
       img = arrLive[index]['itemData']['thumbnail'];
-      // dec1 = arrList[index]['itemData']['discTitle'];
-      // dec2 = arrList[index]['itemData']['disc'];
+      dec1 = "";
+      dec2 = arrList[index]['itemData']['dateTime'];
 
       type= arrLive[index]['itemType'];
 
@@ -185,13 +235,16 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     });
 
   }
+
   Future<bool> _onBackPressed() async {
-    _videoPlayerController1.pause();
-  //  _videoPlayerController1.dispose();
+    print("baaack");
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => liveBatchesBriefPage(item: widget.item,)),
     );
+    _videoPlayerController1.pause();
+  //  _videoPlayerController1.dispose();
 
 
 
@@ -199,6 +252,9 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
 
     return Future<bool>.value(true);
   }
+
+
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -207,7 +263,15 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(0.1),
             child: AppBar(elevation: 0, backgroundColor: Colors.white)),
-        body: Column(
+        body: isLoading == true
+            ? Container(
+            child: Center(
+              child: Image.asset(
+                "assets/images/loading.gif",
+                height: 40,
+              ),
+            ))
+            :Column(
           children: [
             type!="MIVIDEO"?Stack(
               alignment: Alignment.center,
@@ -330,7 +394,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                  title,
+                  title.toString(),
 
                   style: size16_700Mallu),
             ),
@@ -396,16 +460,16 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
               ),
             ),
             h(24),
-            Padding(
+          Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(dec1,
+                  Text("Module "+currentPlaying.toString()+" :" + dec1.toString(),
                       style: size16_700Mallu),
                   h(4),
                   Text(
-                      dec2,
+                      dec2.toString(),
                       style: size14_600grey)
                 ],
               ),
@@ -450,7 +514,13 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: SingleChildScrollView(
+                child:    moduleLoading ==true?Container(
+                    child: Center(
+                      child: Image.asset(
+                        "assets/images/loading.gif",
+                        height: 40,
+                      ),
+                    )):SingleChildScrollView(
                   child: Column(
                     children: [
                       Scrollbar(
@@ -487,9 +557,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
        // getData(item['id'], index);
 
         selectCourse(index);
-        setState(() {
-          moduleTap = index;
-        });
+
       },
       child: Container(
         decoration: BoxDecoration(
@@ -680,10 +748,17 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       onTap: () {
         print("index");
         print(index);
-        getData(item['id'], index);
+        getData(item['id'], 0);
+
+
         setState(() {
           moduleTap = index;
         });
+
+        if(_videoPlayerController1.value.isPlaying){
+          _videoPlayerController1.pause();
+          //_videoPlayerController1.dispose();
+        }
       },
       child: Container(
         decoration: BoxDecoration(
