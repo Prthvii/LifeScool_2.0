@@ -37,11 +37,14 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   var arrLive = [];
 
   var isLoading = true;
+
   var moduleLoading = true;
   var isVdoLoading = true;
 
   var currentIndex = 3000;
   var currentPlaying = 0;
+  var nowPlaying = 0;
+  var livePlaying = 3000;
   //List<dynamic> data = [];
 
   VideoPlayerController _videoPlayerController1;
@@ -68,6 +71,8 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       });
 
       if (arrCat.isNotEmpty) {
+        print("arrCat[0]");
+        print(arrCat[0]);
         getData(arrCat[0]['id'], 0);
       }
     } else {
@@ -114,8 +119,8 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
            title = arrList[index]['itemName'];
            url = arrList[index]['itemData']['videohls'];
            img = arrList[index]['itemData']['thumbnail'];
-           dec1 = arrList[index]['itemData']['title'];
-           dec2 = arrList[index]['itemData']['desc'];
+           // dec1 = arrList[index]['itemData']['title'];
+           // dec2 = arrList[index]['itemData']['desc'];
 
            initializePlayer();
          }else{
@@ -124,8 +129,8 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
            url = arrList[index]['itemData']['link'];
            img = arrList[index]['itemData']['thumbnail'];
 
-           dec1 = arrList[index]['itemData']['title'];
-           dec2 = arrList[index]['itemData']['desc'];
+           // dec1 = arrList[index]['itemData']['title'];
+           // dec2 = arrList[index]['itemData']['desc'];
 
 
            setState(() {
@@ -192,8 +197,8 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       url = arrList[index]['itemData']['videohls'];
       img = arrList[index]['itemData']['thumbnail'];
 
-      dec1 = arrList[index]['itemData']['title'];
-      dec2 = arrList[index]['itemData']['desc'];
+      // dec1 = arrList[index]['itemData']['title'];
+      // dec2 = arrList[index]['itemData']['desc'];
 
       initializePlayer();
     }else{
@@ -203,8 +208,9 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       print("Courseeeeeee");
       print(url);
       img = arrList[index]['itemData']['thumbnail'];
-      dec1 = arrList[index]['itemData']['title'];
-      dec2 = arrList[index]['itemData']['desc'];
+
+      // dec1 = arrList[index]['itemData']['title'];
+      // dec2 = arrList[index]['itemData']['desc'];
 
 
       setState(() {
@@ -223,8 +229,9 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       title = arrLive[index]['itemName'];
       url = arrLive[index]['itemData']['url'];
       img = arrLive[index]['itemData']['thumbnail'];
-      dec1 = "";
-      dec2 = arrList[index]['itemData']['dateTime'];
+
+      // dec1 = "";
+      // dec2 = arrList[index]['itemData']['dateTime'];
 
       type= arrLive[index]['itemType'];
 
@@ -272,13 +279,14 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
               ),
             ))
             :Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             type!="MIVIDEO"?Stack(
               alignment: Alignment.center,
               children: [
           Container(
                   height: MediaQuery.of(context).size.height * 0.3,
-                  child: Image.network(img!=null?img:testImg, fit: BoxFit.cover),
+                  child: Image.network(widget.item['thumbnailUrl'].toString(), fit: BoxFit.cover),
                   decoration: BoxDecoration(gradient: gradientHOME),
                 ),
                 Align(
@@ -394,7 +402,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                  title.toString(),
+                  widget.item['courseNameEng'],
 
                   style: size16_700Mallu),
             ),
@@ -465,11 +473,11 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Module "+currentPlaying.toString()+" :" + dec1.toString(),
+                  Text("Module "+(moduleTap+1).toString()+" : " + arrCat[moduleTap]['moduleTitle'].toString(),
                       style: size16_700Mallu),
                   h(4),
                   Text(
-                      dec2.toString(),
+                      arrCat[moduleTap]['desc'].toString(),
                       style: size14_600grey)
                 ],
               ),
@@ -555,13 +563,16 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         print("index");
         print(index);
        // getData(item['id'], index);
-
+        setState(() {
+          nowPlaying = index;
+          livePlaying = 3000;
+        });
         selectCourse(index);
 
       },
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: lifescool_highlight),
+            borderRadius: BorderRadius.circular(10), color:nowPlaying==index? lifescool_highlight:Colors.white),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
@@ -585,12 +596,12 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
                         catsName(item['itemType'].toString()),
                         style: size14_600grey,
                       ),
-                      CircleAvatar(
+                      item['itemData']['duration'].toString()==""?Container(): CircleAvatar(
                         radius: 2,
                         backgroundColor: Color(0xff6D6D6D),
                       ),
-                      Text(
-                        "2 mins",
+                      item['itemData']['duration'].toString()==""?Container():Text(
+                        item['itemData']['duration'].toString(),
                         style: size14_600grey,
                       )
                     ],
@@ -604,40 +615,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     );
   }
 
-  QuestionListNew(index) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: liteRed),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                CupertinoIcons.question_circle_fill,
-                color: Color(0xffEA9985),
-                size: 18,
-              ),
-              w(16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("What did we learn today?", style: size16_400),
-                  h(4),
-                  Text(
-                    "Quiz",
-                    style: size14_600grey,
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+
 
   liveClassMessgaes() {
     return ListView.separated(
@@ -651,10 +629,15 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         return GestureDetector(
           onTap: () {
             selectLive(index);
+            setState(() {
+              nowPlaying = 3000;
+              livePlaying = index;
+            });
           },
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
+                color:livePlaying==index? lifescool_highlight:Colors.white,
                 border: Border.all(color: Colors.green)),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
@@ -744,7 +727,23 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   }
 
   ModuleList(var item, int index) {
-    return GestureDetector(
+
+    return item['displayStatus']=="OFF"?Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color:  greyClr,
+      ),
+      height: 58,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Center(
+          child: IconButton(
+            icon: Icon(Icons.lock,size: 22,),
+           // color: Colors,
+          ),
+        ),
+      ),
+    ):GestureDetector(
       onTap: () {
         print("index");
         print(index);
@@ -753,6 +752,8 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
 
         setState(() {
           moduleTap = index;
+          nowPlaying=0;
+          livePlaying = 3000;
         });
 
         if(_videoPlayerController1.value.isPlaying){
