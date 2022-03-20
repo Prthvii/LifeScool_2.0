@@ -5,11 +5,13 @@ import 'package:lifescool/Screens/LiveClasses/Data/moduleDataList.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/moduleList.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
 import 'package:lifescool/Screens/LiveClasses/Utils/catName.dart';
+import 'package:lifescool/Screens/LiveClasses/webview100Ms.dart';
 import 'package:lifescool/Screens/LiveClasses/webviewLiveClass.dart';
+import 'package:lifescool/Screens/webviewDetails.dart';
 import 'package:lifescool/Screens/webviewPlain.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
+import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:video_player/video_player.dart';
 class LiveClassScreen extends StatefulWidget {
   final id;
@@ -299,10 +301,50 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
                   alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => WebViewLive(url: url,type: type,)),
-                      );
+
+                      if(type=="GROUPLIVE"){
+
+                        FlutterWebBrowser.openWebPage(
+                          url: url,
+                          customTabsOptions: CustomTabsOptions(
+                            colorScheme: CustomTabsColorScheme.dark,
+                            toolbarColor: themeOrange,
+                            secondaryToolbarColor: Colors.green,
+                            navigationBarColor: imgBgClr,
+                            addDefaultShareMenuItem: false,
+                            instantAppsEnabled: false,
+                            showTitle: true,
+                            urlBarHidingEnabled: false,
+
+
+                          ),
+                          safariVCOptions: SafariViewControllerOptions(
+                            barCollapsingEnabled: true,
+                            preferredBarTintColor: Colors.green,
+                            preferredControlTintColor: Colors.amber,
+
+                            dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
+                            modalPresentationCapturesStatusBarAppearance: true,
+                          ),
+                        );
+
+
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => WebPage100Ms(id: url)),
+                        // );
+
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => WebViewLive(url: url,type: type,)),
+                        // );
+                      }else{
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => WebViewLive(url: url,type: type,)),
+                        );
+                      }
+
 
                     },
                     child: Container(
