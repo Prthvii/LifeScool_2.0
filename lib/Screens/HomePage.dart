@@ -8,6 +8,7 @@ import 'package:lifescool/Api/listCourse.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
+import 'package:lifescool/Screens/Briefs/courseBrief.dart';
 import 'package:lifescool/Screens/EnterNum.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
 import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
@@ -204,6 +205,18 @@ class _HomeScreenState extends State<HomeScreen> {
         length: 1,
         child: Scaffold(
           extendBody: false,
+          floatingActionButton: FloatingActionButton(
+            child: Text("sss"),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => courseBriefPage(
+                        // item: item,
+                        )),
+              );
+            },
+          ),
           bottomNavigationBar: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
@@ -848,10 +861,12 @@ class _HomeScreenState extends State<HomeScreen> {
   LiveClassCards(var item, int index) {
     return GestureDetector(
       onTap: () {
+        print("tapppppppp");
         // Navigator.push(
         //   context,
         //   MaterialPageRoute(builder: (context) => LiveClassScreen()),
         // );
+        //-----------------------------------------------
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -859,6 +874,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     item: item,
                   )),
         );
+
+        //-----------------------------------------------
+
         // Navigator.push(
         //   context,
         //   MaterialPageRoute(
