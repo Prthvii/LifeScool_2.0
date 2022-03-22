@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import 'Screens/SplashScreen.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -15,8 +15,11 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void main() async {
-  runApp(MyApp());
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Permission.camera.request();
+  await Permission.microphone.request();
+  runApp(MyApp());
   await FlutterDownloader.initialize(
       debug: true // optional: set false to disable printing logs to console
       );

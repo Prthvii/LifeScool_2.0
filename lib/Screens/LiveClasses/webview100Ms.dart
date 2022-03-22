@@ -1,31 +1,23 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-class WebPagePlain extends StatefulWidget {
-  final String url;
-  final String type;
+class WebPage100Ms extends StatefulWidget {
+  final String id;
 
-  WebPagePlain({Key key, this.url, this.type}) : super(key: key);
+  WebPage100Ms({Key key, this.id}) : super(key: key);
 
   @override
   WebViewExampleState createState() => WebViewExampleState();
 }
 
-class WebViewExampleState extends State<WebPagePlain> {
+class WebViewExampleState extends State<WebPage100Ms> {
   String title, url;
   bool isLoading = true;
   final _key = UniqueKey();
   InAppWebViewController _webViewController;
-
   WebViewState(String title, String url) {
     this.title = title;
     this.url = url;
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -34,6 +26,7 @@ class WebViewExampleState extends State<WebPagePlain> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(1.0),
         child: AppBar(
+          automaticallyImplyLeading: true,
           elevation: 0,
           backgroundColor: Colors.white,
         ),
@@ -42,10 +35,27 @@ class WebViewExampleState extends State<WebPagePlain> {
         children: <Widget>[
           InAppWebView(
 
-              initialUrlRequest:
-                  URLRequest(url: Uri.parse( widget.type=="MIPDF"?'https://docs.google.com/gview?embedded=true&url=${widget.url}': widget.url)),
-            //   initialUrlRequest: "https://appr.tc/r/158489234",
+              initialUrlRequest: URLRequest(
+                  url: Uri.parse(widget.id.toString())),
+              //  initialUrlRequest: "https://appr.tc/r/158489234",
               initialOptions: InAppWebViewGroupOptions(
+                ios: IOSInAppWebViewOptions(
+
+
+
+                ),
+                android: AndroidInAppWebViewOptions(
+                    domStorageEnabled: true,
+                    databaseEnabled: true,
+                    clearSessionCache: true,
+                    thirdPartyCookiesEnabled: true,
+
+                    allowFileAccess: true,
+
+                    allowContentAccess: true
+
+                ),
+
                 crossPlatform: InAppWebViewOptions(
                   mediaPlaybackRequiresUserGesture: false,
                   // debuggingEnabled: true,
@@ -53,6 +63,7 @@ class WebViewExampleState extends State<WebPagePlain> {
               ),
               onWebViewCreated: (InAppWebViewController controller) {
                 _webViewController = controller;
+
               },
               onLoadStop: (controller, url) {
                 setState(() {
@@ -62,13 +73,14 @@ class WebViewExampleState extends State<WebPagePlain> {
               androidOnPermissionRequest: (InAppWebViewController controller,
                   String origin, List<String> resources) async {
                 return PermissionRequestResponse(
+
                     resources: resources,
                     action: PermissionRequestResponseAction.GRANT);
               }),
           isLoading
               ? Center(
-                  child: CircularProgressIndicator(),
-                )
+            child: CircularProgressIndicator(),
+          )
               : Stack(),
         ],
       ),

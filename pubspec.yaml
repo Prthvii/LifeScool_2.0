@@ -57,6 +57,8 @@ dev_dependencies:
   shimmer: ^2.0.0
   jitsi_meet: ^2.1.0
   flutter_windowmanager: ^0.2.0
+  flutter_web_browser: ^0.14.0
+
 #  flutter_fadein: ^2.0.0
 #  better_player: ^0.0.62
 

@@ -151,7 +151,11 @@ class WebViewExampleState extends State<WebPage> {
           InAppWebView(
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
-                     widget.url.toString())),
+                   //  widget.url.toString()
+                  "https://lifescool-workshop.app.100ms.live/preview/ujx-lwr-dxi"
+
+
+                  )),
               //  initialUrlRequest: "https://appr.tc/r/158489234",
               initialOptions: InAppWebViewGroupOptions(
                 crossPlatform: InAppWebViewOptions(
