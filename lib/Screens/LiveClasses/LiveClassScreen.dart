@@ -1,21 +1,20 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/moduleDataList.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/moduleList.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
 import 'package:lifescool/Screens/LiveClasses/Utils/catName.dart';
 import 'package:lifescool/Screens/LiveClasses/webviewLiveClass.dart';
-import 'package:lifescool/Screens/webviewPlain.dart';
-import 'package:chewie/chewie.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-
 import 'package:video_player/video_player.dart';
+
 class LiveClassScreen extends StatefulWidget {
   final id;
   final item;
 
-  LiveClassScreen({this.id,this.item});
+  LiveClassScreen({this.id, this.item});
   @override
   _LiveClassScreenState createState() => _LiveClassScreenState();
 }
@@ -28,8 +27,8 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   var img = "";
   var dec1 = "";
   var dec2 = "";
- // var type ="MIVIDEO";
-  var type ="";
+  // var type ="MIVIDEO";
+  var type = "";
 
   var arrList = [];
 
@@ -64,7 +63,6 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     if (rsp != 0) {
       setState(() {
         arrCat = rsp['attributes']['response'];
-
       });
 
       if (arrCat.isNotEmpty) {
@@ -75,27 +73,21 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         isLoading = false;
         moduleLoading = false;
       });
-
     }
-
 
     return "0";
   }
 
   Future<String> getData(moduleID, index) async {
-
-
     setState(() {
-     // isLoading = true;
+      // isLoading = true;
       moduleLoading = true;
-      currentPlaying =index+1;
+      currentPlaying = index + 1;
     });
-
 
     print("searchhhhhhhh");
 
     var rsp = await modulesDataListApi(moduleID);
-
 
     // arrProdList = data;
     //
@@ -104,36 +96,31 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         arrList = rsp['attributes']['response'];
         arrLive = rsp['attributes']['livedata'];
 
-
-
-        type= arrList[index]['itemType'];
+        type = arrList[index]['itemType'];
 
         print("daaaaaaaaaaaata");
         print(arrList[index]);
-         if(type=="MIVIDEO"){
-           title = arrList[index]['itemName'];
-           url = arrList[index]['itemData']['videohls'];
-           img = arrList[index]['itemData']['thumbnail'];
-           dec1 = arrList[index]['itemData']['title'];
-           dec2 = arrList[index]['itemData']['desc'];
+        if (type == "MIVIDEO") {
+          title = arrList[index]['itemName'];
+          url = arrList[index]['itemData']['videohls'];
+          img = arrList[index]['itemData']['thumbnail'];
+          dec1 = arrList[index]['itemData']['title'];
+          dec2 = arrList[index]['itemData']['desc'];
 
-           initializePlayer();
-         }else{
+          initializePlayer();
+        } else {
+          title = arrList[index]['itemName'];
+          url = arrList[index]['itemData']['link'];
+          img = arrList[index]['itemData']['thumbnail'];
 
-           title = arrList[index]['itemName'];
-           url = arrList[index]['itemData']['link'];
-           img = arrList[index]['itemData']['thumbnail'];
+          dec1 = arrList[index]['itemData']['title'];
+          dec2 = arrList[index]['itemData']['desc'];
 
-           dec1 = arrList[index]['itemData']['title'];
-           dec2 = arrList[index]['itemData']['desc'];
-
-
-           setState(() {
-             isLoading = false;
-             moduleLoading = false;
-           });
-         }
-
+          setState(() {
+            isLoading = false;
+            moduleLoading = false;
+          });
+        }
       });
       print("searchhhhhhhh");
       print(url);
@@ -153,23 +140,20 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     print("url");
     print(url);
     setState(() {
-    //  isLoading = false;
+      //  isLoading = false;
       isVdoLoading = true;
     });
-   //_videoPlayerController1 = VideoPlayerController.network("https://player.vimeo.com/external/685172136.m3u8?s=c2bad28611536ff026a7181fef97d52416f07a2e&oauth2_token_id=1526368676".toString());
-   _videoPlayerController1 = VideoPlayerController.network(url.toString());
-  //  _videoPlayerController1 = VideoPlayerController.network("https://firebasestorage.googleapis.com/v0/b/togo-be1ba.appspot.com/o/www.DVDPLay.Rest%20-%20Meppadiyan%20(2022)%20Malayalam%20HQ%20HDRip%20-%20400MB%20-%20x264%20-%20AAC%20-%20ESub.mkv?alt=media&token=bd5a2f1c-5ac5-416b-8e51-d0d7fa7e4118".toString());
+    //_videoPlayerController1 = VideoPlayerController.network("https://player.vimeo.com/external/685172136.m3u8?s=c2bad28611536ff026a7181fef97d52416f07a2e&oauth2_token_id=1526368676".toString());
+    _videoPlayerController1 = VideoPlayerController.network(url.toString());
+    //  _videoPlayerController1 = VideoPlayerController.network("https://firebasestorage.googleapis.com/v0/b/togo-be1ba.appspot.com/o/www.DVDPLay.Rest%20-%20Meppadiyan%20(2022)%20Malayalam%20HQ%20HDRip%20-%20400MB%20-%20x264%20-%20AAC%20-%20ESub.mkv?alt=media&token=bd5a2f1c-5ac5-416b-8e51-d0d7fa7e4118".toString());
 
     await _videoPlayerController1.initialize();
-
-
 
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController1,
       autoPlay: true,
       looping: false,
     );
-
 
     setState(() {
       isLoading = false;
@@ -179,15 +163,13 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   }
 
   Future<void> selectCourse(index) async {
-
-    if(_videoPlayerController1.value.isPlaying){
+    if (_videoPlayerController1.value.isPlaying) {
       _videoPlayerController1.pause();
     }
 
-    type= arrList[index]['itemType'];
+    type = arrList[index]['itemType'];
 
-
-    if(type=="MIVIDEO"){
+    if (type == "MIVIDEO") {
       title = arrList[index]['itemName'];
       url = arrList[index]['itemData']['videohls'];
       img = arrList[index]['itemData']['thumbnail'];
@@ -196,8 +178,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       dec2 = arrList[index]['itemData']['desc'];
 
       initializePlayer();
-    }else{
-
+    } else {
       title = arrList[index]['itemName'];
       url = arrList[index]['itemData']['link'];
       print("Courseeeeeee");
@@ -206,17 +187,15 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       dec1 = arrList[index]['itemData']['title'];
       dec2 = arrList[index]['itemData']['desc'];
 
-
       setState(() {
         isLoading = false;
         moduleLoading = false;
       });
     }
-
   }
 
   Future<void> selectLive(index) async {
-    if(_videoPlayerController1.value.isPlaying){
+    if (_videoPlayerController1.value.isPlaying) {
       _videoPlayerController1.pause();
     }
     setState(() {
@@ -226,14 +205,12 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       dec1 = "";
       dec2 = arrList[index]['itemData']['dateTime'];
 
-      type= arrLive[index]['itemType'];
+      type = arrLive[index]['itemType'];
 
-
-      if(type=="MIVIDEO"){
+      if (type == "MIVIDEO") {
         initializePlayer();
       }
     });
-
   }
 
   Future<bool> _onBackPressed() async {
@@ -241,19 +218,16 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => liveBatchesBriefPage(item: widget.item,)),
+      MaterialPageRoute(
+          builder: (context) => liveBatchesBriefPage(
+                item: widget.item,
+              )),
     );
     _videoPlayerController1.pause();
-  //  _videoPlayerController1.dispose();
-
-
-
-
+    //  _videoPlayerController1.dispose();
 
     return Future<bool>.value(true);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -265,286 +239,308 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
             child: AppBar(elevation: 0, backgroundColor: Colors.white)),
         body: isLoading == true
             ? Container(
-            child: Center(
-              child: Image.asset(
-                "assets/images/loading.gif",
-                height: 40,
-              ),
-            ))
-            :Column(
-          children: [
-            type!="MIVIDEO"?Stack(
-              alignment: Alignment.center,
-              children: [
-          Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  child: Image.network(img!=null?img:testImg, fit: BoxFit.cover),
-                  decoration: BoxDecoration(gradient: gradientHOME),
+                child: Center(
+                child: Image.asset(
+                  "assets/images/loading.gif",
+                  height: 40,
                 ),
-                Align(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    color: Colors.black38,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: GestureDetector(
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => WebViewLive(url: url,type: type,)),
-                      );
-
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient:type=="GROUPLIVE"?gradientLive: gradientHOME),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12),
-                        child: Text(viewCatName(type), style: size14_700W),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ):Stack(
-              alignment: Alignment.center,
-              children: [
-                type=="MIVIDEO"?isVdoLoading == true
-                    ? Container(
-                  height: MediaQuery.of(context)
-                      .size
-                      .height *
-                      0.3,
-                  color: Colors.white,
-                  child: Column(
-                    mainAxisAlignment:
-                    MainAxisAlignment.center,
-                    crossAxisAlignment:
-                    CrossAxisAlignment.center,
-                    children: [
-                      SpinKitThreeBounce(
-                        color: Color(0xffFD5C36),
-                        size: 20.0,
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Loading...',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14),
-                      ),
-                    ],
-                  ),
-                )
-                    :Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  child: Center(
-                    child: _chewieController != null &&
-                        _chewieController
-                            .videoPlayerController
-                            .value
-                            .initialized
-                        ? Chewie(
-                      controller:
-                      ChewieController(
-                        videoPlayerController:
-                        _videoPlayerController1,
-                        allowPlaybackSpeedChanging:
-                        true,
-                        showControls: true,
-                        materialProgressColors:
-                        ChewieProgressColors(
-                          playedColor:
-                          Colors.grey[900],
-                          handleColor:
-                          Colors.blue,
-                          backgroundColor:
-                          Colors.grey,
-                          bufferedColor:
-                          Colors.grey[400],
+              ))
+            : Column(
+                children: [
+                  type != "MIVIDEO"
+                      ? Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              child: Image.network(img != null ? img : testImg,
+                                  fit: BoxFit.cover),
+                              decoration: BoxDecoration(gradient: gradientHOME),
+                            ),
+                            Align(
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.3,
+                                color: Colors.black38,
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => WebViewLive(
+                                              url: url,
+                                              type: type,
+                                            )),
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      gradient: type == "GROUPLIVE"
+                                          ? gradientLive
+                                          : gradientHOME),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 12),
+                                    child: Text(viewCatName(type),
+                                        style: size14_700W),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      : Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            type == "MIVIDEO"
+                                ? isVdoLoading == true
+                                    ? Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.3,
+                                        color: Colors.white,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SpinKitThreeBounce(
+                                              color: Color(0xffFD5C36),
+                                              size: 20.0,
+                                            ),
+                                            SizedBox(height: 10),
+                                            Text(
+                                              'Loading...',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 14),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.3,
+                                        child: Center(
+                                          child: _chewieController != null &&
+                                                  _chewieController
+                                                      .videoPlayerController
+                                                      .value
+                                                      .initialized
+                                              ? Chewie(
+                                                  controller: ChewieController(
+                                                    videoPlayerController:
+                                                        _videoPlayerController1,
+                                                    allowPlaybackSpeedChanging:
+                                                        true,
+                                                    showControls: true,
+                                                    materialProgressColors:
+                                                        ChewieProgressColors(
+                                                      playedColor:
+                                                          Colors.grey[900],
+                                                      handleColor: Colors.blue,
+                                                      backgroundColor:
+                                                          Colors.grey,
+                                                      bufferedColor:
+                                                          Colors.grey[400],
+                                                    ),
+                                                  ),
+                                                )
+                                              : Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    CircularProgressIndicator(),
+                                                    SizedBox(height: 20),
+                                                    Text('Loading'),
+                                                  ],
+                                                ),
+                                        ),
+                                        decoration:
+                                            BoxDecoration(color: Colors.white),
+                                      )
+                                : Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.3,
+                                    // child: Image.network(testImg, fit: BoxFit.cover),
+                                    decoration:
+                                        BoxDecoration(color: Colors.black),
+                                  ),
+                          ],
                         ),
-                      ),
-                    )
-                        : Column(
-                      mainAxisAlignment:
-                      MainAxisAlignment
-                          .center,
-                      crossAxisAlignment:
-                      CrossAxisAlignment
-                          .center,
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(title.toString(), style: size16_700Mallu),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                    ),
+                    child: Row(
                       children: [
-                        CircularProgressIndicator(),
-                        SizedBox(height: 20),
-                        Text('Loading'),
+                        GestureDetector(
+                          onTap: () {
+                            if (menutap == true) {
+                              setState(() {
+                                menutap = false;
+                              });
+                            } else {
+                              setState(() {
+                                menutap = true;
+                              });
+                            }
+
+                            print("menttaap");
+                            print(menutap);
+                          },
+                          child: menutap == true
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: themeOrange,
+                                      border:
+                                          Border.all(color: Colors.black12)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Icon(
+                                      Icons.close,
+                                      size: 25,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  height: 58,
+                                  width: 62,
+                                )
+                              : Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: greyClr,
+                                      border:
+                                          Border.all(color: Colors.black12)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Icon(
+                                      Icons.list,
+                                      size: 25,
+                                      color: Color(0xff6D6D6D),
+                                    ),
+                                  ),
+                                  height: 58,
+                                  width: 62,
+                                ),
+                        ),
+                        w(16),
+                        Expanded(
+                            child: menutap == true ? MenuItems() : moduleList())
+                        // Expanded(child: MenuItems())
                       ],
                     ),
                   ),
-                  decoration: BoxDecoration(color: Colors.white),
-                ): Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                 // child: Image.network(testImg, fit: BoxFit.cover),
-                  decoration: BoxDecoration(color: Colors.black),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                  title.toString(),
-
-                  style: size16_700Mallu),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 16,
-              ),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (menutap == true) {
-                        setState(() {
-                          menutap = false;
-                        });
-                      } else {
-                        setState(() {
-                          menutap = true;
-                        });
-                      }
-
-                      print("menttaap");
-                      print(menutap);
-                    },
-                    child: menutap == true
-                        ? Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: themeOrange,
-                                border: Border.all(color: Colors.black12)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              child: Icon(
-                                Icons.close,
-                                size: 25,
-                                color: Colors.white,
-                              ),
+                  h(24),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            "Module " +
+                                currentPlaying.toString() +
+                                " :" +
+                                dec1.toString(),
+                            style: size16_700Mallu),
+                        h(4),
+                        Text(dec2.toString(), style: size14_600grey)
+                      ],
+                    ),
+                  ),
+                  h(12),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: grey2),
+                              borderRadius: BorderRadius.circular(10),
+                              color: greyClr),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: Text(
+                              "Downloads",
+                              style: size14_700Grey,
                             ),
-                            height: 58,
-                            width: 62,
-                          )
-                        : Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: greyClr,
-                                border: Border.all(color: Colors.black12)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              child: Icon(
-                                Icons.list,
-                                size: 25,
-                                color: Color(0xff6D6D6D),
-                              ),
-                            ),
-                            height: 58,
-                            width: 62,
                           ),
-                  ),
-                  w(16),
-                  Expanded(child: menutap == true ? MenuItems() : moduleList())
-                  // Expanded(child: MenuItems())
-                ],
-              ),
-            ),
-            h(24),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Module "+currentPlaying.toString()+" :" + dec1.toString(),
-                      style: size16_700Mallu),
-                  h(4),
-                  Text(
-                      dec2.toString(),
-                      style: size14_600grey)
-                ],
-              ),
-            ),
-            h(12),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: grey2),
-                        borderRadius: BorderRadius.circular(10),
-                        color: greyClr),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: Text(
-                        "Downloads",
-                        style: size14_700Grey,
-                      ),
-                    ),
-                  ),
-                  w(8),
-                  Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: grey2),
-                        borderRadius: BorderRadius.circular(10),
-                        color: greyClr),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: Text(
-                        "Links",
-                        style: size14_700Grey,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child:    moduleLoading ==true?Container(
-                    child: Center(
-                      child: Image.asset(
-                        "assets/images/loading.gif",
-                        height: 40,
-                      ),
-                    )):SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Scrollbar(
-                        child: ListView.separated(
-                          scrollDirection: Axis.vertical,
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: arrList != null ? arrList.length : 0,
-                          itemBuilder: (context, index) {
-                            final item = arrList != null ? arrList[index] : null;
-                            return ChaptersList(item, index);
-                          },
-                          separatorBuilder: (context, index) => h(8),
                         ),
-                      ),
-                      h(10),
-                      liveClassMessgaes()
-                    ],
+                        w(8),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: grey2),
+                              borderRadius: BorderRadius.circular(10),
+                              color: greyClr),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: Text(
+                              "Links",
+                              style: size14_700Grey,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: moduleLoading == true
+                          ? Container(
+                              child: Center(
+                              child: Image.asset(
+                                "assets/images/loading.gif",
+                                height: 40,
+                              ),
+                            ))
+                          : SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Scrollbar(
+                                    child: ListView.separated(
+                                      scrollDirection: Axis.vertical,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount:
+                                          arrList != null ? arrList.length : 0,
+                                      itemBuilder: (context, index) {
+                                        final item = arrList != null
+                                            ? arrList[index]
+                                            : null;
+                                        return ChaptersList(item, index);
+                                      },
+                                      separatorBuilder: (context, index) =>
+                                          h(8),
+                                    ),
+                                  ),
+                                  h(10),
+                                  liveClassMessgaes()
+                                ],
+                              ),
+                            ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -554,14 +550,14 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       onTap: () {
         print("index");
         print(index);
-       // getData(item['id'], index);
+        // getData(item['id'], index);
 
         selectCourse(index);
-
       },
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: lifescool_highlight),
+            borderRadius: BorderRadius.circular(10),
+            color: lifescool_highlight),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
@@ -749,13 +745,11 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         print("index");
         print(index);
         getData(item['id'], 0);
-
-
         setState(() {
           moduleTap = index;
         });
 
-        if(_videoPlayerController1.value.isPlaying){
+        if (_videoPlayerController1.value.isPlaying) {
           _videoPlayerController1.pause();
           //_videoPlayerController1.dispose();
         }
