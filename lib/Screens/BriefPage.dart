@@ -13,6 +13,18 @@ class Brief extends StatefulWidget {
 
 class _BriefState extends State<Brief> {
   @override
+  void initState() {
+    super.initState();
+
+    print("xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxo");
+
+    print(widget.data);
+    print("xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxo");
+
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ss = MediaQuery.of(context).size;
     return Container(

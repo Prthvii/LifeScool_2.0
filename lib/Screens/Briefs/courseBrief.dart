@@ -3,17 +3,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/joinBatch.dart';
-import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
 
-class liveBatchesBriefPage extends StatefulWidget {
+class courseBriefPage extends StatefulWidget {
   final item;
 
-  liveBatchesBriefPage({this.item});
+  courseBriefPage({this.item});
   @override
-  _liveBatchesBriefPageState createState() => _liveBatchesBriefPageState();
+  _courseBriefPageState createState() => _courseBriefPageState();
 }
 
-class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
+class _courseBriefPageState extends State<courseBriefPage> {
   var arrList = [];
   var resList = [];
   var arrCat = [];
@@ -64,106 +63,106 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
             ),
             w(16),
             Text(
-              "Live Batch Brief",
+              "Course Brief",
               style: size16_700Mallu,
             )
           ],
         ),
         elevation: 0,
       ),
-      bottomNavigationBar: Container(
-        height: 76,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: (Colors.grey[300]),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(-1, 0),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              (widget.item['isApplied'].toString() == "true" &&
-                      widget.item['startFlag'] == "0")
-                  ? Text(
-                      "Class not started",
-                      style: size14_400Blue,
-                    )
-                  : Text(
-                      (widget.item['isApplied'].toString() == "true" &&
-                              widget.item['startFlag'] == "1")
-                          ? "Class started, Join now"
-                          : "Application open for batch",
-                      style: size14_400Blue,
-                    ),
-              Spacer(),
-              (widget.item['isApplied'].toString() == "true" &&
-                      widget.item['startFlag'] == "0")
-                  ? Container()
-                  : GestureDetector(
-                      onTap: () {
-                        if (widget.item['isApplied'] == true &&
-                            widget.item['startFlag'] == "1") {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LiveClassScreen(
-                                      id: widget.item['courseUid'].toString(),
-                                      item: widget.item,
-                                    )),
-                          );
-                        } else {
-                          applyBottomSheet();
-                        }
-                      },
-                      child: isApplied == true
-                          ? Container(
-                              height: 43,
-                              width: 103,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  //  gradient: gradientHOME,
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                child: Text(
-                                  "Join",
-                                  style: size14_700W,
-                                ),
-                              ),
-                            )
-                          : Container(
-                              height: 43,
-                              width: 103,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  gradient: gradientHOME,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                child: Text(
-                                  (widget.item['isApplied'].toString() ==
-                                              "true" &&
-                                          widget.item['startFlag'] == "1")
-                                      ? "Join"
-                                      : "Apply now",
-                                  style: size14_700W,
-                                ),
-                              ),
-                            ),
-                    )
-            ],
-          ),
-        ),
-      ),
+      // bottomNavigationBar: Container(
+      //   height: 76,
+      //   decoration: BoxDecoration(
+      //     color: Colors.white,
+      //     boxShadow: [
+      //       BoxShadow(
+      //         color: (Colors.grey[300]),
+      //         spreadRadius: 1,
+      //         blurRadius: 3,
+      //         offset: Offset(-1, 0),
+      //       ),
+      //     ],
+      //   ),
+      //   child: Padding(
+      //     padding: const EdgeInsets.symmetric(horizontal: 16),
+      //     child: Row(
+      //       children: [
+      //         (widget.item['isApplied'].toString() == "true" &&
+      //                 widget.item['startFlag'] == "0")
+      //             ? Text(
+      //                 "Class not started",
+      //                 style: size14_400Blue,
+      //               )
+      //             : Text(
+      //                 (widget.item['isApplied'].toString() == "true" &&
+      //                         widget.item['startFlag'] == "1")
+      //                     ? "Class started, Join now"
+      //                     : "Application open for batch",
+      //                 style: size14_400Blue,
+      //               ),
+      //         Spacer(),
+      //         (widget.item['isApplied'].toString() == "true" &&
+      //                 widget.item['startFlag'] == "0")
+      //             ? Container()
+      //             : GestureDetector(
+      //                 onTap: () {
+      //                   if (widget.item['isApplied'] == true &&
+      //                       widget.item['startFlag'] == "1") {
+      //                     Navigator.pushReplacement(
+      //                       context,
+      //                       MaterialPageRoute(
+      //                           builder: (context) => LiveClassScreen(
+      //                                 id: widget.item['courseUid'].toString(),
+      //                                 item: widget.item,
+      //                               )),
+      //                     );
+      //                   } else {
+      //                     applyBottomSheet();
+      //                   }
+      //                 },
+      //                 child: isApplied == true
+      //                     ? Container(
+      //                         height: 43,
+      //                         width: 103,
+      //                         alignment: Alignment.center,
+      //                         decoration: BoxDecoration(
+      //                             //  gradient: gradientHOME,
+      //                             color: Colors.grey,
+      //                             borderRadius: BorderRadius.circular(10)),
+      //                         child: Padding(
+      //                           padding: const EdgeInsets.symmetric(
+      //                               horizontal: 16, vertical: 8),
+      //                           child: Text(
+      //                             "Join",
+      //                             style: size14_700W,
+      //                           ),
+      //                         ),
+      //                       )
+      //                     : Container(
+      //                         height: 43,
+      //                         width: 103,
+      //                         alignment: Alignment.center,
+      //                         decoration: BoxDecoration(
+      //                             gradient: gradientHOME,
+      //                             borderRadius: BorderRadius.circular(10)),
+      //                         child: Padding(
+      //                           padding: const EdgeInsets.symmetric(
+      //                               horizontal: 16, vertical: 8),
+      //                           child: Text(
+      //                             (widget.item['isApplied'].toString() ==
+      //                                         "true" &&
+      //                                     widget.item['startFlag'] == "1")
+      //                                 ? "Join"
+      //                                 : "Apply now",
+      //                             style: size14_700W,
+      //                           ),
+      //                         ),
+      //                       ),
+      //               )
+      //       ],
+      //     ),
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -272,6 +271,66 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                   h(16),
                   profileContainer(),
                   h(32),
+                  Text("Course showcase", style: size16_700Red),
+                  h(16),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: liteRed),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text("Rose M", style: size14_400),
+                              w(16),
+                              Icon(Icons.star, size: 15)
+                            ],
+                          ),
+                          h(24),
+                          Text(
+                              "“This course helped me a lot to develop my skills in this topic. It was really of great help.”",
+                              style: size14_400),
+                          h(16),
+                          Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: selectedRed),
+                                height: 122,
+                                width: 130,
+                              ),
+                              w(16),
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: selectedRed),
+                                height: 122,
+                                width: 130,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  // SizedBox(
+                  //   height: 261,
+                  //   child: ListView.separated(
+                  //     scrollDirection: Axis.horizontal,
+                  //     separatorBuilder: (context, index) => SizedBox(
+                  //       height: 10,
+                  //     ),
+                  //     shrinkWrap: true,
+                  //     itemCount: 5,
+                  //     itemBuilder: (context, index) {
+                  //       return courseShowcaseList(index);
+                  //     },
+                  //   ),
+                  // ),
+                  h(32),
                   Text("Modules", style: size16_700Red),
                   h(24),
                   ListView.separated(
@@ -307,6 +366,13 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                       },
                     ),
                   ),
+                  h(32),
+
+                  Text("Requirements", style: size16_700Red),
+                  h(16),
+                  Text(
+                      "This course is a refreshing take on gardening and take a learner though all the basics of ambroidery skills to techniques and hacks needed to embark on your journey. This course is a refreshing take on gardening and take a learner though all the basics of ambroidery skills to techniques and hacks needed to embark on your journey.",
+                      style: size14_400),
                   h(32),
                   Text("Certificate", style: size16_700Red),
                   h(15),

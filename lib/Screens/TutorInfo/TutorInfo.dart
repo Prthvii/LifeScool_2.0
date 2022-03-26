@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Screens/CourseIntro.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
 import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
-import 'Data/getAuther.dart';
-import 'package:lifescool/Const/Constants.dart';
-import 'package:lifescool/Helper/colorConverter.dart';
-import 'package:lifescool/Screens/TutorInfo/TutorInfoRest.dart';
 
 import '../PlayerScreen.dart';
+import 'Data/getAuther.dart';
 
 class TutorInfo extends StatefulWidget {
   final id;
@@ -24,7 +22,6 @@ class _TutorInfoState extends State<TutorInfo> {
 
   var isLoading = true;
 
-
   final dataKeyShorts = new GlobalKey();
   final dataKeyCourses = new GlobalKey();
   final dataKeyLive = new GlobalKey();
@@ -34,8 +31,6 @@ class _TutorInfoState extends State<TutorInfo> {
   var arrCourses = [];
   var arrLive = [];
   var arrWorkshop = [];
-
-
 
   Future<String> getHome() async {
     var rsp = await getAutherApi(widget.id.toString());
@@ -51,8 +46,8 @@ class _TutorInfoState extends State<TutorInfo> {
         arrWorkshop = rsp['attributes']['authorworkshops'];
       });
     }
-        print("arrShorts");
-        print(arrShorts);
+    print("arrShorts");
+    print(arrShorts);
     setState(() {
       isLoading = false;
     });
@@ -179,14 +174,16 @@ class _TutorInfoState extends State<TutorInfo> {
                                 setState(() {
                                   isSelected = 1;
                                 });
-                                Scrollable.ensureVisible(dataKeyShorts.currentContext);
+                                Scrollable.ensureVisible(
+                                    dataKeyShorts.currentContext);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     //color: greyClr
-                                     color: isSelected == 1 ? greyClr : Colors.white
-                                    ),
+                                    color: isSelected == 1
+                                        ? greyClr
+                                        : Colors.white),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 8),
@@ -201,14 +198,16 @@ class _TutorInfoState extends State<TutorInfo> {
                                   isSelected = 2;
                                 });
 
-                                Scrollable.ensureVisible(dataKeyCourses.currentContext);
+                                Scrollable.ensureVisible(
+                                    dataKeyCourses.currentContext);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                  //  color: Colors.white
-                                    color: isSelected == 2 ? greyClr : Colors.white
-                                    ),
+                                    //  color: Colors.white
+                                    color: isSelected == 2
+                                        ? greyClr
+                                        : Colors.white),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 8),
@@ -223,14 +222,16 @@ class _TutorInfoState extends State<TutorInfo> {
                                   isSelected = 3;
                                 });
 
-                                Scrollable.ensureVisible(dataKeyLive.currentContext);
+                                Scrollable.ensureVisible(
+                                    dataKeyLive.currentContext);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                  //  color: Colors.white
-                                     color: isSelected == 3 ? greyClr : Colors.white
-                                    ),
+                                    //  color: Colors.white
+                                    color: isSelected == 3
+                                        ? greyClr
+                                        : Colors.white),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 8),
@@ -245,14 +246,16 @@ class _TutorInfoState extends State<TutorInfo> {
                                   isSelected = 4;
                                 });
 
-                                Scrollable.ensureVisible(dataKeyWorkshop.currentContext);
+                                Scrollable.ensureVisible(
+                                    dataKeyWorkshop.currentContext);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     //color: Colors.white
-                                   color: isSelected == 4 ? greyClr : Colors.white
-                                    ),
+                                    color: isSelected == 4
+                                        ? greyClr
+                                        : Colors.white),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 8),
@@ -281,28 +284,32 @@ class _TutorInfoState extends State<TutorInfo> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             h(16),
-           arrShorts.isNotEmpty? Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text(
-
-                "Shorts",
-                key: dataKeyShorts,
-                style: size14_700,
-              ),
-            ):Container(),
+            arrShorts.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(
+                      "Shorts",
+                      key: dataKeyShorts,
+                      style: size14_700,
+                    ),
+                  )
+                : Container(),
             h(8),
-            arrShorts.isNotEmpty?Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text(
-                "Playlist",
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-              ),
-            ):Container(),
+            arrShorts.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(
+                      "Playlist",
+                      style:
+                          TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                    ),
+                  )
+                : Container(),
             h(8),
             Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Container(
-                height: 230,
+                height: 240,
                 child: Scrollbar(
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -313,21 +320,23 @@ class _TutorInfoState extends State<TutorInfo> {
                     itemCount: arrShorts != null ? arrShorts.length : 0,
                     itemBuilder: (context, index) {
                       final item = arrShorts != null ? arrShorts[index] : null;
-                      return shortsList(item,index);
+                      return shortsList(item, index);
                     },
                   ),
                 ),
               ),
             ),
             h(16),
-            arrShorts.isNotEmpty?Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text(
-                "Videos",
-
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-              ),
-            ):Container(),
+            arrShorts.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(
+                      "Videos",
+                      style:
+                          TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                    ),
+                  )
+                : Container(),
             h(8),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -336,7 +345,7 @@ class _TutorInfoState extends State<TutorInfo> {
                 child: GridView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                //  itemCount: 10,
+                  //  itemCount: 10,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4,
                       crossAxisSpacing: 8,
@@ -345,16 +354,21 @@ class _TutorInfoState extends State<TutorInfo> {
                   itemCount: arrShorts != null ? arrShorts.length : 0,
                   itemBuilder: (context, index) {
                     final item = arrShorts != null ? arrShorts[index] : null;
-                    return videosGrid(item,index);
+                    return videosGrid(item, index);
                   },
                 ),
               ),
             ),
             h(16),
-            arrCourses.isNotEmpty?Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text("Courses ("+arrCourses.length.toString()+")", key: dataKeyCourses, style: size14_700),
-            ):Container(),
+            arrCourses.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(
+                        "Courses (" + arrCourses.length.toString() + ")",
+                        key: dataKeyCourses,
+                        style: size14_700),
+                  )
+                : Container(),
             h(8),
             ListView.separated(
               scrollDirection: Axis.vertical,
@@ -364,15 +378,19 @@ class _TutorInfoState extends State<TutorInfo> {
               itemCount: arrCourses != null ? arrCourses.length : 0,
               itemBuilder: (context, index) {
                 final item = arrCourses != null ? arrCourses[index] : null;
-                return CoursesList(item,index);
+                return CoursesList(item, index);
               },
             ),
             h(16),
-
-            arrLive.isNotEmpty?Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text("Live Batches ("+arrLive.length.toString()+")", key: dataKeyLive, style: size14_700),
-            ):Container(),
+            arrLive.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(
+                        "Live Batches (" + arrLive.length.toString() + ")",
+                        key: dataKeyLive,
+                        style: size14_700),
+                  )
+                : Container(),
             h(8),
             ListView.separated(
               scrollDirection: Axis.vertical,
@@ -382,22 +400,30 @@ class _TutorInfoState extends State<TutorInfo> {
               itemCount: arrLive != null ? arrLive.length : 0,
               itemBuilder: (context, index) {
                 final item = arrLive != null ? arrLive[index] : null;
-                return CoursesList(item,index);
+                return CoursesList(item, index);
               },
             ),
             h(16),
-           arrLive.isNotEmpty? Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text("Workshops ("+arrWorkshop.length.toString()+")", key: dataKeyWorkshop, style: size14_700),
-            ):Container(),
+            arrLive.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(
+                        "Workshops (" + arrWorkshop.length.toString() + ")",
+                        key: dataKeyWorkshop,
+                        style: size14_700),
+                  )
+                : Container(),
             h(8),
-            arrWorkshop.isNotEmpty? Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text(
-                "Upcoming",
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-              ),
-            ):Container(),
+            arrWorkshop.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(
+                      "Upcoming",
+                      style:
+                          TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                    ),
+                  )
+                : Container(),
             h(8),
             ListView.separated(
               physics: NeverScrollableScrollPhysics(),
@@ -409,17 +435,20 @@ class _TutorInfoState extends State<TutorInfo> {
               itemCount: arrWorkshop != null ? arrWorkshop.length : 0,
               itemBuilder: (context, index) {
                 final item = arrWorkshop != null ? arrWorkshop[index] : null;
-                return workshopListUpcoming(item,index);
+                return workshopListUpcoming(item, index);
               },
             ),
             h(16),
-            arrWorkshop.isNotEmpty?Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text(
-                "Completed",
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-              ),
-            ):Container(),
+            arrWorkshop.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(
+                      "Completed",
+                      style:
+                          TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                    ),
+                  )
+                : Container(),
             h(8),
             ListView.separated(
               physics: NeverScrollableScrollPhysics(),
@@ -429,27 +458,28 @@ class _TutorInfoState extends State<TutorInfo> {
               itemCount: arrWorkshop != null ? arrWorkshop.length : 0,
               itemBuilder: (context, index) {
                 final item = arrWorkshop != null ? arrWorkshop[index] : null;
-                return WorkshopsCompleted(item,index);
+                return WorkshopsCompleted(item, index);
               },
             ),
             h(30)
           ],
         ),
       ),
-    ) ;  }
+    );
+  }
 
-
-
-  shortsList(var item,int index) {
+  shortsList(var item, int index) {
     return Column(
       children: [
         GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                // builder: (context) => MyLearningNew()),
-                  builder: (context) => NewTstShortsPlayerPage(highligts: item,)),
+                  // builder: (context) => MyLearningNew()),
+                  builder: (context) => NewTstShortsPlayerPage(
+                        highligts: item,
+                      )),
             );
           },
           child: Container(
@@ -457,7 +487,8 @@ class _TutorInfoState extends State<TutorInfo> {
             width: 106,
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: NetworkImage(item['thumbnail_url'].toString()), fit: BoxFit.cover),
+                  image: NetworkImage(item['thumbnail_url'].toString()),
+                  fit: BoxFit.cover),
               borderRadius: BorderRadius.circular(10),
               color: themeOrange,
             ),
@@ -495,46 +526,49 @@ class _TutorInfoState extends State<TutorInfo> {
         ),
         h(8),
         SizedBox(
-          child: Text(item['title'].toString(), style: size14_400),
+          child: Text(
+            item['title'].toString(),
+            style: size14_400,
+            maxLines: 2,
+          ),
           width: 106,
         )
       ],
     );
   }
 
-  videosGrid(var item,int index) {
-    return  GestureDetector(
-      onTap: (){
+  videosGrid(var item, int index) {
+    return GestureDetector(
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            // builder: (context) => MyLearningNew()),
-              builder: (context) => NewTstShortsPlayerPage(highligts: item,)),
+              // builder: (context) => MyLearningNew()),
+              builder: (context) => NewTstShortsPlayerPage(
+                    highligts: item,
+                  )),
         );
       },
-
       child: Container(
         width: 90,
         height: 158,
         color: themeOrange,
-        child: Image.network(item['thumbnail_url'].toString(), fit: BoxFit.cover),
+        child:
+            Image.network(item['thumbnail_url'].toString(), fit: BoxFit.cover),
       ),
     );
   }
 
-
-
-
-  CoursesList(var item,int index) {
+  CoursesList(var item, int index) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => PlayerScreen(
-                id: item['id'].toString(),
-                cuid: item['courseUid'].toString(),
-              )),
+                    id: item['id'].toString(),
+                    cuid: item['courseUid'].toString(),
+                  )),
         );
         // Navigator.push(
         //   context,
@@ -573,7 +607,8 @@ class _TutorInfoState extends State<TutorInfo> {
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(color: Color(0xfffaf6f5)),
                                 image: DecorationImage(
-                                    image: NetworkImage(item['thumbnailUrl'].toString()),
+                                    image: NetworkImage(
+                                        item['thumbnailUrl'].toString()),
                                     fit: BoxFit.cover)),
                             height: 62,
                             width: 62,
@@ -705,15 +740,16 @@ class _TutorInfoState extends State<TutorInfo> {
       ),
     );
   }
-  LiveList(var item,int index) {
+
+  LiveList(var item, int index) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => liveBatchesBriefPage(
-                item: item,
-              )),
+                    item: item,
+                  )),
         );
       },
       child: Container(
@@ -748,7 +784,8 @@ class _TutorInfoState extends State<TutorInfo> {
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(color: Color(0xfffaf6f5)),
                                 image: DecorationImage(
-                                    image: NetworkImage(item['thumbnailUrl'].toString()),
+                                    image: NetworkImage(
+                                        item['thumbnailUrl'].toString()),
                                     fit: BoxFit.cover)),
                             height: 62,
                             width: 62,
@@ -881,8 +918,7 @@ class _TutorInfoState extends State<TutorInfo> {
     );
   }
 
-
-  workshopListUpcoming(var item,int index) {
+  workshopListUpcoming(var item, int index) {
     final ss = MediaQuery.of(context).size;
 
     return GestureDetector(
@@ -891,8 +927,8 @@ class _TutorInfoState extends State<TutorInfo> {
           context,
           MaterialPageRoute(
               builder: (context) => CourseIntro(
-                id: item['id'].toString(),
-              )),
+                    id: item['id'].toString(),
+                  )),
         );
       },
       child: Container(
@@ -970,8 +1006,8 @@ class _TutorInfoState extends State<TutorInfo> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      TutorInfo(id: item['authorId'].toString())),
+                                  builder: (context) => TutorInfo(
+                                      id: item['authorId'].toString())),
                             );
                           },
                           child: Text(
@@ -991,8 +1027,8 @@ class _TutorInfoState extends State<TutorInfo> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      TutorInfo(id: item['authorId'].toString())),
+                                  builder: (context) => TutorInfo(
+                                      id: item['authorId'].toString())),
                             );
                           },
                           child: Container(
@@ -1034,7 +1070,7 @@ class _TutorInfoState extends State<TutorInfo> {
     );
   }
 
-  WorkshopsCompleted(var item,int index) {
+  WorkshopsCompleted(var item, int index) {
     final ss = MediaQuery.of(context).size;
 
     return GestureDetector(
@@ -1043,8 +1079,8 @@ class _TutorInfoState extends State<TutorInfo> {
           context,
           MaterialPageRoute(
               builder: (context) => CourseIntro(
-                id: item['id'].toString(),
-              )),
+                    id: item['id'].toString(),
+                  )),
         );
       },
       child: Container(
@@ -1127,12 +1163,10 @@ class _TutorInfoState extends State<TutorInfo> {
                           child: Container(
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border:
-                                Border.all(color: Color(0xfffaf6f5)),
+                                border: Border.all(color: Color(0xfffaf6f5)),
                                 image: DecorationImage(
                                     image: NetworkImage(
-                                        item['tutorProfileImage']
-                                            .toString()),
+                                        item['tutorProfileImage'].toString()),
                                     fit: BoxFit.cover)),
                             height: 24,
                             width: 24,
@@ -1149,5 +1183,4 @@ class _TutorInfoState extends State<TutorInfo> {
       ),
     );
   }
-
 }
