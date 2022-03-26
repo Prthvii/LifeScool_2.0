@@ -6,14 +6,14 @@ Future genrateCertificate(cid, name) async {
   print(cid);
   print(name);
   var id = await getSharedPrefrence(ID);
-  final response = await http.get(
+  final response = await http.get(Uri.parse(
     "https://lifescool.app/lp/certls/tsa_center_lscool.php?student_id=" +
         id +
         "&course_id=" +
         cid +
         "&certName=" +
         name,
-  );
+  ));
   var convertDataToJson;
 
   if (response.statusCode == 200) {

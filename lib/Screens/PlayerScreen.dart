@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
@@ -25,6 +26,7 @@ import 'package:lifescool/Screens/webviewPlain.dart';
 import 'package:lifescool/widgets/titleDescription.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import 'CertificatePasscode.dart';
 
@@ -230,7 +232,16 @@ class _PlayerScreenState extends State<PlayerScreen> {
   ///video--
 
   Future<void> initializePlayer() async {
+    var u ="https://player.vimeo.com/external/680748430.m3u8?s=ae5b41cf276e5a6f7a0dedc91e152f13a6f5b41e&oauth2_token_id=1526368676";
+
+    //var file = await DefaultCacheManager().getSingleFile(u);
   _videoPlayerController1 = VideoPlayerController.network(url.toString());
+
+
+
+ //_videoPlayerController1 = VideoPlayerController.file(File(file.path));
+
+
   //  _videoPlayerController1 = VideoPlayerController.network("https://firebasestorage.googleapis.com/v0/b/togo-be1ba.appspot.com/o/www.DVDPLay.Rest%20-%20Meppadiyan%20(2022)%20Malayalam%20HQ%20HDRip%20-%20400MB%20-%20x264%20-%20AAC%20-%20ESub.mkv?alt=media&token=bd5a2f1c-5ac5-416b-8e51-d0d7fa7e4118".toString());
 
     await _videoPlayerController1.initialize();

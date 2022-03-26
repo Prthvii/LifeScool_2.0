@@ -13,8 +13,11 @@ import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
 import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 import 'package:lifescool/Screens/workshopForHome.dart';
 import 'package:lifescool/Shorts/Data/listReels.dart';
+import 'package:lifescool/Shorts/Data/tst.dart';
 import 'package:lifescool/Shorts/HomeSuggestReels.dart';
 import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
+import 'package:lifescool/Shorts/NewTstShortVideoPage13.dart';
+import 'package:lifescool/Shorts/TstShortVideoPage.dart';
 import 'package:lottie/lottie.dart';
 
 import 'Individual_HomeScreens/ViewAllCourses.dart';
@@ -232,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      NewTstShortsPlayerPage()),
+                                      NewTstShortsPlayerPage13()),
                             );
                           },
                           child: Padding(

@@ -26,56 +26,27 @@ class NewTstShortsPlayerPage extends StatefulWidget {
 }
 
 class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
-  VideoPlayerController controller0;
-  VideoPlayerController controller1;
-  VideoPlayerController controller2;
-  VideoPlayerController controller3;
-  VideoPlayerController controller4;
-  VideoPlayerController controller5;
-  VideoPlayerController controller6;
-  VideoPlayerController controller7;
-  VideoPlayerController controller8;
-  VideoPlayerController controller9;
 
-  var arrList = [];
+  var arrList=[];
+  var isLoading =true;
+  var isMute =false;
+  var isPlaying =false;
+ var currentIndex =0;
 
-  var isLoading = true;
-  var isPlaying = true;
-  var name;
-  var nowPlaying = 0;
-  var currentPage = 0;
-  var author_img;
-  var likeTap = false;
-  var isMute = false;
-  @override
-  void dispose() {
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    controller0.pause();
 
-    controller1.pause();
-    controller2.pause();
-    controller3.pause();
-    controller4.pause();
-    controller5.pause();
-    controller6.pause();
-    controller7.pause();
-    controller8.pause();
-    controller9.pause();
-
-    controller0.dispose();
-    controller1.dispose();
-    controller2.dispose();
-    controller3.dispose();
-    controller4.dispose();
-    controller5.dispose();
-    controller6.dispose();
-    controller7.dispose();
-    controller8.dispose();
-    controller9.dispose();
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomeScreen()));
-    super.dispose();
-  }
+  int index = 0;
+  double _position = 0;
+  double _buffer = 0;
+  bool _lock = true;
+  Map<String, VideoPlayerController> _controllers = {};
+  Map<int, VoidCallback> _listeners = {};
+  // Set<String> _urls ={
+  // "https://player.vimeo.com/external/680745807.m3u8?s=fc2e549cbc2d98831fa0cca1ffda168d849d1c41&oauth2_token_id=1526368676",
+  // "https://player.vimeo.com/external/680746373.m3u8?s=996c4c50ab72ba2aff434d5311e238995fb533ea&oauth2_token_id=1526368676",
+  // "https://player.vimeo.com/external/680748430.m3u8?s=ae5b41cf276e5a6f7a0dedc91e152f13a6f5b41e&oauth2_token_id=1526368676",
+  // "https://player.vimeo.com/external/680749047.m3u8?s=8a5e28eddaf7061b56f9821f41db161aea5c3b03&oauth2_token_id=1526368676",
+  // "https://player.vimeo.com/external/680792261.m3u8?s=dcde5a6ae7c9df38959ebcdb330e567ccb652cf9&oauth2_token_id=1526368676",};
+  Set<String> _urls ={};
 
   @override
   initState() {
@@ -83,6 +54,28 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
 
     this.getHome();
     super.initState();
+
+
+    super.initState();
+
+
+
+    // _urls.add("https://player.vimeo.com/external/680745454.m3u8?s=9a45d5d07bee30c1a7184a2c8fd60c69e0c57b3d&oauth2_token_id=1526368676");
+
+
+    // if (_urls.length > 0) {
+    //   _initController(0).then((_) {
+    //     _playController(0);
+    //   });
+    // }
+    //
+    // if (_urls.length > 1) {
+    //   _initController(1).whenComplete(() => _lock = false);
+    // }
+
+    // setState(() {
+    //   isLoading=false;
+    // });
   }
 
   Future<String> getHome() async {
@@ -96,731 +89,134 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
       setState(() {
         arrList = rsp['attributes']['shortslist'];
       });
+      for (var i = 0; i < arrList.length; i++) {
 
-      setupController(0);
+        var url =arrList[i]['video_url'].toString();
+        _urls.add(url);
+      }
+
+
     }
 
-    // setState(() {
-    //   isLoading = false;
-    // });
+
+    if (_urls.length > 0) {
+      _initController(0).then((_) {
+        _playController(0);
+      });
+    }
+
+    if (_urls.length > 1) {
+      _initController(1).whenComplete(() => _lock = false);
+    }
+    setState(() {
+      isLoading = false;
+    });
     return "0";
   }
 
-  HighlightController() async {
-    controller0 =
-        VideoPlayerController.network(widget.highligts['video_url'].toString());
+  @override
+  void dispose() {
+    _stopController( index);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    super.dispose();
+  }
 
-    await controller0?.initialize();
-    controller0?.setLooping(true);
-    if (controller0.value.initialized) {
+  VoidCallback _listenerSpawner(index) {
+    return () {
+      int dur = _controller(index).value.duration.inMilliseconds;
+      int pos = _controller(index).value.position.inMilliseconds;
+      int buf = _controller(index).value.buffered.last.end.inMilliseconds;
+
       setState(() {
-        isLoading = false;
-        print("falsaaaaaaaaayi");
-        name = widget.highligts['title'].toString();
-        author_img = widget.highligts['author_img'].toString();
-        nowPlaying = 0;
+        if (dur <= pos) {
+          _position = 0;
+          return;
+        }
+        _position = pos / dur;
+        _buffer = buf / dur;
       });
-      controller0.play();
-    }
-  }
-
-  Controller0() async {
-    controller0 =
-        VideoPlayerController.network(arrList[0]['video_url'].toString());
-
-    await controller0?.initialize();
-    controller0?.setLooping(true);
-    if (controller0.value.initialized) {
-      setState(() {
-        isLoading = false;
-        print("falsaaaaaaaaayi");
-        name = arrList[0]['title'].toString();
-        author_img = arrList[0]['author_img'].toString();
-        nowPlaying = 0;
-      });
-      controller0.play();
-    }
-  }
-
-  Controller1() async {
-    controller1 =
-        VideoPlayerController.network(arrList[1]['video_url'].toString());
-
-    await controller1?.initialize();
-    controller1?.setLooping(true);
-
-    if (controller1.value.initialized) {
-      setState(() {
-        isLoading = false;
-        print("falsaaaaaaaaayi");
-        name = arrList[0]['title'].toString();
-        author_img = arrList[0]['author_img'].toString();
-        nowPlaying = 0;
-      });
-      controller0.play();
-    }
-  }
-
-  Controller2() async {
-    controller2 =
-        VideoPlayerController.network(arrList[2]['video_url'].toString());
-
-    await controller2?.initialize();
-    controller2?.setLooping(true);
-  }
-
-  Controller3() async {
-    controller3 =
-        VideoPlayerController.network(arrList[3]['video_url'].toString());
-
-    await controller3?.initialize();
-    controller3?.setLooping(true);
-  }
-
-  Controller4() async {
-    controller4 =
-        VideoPlayerController.network(arrList[4]['video_url'].toString());
-
-    await controller4?.initialize();
-    controller4?.setLooping(true);
-  }
-
-  Controller5() async {
-    controller5 =
-        VideoPlayerController.network(arrList[5]['video_url'].toString());
-
-    await controller5?.initialize();
-    controller5?.setLooping(true);
-  }
-
-  Controller6() async {
-    controller6 =
-        VideoPlayerController.network(arrList[6]['video_url'].toString());
-
-    await controller6?.initialize();
-    controller6?.setLooping(true);
-  }
-
-  Controller7() async {
-    controller7 =
-        VideoPlayerController.network(arrList[7]['video_url'].toString());
-
-    await controller7?.initialize();
-    controller7?.setLooping(true);
-  }
-
-  Controller8() async {
-    controller8 =
-        VideoPlayerController.network(arrList[8]['video_url'].toString());
-
-    await controller8?.initialize();
-    controller8?.setLooping(true);
-  }
-
-  Controller9() async {
-    controller9 =
-        VideoPlayerController.network(arrList[9]['video_url'].toString());
-
-    await controller9?.initialize();
-    controller9?.setLooping(true);
-  }
-
-  Future<Null> setupController(index) async {
-    if (arrList.length > 0) {
-      if (widget.highligts == null) {
-        Controller0();
-      } else {
-        HighlightController();
+      if (dur - pos < 1) {
+        if (index < _urls.length - 1) {
+          _nextVideo();
+        }
       }
-    }
-    if (arrList.length > 1) {
-      Controller1();
-    }
-
-    if (arrList.length > 2) {
-      Controller2();
-    }
-
-    if (arrList.length > 3) {
-      Controller3();
-    }
-
-    if (arrList.length > 4) {
-      Controller4();
-    }
-
-    if (arrList.length > 5) {
-      Controller5();
-    }
-
-    //   setState(() {
-    //     isLoading = false;
-    //     print("falsaaaaaaaaayi");
-    //     name = arrList[index]['title'].toString();
-    //     author_img = arrList[index]['author_img'].toString();
-    //     nowPlaying = index;
-    //   });
-    // controller0.play();
-    if (arrList.length > 6) {
-      Controller6();
-    }
-
-    if (arrList.length > 7) {
-      Controller7();
-    }
-
-    if (arrList.length > 8) {
-      Controller8();
-    }
-
-    if (arrList.length > 9) {
-      Controller9();
-    }
-    print("bottom");
-
-    // Timer(Duration(seconds: 3), () {
-    //
-    // });
+    };
   }
 
-  Future<Null> playControllers(index) async {
-    if (isMute == true) {
-      muteAll(index);
+  VideoPlayerController _controller(int index) {
+    return _controllers[_urls.elementAt(index)];
+  }
+
+  Future<void> _initController(int index) async {
+    var controller = VideoPlayerController.network(_urls.elementAt(index));
+
+    _controllers[_urls.elementAt(index)] = controller;
+    await controller.initialize();
+  }
+
+  void _removeController(int index) {
+    _controller(index).dispose();
+    _controllers.remove(_urls.elementAt(index));
+    _listeners.remove(index);
+  }
+
+  void _stopController(int index) {
+    _controller(index).removeListener(_listeners[index]);
+    _controller(index).pause();
+    _controller(index).seekTo(Duration(milliseconds: 0));
+  }
+
+  void _playController(int index) async {
+    if (!_listeners.keys.contains(index)) {
+      _listeners[index] = _listenerSpawner(index);
+    }
+    _controller(index).addListener(_listeners[index]);
+    await _controller(index).play();
+    setState(() {});
+  }
+
+  void _previousVideo() {
+    if (_lock || index == 0) {
+      return;
+    }
+    _lock = true;
+
+    _stopController(index);
+
+    if (index + 1 < _urls.length) {
+      _removeController(index + 1);
+    }
+
+    _playController(--index);
+
+    if (index == 0) {
+      _lock = false;
     } else {
-      unmuteAll(index);
-    }
-    print("plaaaaaay");
-    print(index);
-    setState(() {
-      isLoading = false;
-      isPlaying = true;
-      name = arrList[index]['title'].toString();
-      author_img = arrList[index]['author_img'].toString();
-      nowPlaying = index;
-    });
-    switch (index) {
-      case 0:
-        {
-          controller0.play();
-          controller1.pause();
-        }
-        break;
-
-      case 1:
-        {
-          controller0.pause();
-          controller1.play();
-          controller2.pause();
-
-          print("111111111111");
-        }
-        break;
-
-      case 2:
-        {
-          controller1.pause();
-          controller2.play();
-          controller3.pause();
-        }
-        break;
-
-      case 3:
-        {
-          controller2.pause();
-          controller3.play();
-          controller4.pause();
-        }
-        break;
-
-      case 4:
-        {
-          controller3.pause();
-          controller4.play();
-          controller3.pause();
-        }
-        break;
-
-      case 5:
-        {
-          controller4.pause();
-          controller5.play();
-          controller6.pause();
-        }
-        break;
-
-      case 6:
-        {
-          controller5.pause();
-          controller6.play();
-          controller7.pause();
-        }
-        break;
-      case 7:
-        {
-          controller6.pause();
-          controller7.play();
-          controller8.pause();
-        }
-        break;
-
-      case 8:
-        {
-          controller7.pause();
-          controller8.play();
-          controller9.pause();
-        }
-        break;
-      case 9:
-        {
-          controller8.pause();
-          controller9.play();
-          controller0.pause();
-        }
-        break;
-
-      default:
-        {
-          controller0.play();
-        }
-        break;
+      _initController(index - 1).whenComplete(() => _lock = false);
     }
   }
 
-  Future<Null> pauseControllers(index) async {
-    print("plaaaaaay");
-    print(index);
-    switch (index) {
-      case 0:
-        {
-          controller0.pause();
-        }
-        break;
+  void _nextVideo() async {
 
-      case 1:
-        {
-          controller1.pause();
-        }
-        break;
 
-      case 2:
-        {
-          controller2.pause();
-        }
-        break;
-
-      case 3:
-        {
-          controller3.pause();
-        }
-        break;
-
-      case 4:
-        {
-          controller4.pause();
-        }
-        break;
-
-      case 5:
-        {
-          controller5.pause();
-        }
-        break;
-
-      case 6:
-        {
-          controller6.pause();
-        }
-        break;
-      case 7:
-        {
-          controller7.pause();
-        }
-        break;
-
-      case 8:
-        {
-          controller8.pause();
-        }
-        break;
-      case 9:
-        {
-          controller9.pause();
-        }
-        break;
-
-      default:
-        {
-          controller0.pause();
-        }
-        break;
+    if (_lock || index == _urls.length - 1) {
+      return;
     }
-  }
+    _lock = true;
 
-  Future<Null> resumeControllers(index) async {
-    print("plaaaaaay");
-    print(index);
-    switch (index) {
-      case 0:
-        {
-          controller0.play();
-        }
-        break;
+    _stopController(index);
 
-      case 1:
-        {
-          controller1.play();
-        }
-        break;
-
-      case 2:
-        {
-          controller2.play();
-        }
-        break;
-
-      case 3:
-        {
-          controller3.play();
-        }
-        break;
-
-      case 4:
-        {
-          controller4.play();
-        }
-        break;
-
-      case 5:
-        {
-          controller5.play();
-        }
-        break;
-
-      case 6:
-        {
-          controller6.play();
-        }
-        break;
-      case 7:
-        {
-          controller7.play();
-        }
-        break;
-
-      case 8:
-        {
-          controller8.play();
-        }
-        break;
-      case 9:
-        {
-          controller9.play();
-        }
-        break;
-
-      default:
-        {
-          controller0.play();
-        }
-        break;
-    }
-  }
-
-  checkPlaying(var stat) {
-    bool playing;
-
-    if (stat == 0) {
-      playing = controller0.value.isPlaying;
-    }
-    if (stat == 1) {
-      playing = controller1.value.isPlaying;
-    }
-    if (stat == 2) {
-      playing = controller2.value.isPlaying;
-    }
-    if (stat == 3) {
-      playing = controller3.value.isPlaying;
-    }
-    if (stat == 4) {
-      playing = controller4.value.isPlaying;
+    if (index - 1 >= 0) {
+      _removeController(index - 1);
     }
 
-    if (stat == 5) {
-      playing = controller5.value.isPlaying;
-    }
+    _playController(++index);
 
-    if (stat == 6) {
-      playing = controller6.value.isPlaying;
-    }
-
-    if (stat == 7) {
-      playing = controller7.value.isPlaying;
-    }
-
-    if (stat == 8) {
-      playing = controller8.value.isPlaying;
-    }
-    if (stat == 9) {
-      playing = controller9.value.isPlaying;
-    }
-    return playing;
-  }
-
-  checkIntitializing(var stat) {
-    bool playing;
-
-    if (stat == 0) {
-      playing = controller0.value.initialized;
-    }
-    if (stat == 1) {
-      playing = controller1.value.initialized;
-    }
-    if (stat == 2) {
-      playing = controller2.value.initialized;
-    }
-    if (stat == 3) {
-      playing = controller3.value.initialized;
-    }
-    if (stat == 4) {
-      playing = controller4.value.initialized;
-    }
-
-    if (stat == 5) {
-      playing = controller5.value.initialized;
-    }
-
-    if (stat == 6) {
-      playing = controller6.value.initialized;
-    }
-
-    if (stat == 7) {
-      playing = controller7.value.initialized;
-    }
-
-    if (stat == 8) {
-      playing = controller8.value.initialized;
-    }
-    if (stat == 9) {
-      playing = controller9.value.initialized;
-    }
-    return playing;
-  }
-
-  Future<Null> muteAtIndex(index) async {
-    switch (index) {
-      case 0:
-        {
-          controller0.setVolume(0.0);
-        }
-        break;
-
-      case 1:
-        {
-          controller1.setVolume(0.0);
-        }
-        break;
-
-      case 2:
-        {
-          controller2.setVolume(0.0);
-        }
-        break;
-
-      case 3:
-        {
-          controller3.setVolume(0.0);
-        }
-        break;
-
-      case 4:
-        {
-          controller4.setVolume(0.0);
-        }
-        break;
-
-      case 5:
-        {
-          controller5.setVolume(0.0);
-        }
-        break;
-
-      case 6:
-        {
-          controller6.setVolume(0.0);
-        }
-        break;
-      case 7:
-        {
-          controller7.setVolume(0.0);
-        }
-        break;
-
-      case 8:
-        {
-          controller8.setVolume(0.0);
-        }
-        break;
-      case 9:
-        {
-          controller9.setVolume(0.0);
-        }
-        break;
-
-      default:
-        {
-          controller0.setVolume(0.0);
-        }
-        break;
-    }
-  }
-
-  Future<Null> unmuteAtIndex(index) async {
-    switch (index) {
-      case 0:
-        {
-          controller0.setVolume(1.0);
-        }
-        break;
-
-      case 1:
-        {
-          controller1.setVolume(1.0);
-        }
-        break;
-
-      case 2:
-        {
-          controller2.setVolume(1.0);
-        }
-        break;
-
-      case 3:
-        {
-          controller3.setVolume(1.0);
-        }
-        break;
-
-      case 4:
-        {
-          controller4.setVolume(1.0);
-        }
-        break;
-
-      case 5:
-        {
-          controller5.setVolume(1.0);
-        }
-        break;
-
-      case 6:
-        {
-          controller6.setVolume(1.0);
-        }
-        break;
-      case 7:
-        {
-          controller7.setVolume(1.0);
-        }
-        break;
-
-      case 8:
-        {
-          controller8.setVolume(1.0);
-        }
-        break;
-      case 9:
-        {
-          controller9.setVolume(1.0);
-        }
-        break;
-
-      default:
-        {
-          controller0.setVolume(1.0);
-        }
-        break;
-    }
-  }
-
-  Future<Null> muteAll(index) async {
-    if (arrList.length > 0) {
-      controller0.setVolume(0.0);
-    }
-    if (arrList.length > 1) {
-      controller1.setVolume(0.0);
-    }
-
-    if (arrList.length > 2) {
-      controller2.setVolume(0.0);
-    }
-
-    if (arrList.length > 3) {
-      controller3.setVolume(0.0);
-    }
-
-    if (arrList.length > 4) {
-      controller4.setVolume(0.0);
-    }
-
-    if (arrList.length > 5) {
-      controller5.setVolume(0.0);
-    }
-
-    if (arrList.length > 6) {
-      controller6.setVolume(0.0);
-    }
-
-    if (arrList.length > 7) {
-      controller7.setVolume(0.0);
-    }
-
-    if (arrList.length > 8) {
-      controller8.setVolume(0.0);
-    }
-
-    if (arrList.length > 9) {
-      controller9.setVolume(0.0);
-    }
-  }
-
-  Future<Null> unmuteAll(index) async {
-    if (arrList.length > 0) {
-      controller0.setVolume(1.0);
-    }
-    if (arrList.length > 1) {
-      controller1.setVolume(1.0);
-    }
-
-    if (arrList.length > 2) {
-      controller2.setVolume(1.0);
-    }
-
-    if (arrList.length > 3) {
-      controller3.setVolume(1.0);
-    }
-
-    if (arrList.length > 4) {
-      controller4.setVolume(1.0);
-    }
-
-    if (arrList.length > 5) {
-      controller5.setVolume(1.0);
-    }
-
-    if (arrList.length > 6) {
-      controller6.setVolume(1.0);
-    }
-
-    if (arrList.length > 7) {
-      controller7.setVolume(1.0);
-    }
-
-    if (arrList.length > 8) {
-      controller8.setVolume(1.0);
-    }
-
-    if (arrList.length > 9) {
-      controller9.setVolume(1.0);
+    if (index == _urls.length - 1) {
+      _lock = false;
+    } else {
+      _initController(index + 1).whenComplete(() => _lock = false);
     }
   }
 
@@ -867,61 +263,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: GestureDetector(
         onTap: () {
-          controller0.pause();
-          var type = arrList[nowPlaying]['targetType'].toString();
-          switch (type) {
-            case "COURSE":
-              {
-                print("COURSE");
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PlayerScreen(
-                            id: arrList[nowPlaying]['targetId'].toString(),
-                            cuid: arrList[nowPlaying]['targetUid'].toString(),
-                          )),
-                );
-              }
-              break;
 
-            case "WORKSHOP":
-              {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CourseIntro(
-                            id: arrList[nowPlaying]['targetId'].toString(),
-                          )),
-                );
-              }
-              break;
-
-            case "LIVEBATCH":
-              {
-                showToastSuccess("Live Batch");
-              }
-              break;
-
-            case "JWT":
-              {
-                showToastSuccess("Join Meeting");
-              }
-              break;
-
-            default:
-              {
-                print("Invalid choice");
-              }
-              break;
-          }
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PlayerScreen(
-                      id: arrList[nowPlaying][''].toString(),
-                      cuid: arrList[nowPlaying][''].toString(),
-                    )),
-          );
         },
         child: Container(
           decoration: BoxDecoration(
@@ -932,9 +274,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
             child: Row(
               children: [
                 Text(
-                    arrList[nowPlaying]['targetBtnName'] != null
-                        ? arrList[nowPlaying]['targetBtnName'].toString()
-                        : "",
+                    "Demo",
                     style: size14_600W),
                 Spacer(),
                 Icon(
@@ -956,6 +296,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
     return Stack(
       children: [
         PageView.builder(
+        //  physics: _lock==true?NeverScrollableScrollPhysics():AlwaysScrollableScrollPhysics(),
           controller: PageController(
             initialPage: 0,
             viewportFraction: 1,
@@ -976,7 +317,20 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
             //   controller2.play();
             // }
             // loadController(index);
-            playControllers(index);
+            if(index>currentIndex){
+              _nextVideo();
+            }else{
+
+              _playController(currentIndex-1);
+            //  _previousVideo();
+            }
+            setState(() {
+              currentIndex=index;
+            });
+
+
+
+
           },
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
@@ -1012,21 +366,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
                     padding: const EdgeInsets.only(right: 20),
                     child: GestureDetector(
                       onTap: () {
-                        if (isMute == true) {
-                          unmuteAtIndex(nowPlaying);
-                          unmuteAll(nowPlaying);
 
-                          setState(() {
-                            isMute = false;
-                          });
-                        } else {
-                          muteAtIndex(nowPlaying);
-                          muteAll(nowPlaying);
-
-                          setState(() {
-                            isMute = true;
-                          });
-                        }
                       },
                       child: Row(
                         children: [
@@ -1066,21 +406,13 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                if (arrList[nowPlaying]['isLiked'] == true) {
-                                  setState(() {
-                                    arrList[nowPlaying]['isLiked'] = false;
-                                  });
-                                } else {
-                                  setState(() {
-                                    arrList[nowPlaying]['isLiked'] = true;
-                                  });
-                                }
+
                               },
                               child: CircleAvatar(
                                 backgroundColor: Colors.white,
                                 child: Icon(
                                   Icons.favorite,
-                                  color: arrList[nowPlaying]['isLiked'] == true
+                                  color: isMute == true
                                       ? Colors.red
                                       : Colors.grey,
                                 ),
@@ -1091,10 +423,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
                               height: 3,
                             ),
                             Text(
-                              arrList[nowPlaying]['isLiked'] == true
-                                  ? (int.parse(arrList[nowPlaying]['like']) + 1)
-                                      .toString()
-                                  : arrList[nowPlaying]['like'].toString(),
+                             "1",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -1116,7 +445,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15),
                           child: Text(
-                            name == null ? "" : name,
+                            "Demo",
                             maxLines: 2,
                             style: TextStyle(
                                 fontSize: 16,
@@ -1131,14 +460,14 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
                           padding: const EdgeInsets.only(right: 10),
                           child: GestureDetector(
                             onTap: () {
-                              controller0.pause();
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TutorInfo(
-                                        id: arrList[nowPlaying]['author_id']
-                                            .toString())),
-                              );
+
+                              // Navigator.pushReplacement(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => TutorInfo(
+                              //           id: arrList[nowPlaying]['author_id']
+                              //               .toString())),
+                              // );
                             },
                             child: Container(
                               height: 40,
@@ -1146,9 +475,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
-                                      image: NetworkImage(arrList[nowPlaying]
-                                              ['author_img']
-                                          .toString()),
+                                      image: NetworkImage(testImg),
                                       fit: BoxFit.cover)),
                             ),
                           ),
@@ -1156,9 +483,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
                       )
                     ],
                   ),
-                  arrList[nowPlaying]['targetType'].toString() == "OFF"
-                      ? Container()
-                      : takeFullCourseWidget()
+                   takeFullCourseWidget()
                 ],
               ),
             ),
@@ -1187,7 +512,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
             ),
           ),
         ),
-        isPlaying == true
+        isPlaying == false
             ? Align(
                 alignment: Alignment.center,
                 child: Container(),
@@ -1217,17 +542,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
 
         GestureDetector(
           onTap: () {
-            if (checkPlaying(index) == true) {
-              pauseControllers(index);
-              setState(() {
-                isPlaying = false;
-              });
-            } else {
-              resumeControllers(index);
-              setState(() {
-                isPlaying = true;
-              });
-            }
+
             // if (controller0.value.isPlaying) {
             //   controller0?.pause();
             // } else {
@@ -1239,81 +554,12 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage> {
               arrList[index]['isLiked'] = true;
             });
           },
-          child: SizedBox.expand(
-              child: FittedBox(
-            fit: BoxFit.cover,
-            child: SizedBox(
-              width: index == 1
-                  ? controller1.value.size.width ?? 0
-                  : index == 2
-                      ? controller2.value.size.width ?? 0
-                      : index == 3
-                          ? controller3.value.size.width ?? 0
-                          : index == 4
-                              ? controller4.value.size.width ?? 0
-                              : index == 5
-                                  ? controller5.value.size.width ?? 0
-                                  : index == 6
-                                      ? controller6.value.size.width ?? 0
-                                      : index == 7
-                                          ? controller7.value.size.width ?? 0
-                                          : index == 8
-                                              ? controller8.value.size.width ??
-                                                  0
-                                              : index == 9
-                                                  ? controller9
-                                                          .value.size.width ??
-                                                      0
-                                                  : controller0
-                                                          .value.size.width ??
-                                                      0,
-              height: index == 1
-                  ? controller1.value.size.height ?? 0
-                  : index == 2
-                      ? controller2.value.size.height ?? 0
-                      : index == 3
-                          ? controller3.value.size.height ?? 0
-                          : index == 4
-                              ? controller4.value.size.height ?? 0
-                              : index == 5
-                                  ? controller5.value.size.height ?? 0
-                                  : index == 6
-                                      ? controller6.value.size.height ?? 0
-                                      : index == 7
-                                          ? controller7.value.size.height ?? 0
-                                          : index == 8
-                                              ? controller8.value.size.height ??
-                                                  0
-                                              : index == 9
-                                                  ? controller9
-                                                          .value.size.height ??
-                                                      0
-                                                  : controller0
-                                                          .value.size.height ??
-                                                      0,
-              // width: MediaQuery. of(context). size. width ,
-              //   height: MediaQuery. of(context). size. height,
-              child: VideoPlayer(index == 1
-                  ? controller1
-                  : index == 2
-                      ? controller2
-                      : index == 3
-                          ? controller3
-                          : index == 4
-                              ? controller4
-                              : index == 5
-                                  ? controller5
-                                  : index == 6
-                                      ? controller6
-                                      : index == 7
-                                          ? controller7
-                                          : index == 8
-                                              ? controller8
-                                              : index == 9
-                                                  ? controller9
-                                                  : controller0),
+          child: Center(
+            child: AspectRatio(
+              aspectRatio: _controller(index).value.aspectRatio,
+              child: Center(child: VideoPlayer(_controller(index))),
             ),
-          )),
+          ),
         )
 
         //     :Container(
