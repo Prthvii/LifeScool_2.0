@@ -7,6 +7,7 @@ final TOKEN = "LS-TOKEN";
 final NUM = "LS-NUM";
 final MAIL = "LS-MAIL";
 final NAME = "LS-NAME";
+final REELS = "LS-CHACHEREELS";
 
 Future setSharedPrefrence(key, data) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -18,4 +19,10 @@ Future getSharedPrefrence(key) async {
   var value = prefs.getString(key);
 
   return value;
+}
+
+
+Future clearSharedPrefrence() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString(REELS, null);
 }

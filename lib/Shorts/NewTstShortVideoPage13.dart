@@ -68,7 +68,7 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage13> {
 
   var isScrollable = false;
 
-   var ourUrl = "https://player.vimeo.com/external/680745454.m3u8?s=9a45d5d07bee30c1a7184a2c8fd60c69e0c57b3d&oauth2_token_id=1526368676";
+   var ourUrl = "https://player.vimeo.com/external/681183269.m3u8?s=7fb6750d1c9af82d7fc30439713951d6e36544ef&oauth2_token_id=1526368676";
    var extUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4";
   @override
   void dispose() {
@@ -123,12 +123,13 @@ class _ShortsPlayerPageState extends State<NewTstShortsPlayerPage13> {
       print(arrList[3]['video_url'].toString());
    // var file = await DefaultCacheManager().getSingleFile(arrList[3]['video_url'].toString());
   //  var file = await DefaultCacheManager().getSingleFile("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4");
-    //  var file = await DefaultCacheManager().getSingleFile(extUrl);
+     var file = await DefaultCacheManager().getSingleFile(extUrl);
     //  fileStream = DefaultCacheManager().getFileStream(arrList[3]['video_url'].toString(), withProgress: true);
 
 
-    //  Controller0(file.path);
-      Controller0("/data/user/0/com.lifeplug.lifescoolBeta/cache/libCachedImageData/f1fff900-a913-11ec-9c4b-91d4b2a56271.mp4");
+    Controller0(file.path);
+   //  Controller0("/data/user/0/com.lifeplug.lifescoolBeta/cache/libCachedImageData/f1fff900-a913-11ec-9c4b-91d4b2a56271.mp4");
+    //  Controller0("/data/user/0/com.lifeplug.lifescoolBeta/cache/libCachedImageData/60f2d980-acbc-11ec-9155-f199cafa3cc7.x-mpegurl");
 
      // setupController(0);
     }

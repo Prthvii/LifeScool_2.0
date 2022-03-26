@@ -13,11 +13,13 @@ import 'package:lifescool/Screens/EnterNum.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
 import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 import 'package:lifescool/Screens/workshopForHome.dart';
+import 'package:lifescool/Shorts/Data/addToCache.dart';
 import 'package:lifescool/Shorts/Data/listReels.dart';
 import 'package:lifescool/Shorts/Data/tst.dart';
 import 'package:lifescool/Shorts/HomeSuggestReels.dart';
 import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
 import 'package:lifescool/Shorts/NewTstShortVideoPage13.dart';
+import 'package:lifescool/Shorts/ShortVideoPage.dart';
 import 'package:lifescool/Shorts/TstShortVideoPage.dart';
 import 'package:lottie/lottie.dart';
 
@@ -72,6 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }
 
+
+     var clr = await  clearSharedPrefrence();
+   /// arrReels[i]['video_url']
+    for (var i = 0; i < arrReels.length; i++) {
+     var add = addCache(arrReels[i]['id'],arrReels[i]['uid'],arrReels[i]['title'],arrReels[i]['desc'],arrReels[i]['like'],arrReels[i]['targetType'],arrReels[i]['targetId'],arrReels[i]['targetUid'],arrReels[i]['targetBtnName'],arrReels[i]['targetJtwContent'],arrReels[i]['video_source'],"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",arrReels[i]['author_id'],arrReels[i]['author_img'],arrReels[i]['thumbnail_url'],arrReels[i]['videoDuration'],arrReels[i]['isLiked']);
+    }
     // setState(() {
     //   isLoading = false;
     // });
@@ -248,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      NewTstShortsPlayerPage13()),
+                                      ShortsPlayerPage()),
                             );
                           },
                           child: Padding(
