@@ -71,8 +71,7 @@ class _ShortsPlayerPageState extends State<TstShortsPlayerPage> {
 
     // "https://firebasestorage.googleapis.com/v0/b/videostreaming-test.appspot.com/o/vid%2FSnaptik_6856769842385620229_alex.mp4?alt=media&token=b70d853b-760a-45ee-b5d3-44cef7e4db7f",
 
-    "https://player.vimeo.com/external/668161382.m3u8?s=b94fd0c7c643711d26848b242381cec975d09198&oauth2_token_id=1526368676",
-    "https://player.vimeo.com/external/668162628.m3u8?s=137eb5c6088b73ac2773d1970493ee09dc3f06cb&oauth2_token_id=1526368676",
+
   };
   @override
   void dispose() {

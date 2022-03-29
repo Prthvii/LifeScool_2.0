@@ -29,6 +29,7 @@ import 'LiveClasses/LiveClassesNewHome.dart';
 import 'MyLearningTabs/MyLearningNew.dart';
 import 'PlayerScreen.dart';
 import 'SearchSection/findCourse.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class HomeScreen extends StatefulWidget {
   // const HomeScreen({Key? key}) : super(key: key);
@@ -48,7 +49,19 @@ class _HomeScreenState extends State<HomeScreen> {
   var isLoading = true;
   var token;
   var id;
+  var _urls = [
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+    "https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-sign-1232-large.mp4",
+    "https://assets.mixkit.co/videos/preview/mixkit-portrait-of-a-woman-in-a-pool-1259-large.mp4",
+    "https://assets.mixkit.co/videos/preview/mixkit-man-holding-neon-light-1238-large.mp4",
+    "https://assets.mixkit.co/videos/preview/mixkit-man-runs-past-ground-level-shot-32809-large.mp4",
+    "https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-smart-watch-with-the-stopwatch-running-32808-large.mp4",
+    "https://assets.mixkit.co/videos/preview/mixkit-rolling-slowly-on-roller-skates-during-sunset-34547-large.mp4",
+    "https://assets.mixkit.co/videos/preview/mixkit-young-mother-with-her-little-daughter-decorating-a-christmas-tree-39745-large.mp4",
+    "https://assets.mixkit.co/videos/preview/mixkit-road-of-a-city-with-many-cars-at-night-34561-large.mp4",
+    "https://assets.mixkit.co/videos/preview/mixkit-weeds-waving-in-the-breeze-1178-large.mp4",
 
+  ];
   //List<dynamic> data = [];
   @override
   void initState() {
@@ -78,7 +91,13 @@ class _HomeScreenState extends State<HomeScreen> {
      var clr = await  clearSharedPrefrence();
    /// arrReels[i]['video_url']
     for (var i = 0; i < arrReels.length; i++) {
-     var add = addCache(arrReels[i]['id'],arrReels[i]['uid'],arrReels[i]['title'],arrReels[i]['desc'],arrReels[i]['like'],arrReels[i]['targetType'],arrReels[i]['targetId'],arrReels[i]['targetUid'],arrReels[i]['targetBtnName'],arrReels[i]['targetJtwContent'],arrReels[i]['video_source'],"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",arrReels[i]['author_id'],arrReels[i]['author_img'],arrReels[i]['thumbnail_url'],arrReels[i]['videoDuration'],arrReels[i]['isLiked']);
+
+      var file = await DefaultCacheManager().getSingleFile(_urls[i].toString());
+      var image = await DefaultCacheManager().getSingleFile(arrReels[i]['thumbnail_url']);
+
+      print("fileee");
+      print(file);
+     var add = addCache(arrReels[i]['id'],arrReels[i]['uid'],arrReels[i]['title'],arrReels[i]['desc'],arrReels[i]['like'],arrReels[i]['targetType'],arrReels[i]['targetId'],arrReels[i]['targetUid'],arrReels[i]['targetBtnName'],arrReels[i]['targetJtwContent'],arrReels[i]['video_source'],file.path,arrReels[i]['author_id'],arrReels[i]['author_img'],image.path,arrReels[i]['videoDuration'],arrReels[i]['isLiked']);
     }
     // setState(() {
     //   isLoading = false;

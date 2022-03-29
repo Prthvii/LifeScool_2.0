@@ -29,15 +29,7 @@ class ShortsPlayerPage extends StatefulWidget {
 
 class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   VideoPlayerController controller0;
-  VideoPlayerController controller1;
-  VideoPlayerController controller2;
-  VideoPlayerController controller3;
-  VideoPlayerController controller4;
-  VideoPlayerController controller5;
-  VideoPlayerController controller6;
-  VideoPlayerController controller7;
-  VideoPlayerController controller8;
-  VideoPlayerController controller9;
+
 
   var arrList = [];
 
@@ -46,37 +38,25 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   var name;
   var nowPlaying = 0;
   var currentPage = 0;
+  var currentIndex = 0;
   var author_img;
   var likeTap = false;
   var isMute = false;
+
+  var videoHeight= 0.0;
+  var videoWidth= 0.0;
   @override
   void dispose() {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     controller0.pause();
 
-    controller1.pause();
-    controller2.pause();
-    controller3.pause();
-    controller4.pause();
-    controller5.pause();
-    controller6.pause();
-    controller7.pause();
-    controller8.pause();
-    controller9.pause();
 
-    controller0.dispose();
-    controller1.dispose();
-    controller2.dispose();
-    controller3.dispose();
-    controller4.dispose();
-    controller5.dispose();
-    controller6.dispose();
-    controller7.dispose();
-    controller8.dispose();
-    controller9.dispose();
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomeScreen()));
-    super.dispose();
+
+
+
+    // Navigator.pushReplacement(
+    //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
+   // super.dispose();
   }
 
   @override
@@ -99,7 +79,8 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
         arrList = rsp;
       });
 
-      setupController(0);
+      ControllerIndex(0);
+      //setupController(0);
     }
 
     // setState(() {
@@ -128,8 +109,15 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
 
 
   ControllerIndex(index) async {
+
+    print("indexxvdoo");
+    print(arrList[index]['video_url'].toString());
+
+    if(index!=0){
+      controller0.dispose();
+    }
     controller0 =
-        VideoPlayerController.file(File(arrList[0]['video_url'].toString()));
+        VideoPlayerController.file(File(arrList[index]['video_url'].toString()));
 
     await controller0?.initialize();
     controller0?.setLooping(true);
@@ -137,165 +125,34 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       setState(() {
         isLoading = false;
         print("falsaaaaaaaaayi");
-        name = arrList[0]['title'].toString();
-        author_img = arrList[0]['author_img'].toString();
-        nowPlaying = 0;
+        name = arrList[index]['title'].toString();
+        author_img = arrList[index]['author_img'].toString();
+        nowPlaying = index;
       });
       controller0.play();
     }
-  }
-  Controller0() async {
-    controller0 =
-        VideoPlayerController.file(File(arrList[0]['video_url'].toString()));
 
-    await controller0?.initialize();
-    controller0?.setLooping(true);
-    if (controller0.value.initialized) {
-      setState(() {
-        isLoading = false;
-        print("falsaaaaaaaaayi");
-        name = arrList[0]['title'].toString();
-        author_img = arrList[0]['author_img'].toString();
-        nowPlaying = 0;
-      });
-      controller0.play();
-    }
+    setState(() {
+      currentIndex=index;
+      videoHeight =controller0
+          .value.size.height;
+      videoWidth =controller0
+          .value.size.width;
+    });
   }
 
-  Controller1() async {
-    controller1 =
-        VideoPlayerController.network(arrList[1]['video_url'].toString());
 
-    await controller1?.initialize();
-    controller1?.setLooping(true);
 
-    if (controller1.value.initialized) {
-      setState(() {
-        isLoading = false;
-        print("falsaaaaaaaaayi");
-        name = arrList[0]['title'].toString();
-        author_img = arrList[0]['author_img'].toString();
-        nowPlaying = 0;
-      });
-      controller0.play();
-    }
-  }
-
-  Controller2() async {
-    controller2 =
-        VideoPlayerController.network(arrList[2]['video_url'].toString());
-
-    await controller2?.initialize();
-    controller2?.setLooping(true);
-  }
-
-  Controller3() async {
-    controller3 =
-        VideoPlayerController.network(arrList[3]['video_url'].toString());
-
-    await controller3?.initialize();
-    controller3?.setLooping(true);
-  }
-
-  Controller4() async {
-    controller4 =
-        VideoPlayerController.network(arrList[4]['video_url'].toString());
-
-    await controller4?.initialize();
-    controller4?.setLooping(true);
-  }
-
-  Controller5() async {
-    controller5 =
-        VideoPlayerController.network(arrList[5]['video_url'].toString());
-
-    await controller5?.initialize();
-    controller5?.setLooping(true);
-  }
-
-  Controller6() async {
-    controller6 =
-        VideoPlayerController.network(arrList[6]['video_url'].toString());
-
-    await controller6?.initialize();
-    controller6?.setLooping(true);
-  }
-
-  Controller7() async {
-    controller7 =
-        VideoPlayerController.network(arrList[7]['video_url'].toString());
-
-    await controller7?.initialize();
-    controller7?.setLooping(true);
-  }
-
-  Controller8() async {
-    controller8 =
-        VideoPlayerController.network(arrList[8]['video_url'].toString());
-
-    await controller8?.initialize();
-    controller8?.setLooping(true);
-  }
-
-  Controller9() async {
-    controller9 =
-        VideoPlayerController.network(arrList[9]['video_url'].toString());
-
-    await controller9?.initialize();
-    controller9?.setLooping(true);
-  }
 
   Future<Null> setupController(index) async {
     if (arrList.length > 0) {
       if (widget.highligts == null) {
-        Controller0();
+      //  Controller0();
       } else {
         HighlightController();
       }
     }
-    if (arrList.length > 1) {
-      Controller1();
-    }
 
-    if (arrList.length > 2) {
-      Controller2();
-    }
-
-    if (arrList.length > 3) {
-      Controller3();
-    }
-
-    if (arrList.length > 4) {
-      Controller4();
-    }
-
-    if (arrList.length > 5) {
-      Controller5();
-    }
-
-    //   setState(() {
-    //     isLoading = false;
-    //     print("falsaaaaaaaaayi");
-    //     name = arrList[index]['title'].toString();
-    //     author_img = arrList[index]['author_img'].toString();
-    //     nowPlaying = index;
-    //   });
-    // controller0.play();
-    if (arrList.length > 6) {
-      Controller6();
-    }
-
-    if (arrList.length > 7) {
-      Controller7();
-    }
-
-    if (arrList.length > 8) {
-      Controller8();
-    }
-
-    if (arrList.length > 9) {
-      Controller9();
-    }
     print("bottom");
 
     // Timer(Duration(seconds: 3), () {
@@ -303,546 +160,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     // });
   }
 
-  Future<Null> playControllers(index) async {
-    if (isMute == true) {
-      muteAll(index);
-    } else {
-      unmuteAll(index);
-    }
-    print("plaaaaaay");
-    print(index);
-    setState(() {
-      isLoading = false;
-      isPlaying = true;
-      name = arrList[index]['title'].toString();
-      author_img = arrList[index]['author_img'].toString();
-      nowPlaying = index;
-    });
-    switch (index) {
-      case 0:
-        {
-          controller0.play();
-          controller1.pause();
-        }
-        break;
 
-      case 1:
-        {
-          controller0.pause();
-          controller1.play();
-          controller2.pause();
-
-          print("111111111111");
-        }
-        break;
-
-      case 2:
-        {
-          controller1.pause();
-          controller2.play();
-          controller3.pause();
-        }
-        break;
-
-      case 3:
-        {
-          controller2.pause();
-          controller3.play();
-          controller4.pause();
-        }
-        break;
-
-      case 4:
-        {
-          controller3.pause();
-          controller4.play();
-          controller3.pause();
-        }
-        break;
-
-      case 5:
-        {
-          controller4.pause();
-          controller5.play();
-          controller6.pause();
-        }
-        break;
-
-      case 6:
-        {
-          controller5.pause();
-          controller6.play();
-          controller7.pause();
-        }
-        break;
-      case 7:
-        {
-          controller6.pause();
-          controller7.play();
-          controller8.pause();
-        }
-        break;
-
-      case 8:
-        {
-          controller7.pause();
-          controller8.play();
-          controller9.pause();
-        }
-        break;
-      case 9:
-        {
-          controller8.pause();
-          controller9.play();
-          controller0.pause();
-        }
-        break;
-
-      default:
-        {
-          controller0.play();
-        }
-        break;
-    }
-  }
-
-  Future<Null> pauseControllers(index) async {
-    print("plaaaaaay");
-    print(index);
-    switch (index) {
-      case 0:
-        {
-          controller0.pause();
-        }
-        break;
-
-      case 1:
-        {
-          controller1.pause();
-        }
-        break;
-
-      case 2:
-        {
-          controller2.pause();
-        }
-        break;
-
-      case 3:
-        {
-          controller3.pause();
-        }
-        break;
-
-      case 4:
-        {
-          controller4.pause();
-        }
-        break;
-
-      case 5:
-        {
-          controller5.pause();
-        }
-        break;
-
-      case 6:
-        {
-          controller6.pause();
-        }
-        break;
-      case 7:
-        {
-          controller7.pause();
-        }
-        break;
-
-      case 8:
-        {
-          controller8.pause();
-        }
-        break;
-      case 9:
-        {
-          controller9.pause();
-        }
-        break;
-
-      default:
-        {
-          controller0.pause();
-        }
-        break;
-    }
-  }
-
-  Future<Null> resumeControllers(index) async {
-    print("plaaaaaay");
-    print(index);
-    switch (index) {
-      case 0:
-        {
-          controller0.play();
-        }
-        break;
-
-      case 1:
-        {
-          controller1.play();
-        }
-        break;
-
-      case 2:
-        {
-          controller2.play();
-        }
-        break;
-
-      case 3:
-        {
-          controller3.play();
-        }
-        break;
-
-      case 4:
-        {
-          controller4.play();
-        }
-        break;
-
-      case 5:
-        {
-          controller5.play();
-        }
-        break;
-
-      case 6:
-        {
-          controller6.play();
-        }
-        break;
-      case 7:
-        {
-          controller7.play();
-        }
-        break;
-
-      case 8:
-        {
-          controller8.play();
-        }
-        break;
-      case 9:
-        {
-          controller9.play();
-        }
-        break;
-
-      default:
-        {
-          controller0.play();
-        }
-        break;
-    }
-  }
-
-  checkPlaying(var stat) {
-    bool playing;
-
-    if (stat == 0) {
-      playing = controller0.value.isPlaying;
-    }
-    if (stat == 1) {
-      playing = controller1.value.isPlaying;
-    }
-    if (stat == 2) {
-      playing = controller2.value.isPlaying;
-    }
-    if (stat == 3) {
-      playing = controller3.value.isPlaying;
-    }
-    if (stat == 4) {
-      playing = controller4.value.isPlaying;
-    }
-
-    if (stat == 5) {
-      playing = controller5.value.isPlaying;
-    }
-
-    if (stat == 6) {
-      playing = controller6.value.isPlaying;
-    }
-
-    if (stat == 7) {
-      playing = controller7.value.isPlaying;
-    }
-
-    if (stat == 8) {
-      playing = controller8.value.isPlaying;
-    }
-    if (stat == 9) {
-      playing = controller9.value.isPlaying;
-    }
-    return playing;
-  }
-
-  checkIntitializing(var stat) {
-    bool playing;
-
-    if (stat == 0) {
-      playing = controller0.value.initialized;
-    }
-    if (stat == 1) {
-      playing = controller1.value.initialized;
-    }
-    if (stat == 2) {
-      playing = controller2.value.initialized;
-    }
-    if (stat == 3) {
-      playing = controller3.value.initialized;
-    }
-    if (stat == 4) {
-      playing = controller4.value.initialized;
-    }
-
-    if (stat == 5) {
-      playing = controller5.value.initialized;
-    }
-
-    if (stat == 6) {
-      playing = controller6.value.initialized;
-    }
-
-    if (stat == 7) {
-      playing = controller7.value.initialized;
-    }
-
-    if (stat == 8) {
-      playing = controller8.value.initialized;
-    }
-    if (stat == 9) {
-      playing = controller9.value.initialized;
-    }
-    return playing;
-  }
-
-  Future<Null> muteAtIndex(index) async {
-    switch (index) {
-      case 0:
-        {
-          controller0.setVolume(0.0);
-        }
-        break;
-
-      case 1:
-        {
-          controller1.setVolume(0.0);
-        }
-        break;
-
-      case 2:
-        {
-          controller2.setVolume(0.0);
-        }
-        break;
-
-      case 3:
-        {
-          controller3.setVolume(0.0);
-        }
-        break;
-
-      case 4:
-        {
-          controller4.setVolume(0.0);
-        }
-        break;
-
-      case 5:
-        {
-          controller5.setVolume(0.0);
-        }
-        break;
-
-      case 6:
-        {
-          controller6.setVolume(0.0);
-        }
-        break;
-      case 7:
-        {
-          controller7.setVolume(0.0);
-        }
-        break;
-
-      case 8:
-        {
-          controller8.setVolume(0.0);
-        }
-        break;
-      case 9:
-        {
-          controller9.setVolume(0.0);
-        }
-        break;
-
-      default:
-        {
-          controller0.setVolume(0.0);
-        }
-        break;
-    }
-  }
-
-  Future<Null> unmuteAtIndex(index) async {
-    switch (index) {
-      case 0:
-        {
-          controller0.setVolume(1.0);
-        }
-        break;
-
-      case 1:
-        {
-          controller1.setVolume(1.0);
-        }
-        break;
-
-      case 2:
-        {
-          controller2.setVolume(1.0);
-        }
-        break;
-
-      case 3:
-        {
-          controller3.setVolume(1.0);
-        }
-        break;
-
-      case 4:
-        {
-          controller4.setVolume(1.0);
-        }
-        break;
-
-      case 5:
-        {
-          controller5.setVolume(1.0);
-        }
-        break;
-
-      case 6:
-        {
-          controller6.setVolume(1.0);
-        }
-        break;
-      case 7:
-        {
-          controller7.setVolume(1.0);
-        }
-        break;
-
-      case 8:
-        {
-          controller8.setVolume(1.0);
-        }
-        break;
-      case 9:
-        {
-          controller9.setVolume(1.0);
-        }
-        break;
-
-      default:
-        {
-          controller0.setVolume(1.0);
-        }
-        break;
-    }
-  }
-
-  Future<Null> muteAll(index) async {
-    if (arrList.length > 0) {
-      controller0.setVolume(0.0);
-    }
-    if (arrList.length > 1) {
-      controller1.setVolume(0.0);
-    }
-
-    if (arrList.length > 2) {
-      controller2.setVolume(0.0);
-    }
-
-    if (arrList.length > 3) {
-      controller3.setVolume(0.0);
-    }
-
-    if (arrList.length > 4) {
-      controller4.setVolume(0.0);
-    }
-
-    if (arrList.length > 5) {
-      controller5.setVolume(0.0);
-    }
-
-    if (arrList.length > 6) {
-      controller6.setVolume(0.0);
-    }
-
-    if (arrList.length > 7) {
-      controller7.setVolume(0.0);
-    }
-
-    if (arrList.length > 8) {
-      controller8.setVolume(0.0);
-    }
-
-    if (arrList.length > 9) {
-      controller9.setVolume(0.0);
-    }
-  }
-
-  Future<Null> unmuteAll(index) async {
-    if (arrList.length > 0) {
-      controller0.setVolume(1.0);
-    }
-    if (arrList.length > 1) {
-      controller1.setVolume(1.0);
-    }
-
-    if (arrList.length > 2) {
-      controller2.setVolume(1.0);
-    }
-
-    if (arrList.length > 3) {
-      controller3.setVolume(1.0);
-    }
-
-    if (arrList.length > 4) {
-      controller4.setVolume(1.0);
-    }
-
-    if (arrList.length > 5) {
-      controller5.setVolume(1.0);
-    }
-
-    if (arrList.length > 6) {
-      controller6.setVolume(1.0);
-    }
-
-    if (arrList.length > 7) {
-      controller7.setVolume(1.0);
-    }
-
-    if (arrList.length > 8) {
-      controller8.setVolume(1.0);
-    }
-
-    if (arrList.length > 9) {
-      controller9.setVolume(1.0);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -882,93 +200,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     );
   }
 
-  takeFullCourseWidget() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-      child: GestureDetector(
-        onTap: () {
-          controller0.pause();
-          var type = arrList[nowPlaying]['targetType'].toString();
-          switch (type) {
-            case "COURSE":
-              {
-                print("COURSE");
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PlayerScreen(
-                        id: arrList[nowPlaying]['targetId'].toString(),
-                        cuid: arrList[nowPlaying]['targetUid'].toString(),
-                      )),
-                );
-              }
-              break;
 
-            case "WORKSHOP":
-              {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CourseIntro(
-                        id: arrList[nowPlaying]['targetId'].toString(),
-                      )),
-                );
-              }
-              break;
-
-            case "LIVEBATCH":
-              {
-                showToastSuccess("Live Batch");
-              }
-              break;
-
-            case "JWT":
-              {
-                showToastSuccess("Join Meeting");
-              }
-              break;
-
-            default:
-              {
-                print("Invalid choice");
-              }
-              break;
-          }
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PlayerScreen(
-                  id: arrList[nowPlaying][''].toString(),
-                  cuid: arrList[nowPlaying][''].toString(),
-                )),
-          );
-        },
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Color(0xff606060)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: Row(
-              children: [
-                Text(
-                    arrList[nowPlaying]['targetBtnName'] != null
-                        ? arrList[nowPlaying]['targetBtnName'].toString()
-                        : "",
-                    style: size14_600W),
-                Spacer(),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 16,
-                  color: Colors.white,
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget feedVideos() {
     print("feeeeeeeeed");
@@ -982,6 +214,17 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
           ),
           itemCount: arrList != null ? arrList.length : 0,
           onPageChanged: (index) {
+
+            ControllerIndex(index);
+            // if(index>currentIndex){
+            //
+            // }else{
+            //
+            //   _playController(currentIndex-1);
+            //   //  _previousVideo();
+            // }
+
+
             // index = (feedViewModel.videoSource.listVideos.length) % index;
             //  feedViewModel.changeVideo(index);
 
@@ -996,7 +239,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
             //   controller2.play();
             // }
             // loadController(index);
-            playControllers(index);
+
           },
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
@@ -1033,15 +276,13 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                     child: GestureDetector(
                       onTap: () {
                         if (isMute == true) {
-                          unmuteAtIndex(nowPlaying);
-                          unmuteAll(nowPlaying);
+
 
                           setState(() {
                             isMute = false;
                           });
                         } else {
-                          muteAtIndex(nowPlaying);
-                          muteAll(nowPlaying);
+
 
                           setState(() {
                             isMute = true;
@@ -1230,20 +471,21 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     print(index);
     print("vdoooolength");
 
-    return Stack(
+    return
+
+     Stack(
       children: [
-        // checkIntitializing(index)==true
-        //     ?
+
 
         GestureDetector(
           onTap: () {
-            if (checkPlaying(index) == true) {
-              pauseControllers(index);
+            if (controller0.value.isPlaying == true) {
+
               setState(() {
                 isPlaying = false;
               });
             } else {
-              resumeControllers(index);
+
               setState(() {
                 isPlaying = true;
               });
@@ -1259,119 +501,24 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
               arrList[index]['isLiked'] = true;
             });
           },
-          child: SizedBox.expand(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: index == 1
-                      ? controller1.value.size.width ?? 0
-                      : index == 2
-                      ? controller2.value.size.width ?? 0
-                      : index == 3
-                      ? controller3.value.size.width ?? 0
-                      : index == 4
-                      ? controller4.value.size.width ?? 0
-                      : index == 5
-                      ? controller5.value.size.width ?? 0
-                      : index == 6
-                      ? controller6.value.size.width ?? 0
-                      : index == 7
-                      ? controller7.value.size.width ?? 0
-                      : index == 8
-                      ? controller8.value.size.width ??
-                      0
-                      : index == 9
-                      ? controller9
-                      .value.size.width ??
-                      0
-                      : controller0
-                      .value.size.width ??
-                      0,
-                  height: index == 1
-                      ? controller1.value.size.height ?? 0
-                      : index == 2
-                      ? controller2.value.size.height ?? 0
-                      : index == 3
-                      ? controller3.value.size.height ?? 0
-                      : index == 4
-                      ? controller4.value.size.height ?? 0
-                      : index == 5
-                      ? controller5.value.size.height ?? 0
-                      : index == 6
-                      ? controller6.value.size.height ?? 0
-                      : index == 7
-                      ? controller7.value.size.height ?? 0
-                      : index == 8
-                      ? controller8.value.size.height ??
-                      0
-                      : index == 9
-                      ? controller9
-                      .value.size.height ??
-                      0
-                      : controller0
-                      .value.size.height ??
-                      0,
-                  // width: MediaQuery. of(context). size. width ,
-                  //   height: MediaQuery. of(context). size. height,
-                  child: VideoPlayer(index == 1
-                      ? controller1
-                      : index == 2
-                      ? controller2
-                      : index == 3
-                      ? controller3
-                      : index == 4
-                      ? controller4
-                      : index == 5
-                      ? controller5
-                      : index == 6
-                      ? controller6
-                      : index == 7
-                      ? controller7
-                      : index == 8
-                      ? controller8
-                      : index == 9
-                      ? controller9
-                      : controller0),
-                ),
-              )),
-        )
+          child:  Center(
+            child:currentIndex!=index? Container(
 
-        //     :Container(
-        //   color: Colors.black,
-        //   child: Center(
-        //     child: Image.asset(
-        //       "assets/images/loading.gif",
-        //       height: 40,
-        //     ),
-        //   ),
-        // )
-        ,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  image: DecorationImage(
+                      image: FileImage(
+                        File(arrList[index]['thumbnail_url']),
+                      ),
+                      fit: BoxFit.cover)),
+            ): AspectRatio(
+              aspectRatio: controller0.value.aspectRatio,
+              child: Center(child: VideoPlayer(controller0)),
+            ),
+          ),
+        ),
 
-        // video.controller != null
-        //     ? GestureDetector(
-        //         onTap: () {
-        //           if (video.controller.value.isPlaying) {
-        //             video.controller?.pause();
-        //           } else {
-        //             video.controller?.play();
-        //           }
-        //         },
-        //         child: SizedBox.expand(
-        //             child: FittedBox(
-        //           fit: BoxFit.cover,
-        //           child: SizedBox(
-        //             width: video.controller?.value.size.width ?? 0,
-        //             height: video.controller?.value.size.height ?? 0,
-        //             child: VideoPlayer(video.controller),
-        //           ),
-        //         )),
-        //       )
-        //     : Container(
-        //         color: Colors.white,
-        //         child: Center(
-        //           child: Text("Loading"),
-        //         ),
-        //       ),
+
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
@@ -1391,4 +538,95 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       ],
     );
   }
+
+
+  takeFullCourseWidget() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      child: GestureDetector(
+        onTap: () {
+          controller0.pause();
+          var type = arrList[nowPlaying]['targetType'].toString();
+          switch (type) {
+            case "COURSE":
+              {
+                print("COURSE");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PlayerScreen(
+                        id: arrList[nowPlaying]['targetId'].toString(),
+                        cuid: arrList[nowPlaying]['targetUid'].toString(),
+                      )),
+                );
+              }
+              break;
+
+            case "WORKSHOP":
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CourseIntro(
+                        id: arrList[nowPlaying]['targetId'].toString(),
+                      )),
+                );
+              }
+              break;
+
+            case "LIVEBATCH":
+              {
+                showToastSuccess("Live Batch");
+              }
+              break;
+
+            case "JWT":
+              {
+                showToastSuccess("Join Meeting");
+              }
+              break;
+
+            default:
+              {
+                print("Invalid choice");
+              }
+              break;
+          }
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PlayerScreen(
+                  id: arrList[nowPlaying][''].toString(),
+                  cuid: arrList[nowPlaying][''].toString(),
+                )),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color(0xff606060)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Row(
+              children: [
+                Text(
+                    arrList[nowPlaying]['targetBtnName'] != null
+                        ? arrList[nowPlaying]['targetBtnName'].toString()
+                        : "",
+                    style: size14_600W),
+                Spacer(),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                  color: Colors.white,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
 }

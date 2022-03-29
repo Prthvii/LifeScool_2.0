@@ -17,3 +17,16 @@ class _shareIconState extends State<shareIcon> {
     );
   }
 }
+
+
+
+// currentIndex!=index? Container(
+//
+// decoration: BoxDecoration(
+// borderRadius: BorderRadius.circular(8),
+// image: DecorationImage(
+// image: FileImage(
+// File(arrList[index]['thumbnail_url']),
+// ),
+// fit: BoxFit.cover)),
+// ):

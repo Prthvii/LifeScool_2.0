@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:lifescool/Helper/sharedPref.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 
 var cacheItemsNew=[];
@@ -11,7 +10,7 @@ Future addCache(id,uid,title,desc,like,targetType,targetId,targetUid,targetBtnNa
 
 
 
-  var file = await DefaultCacheManager().getSingleFile(video_url);
+
   cacheItemsNew.clear();
   var cart = await getSharedPrefrence(REELS);
 
@@ -39,7 +38,7 @@ Future addCache(id,uid,title,desc,like,targetType,targetId,targetUid,targetBtnNa
                 "targetBtnName": map["targetBtnName"],
                 "targetJtwContent": map["targetJtwContent"],
                 "video_source": map["video_source"],
-                "video_url": file.path,
+                "video_url": map['video_url'],
                 "author_id":map["author_id"],
                 "author_img":map["author_img"],
                 "thumbnail_url": map["thumbnail_url"],
@@ -68,7 +67,7 @@ Future addCache(id,uid,title,desc,like,targetType,targetId,targetUid,targetBtnNa
           "targetBtnName": targetBtnName,
           "targetJtwContent": targetJtwContent,
           "video_source":video_source,
-          "video_url":  file.path,
+          "video_url": video_url,
           "author_id":author_id,
           "author_img":author_img,
           "thumbnail_url": thumbnail_url,
@@ -100,7 +99,7 @@ Future addCache(id,uid,title,desc,like,targetType,targetId,targetUid,targetBtnNa
           "targetBtnName": targetBtnName,
           "targetJtwContent": targetJtwContent,
           "video_source":video_source,
-          "video_url":  file.path,
+          "video_url":  video_url,
           "author_id":author_id,
           "author_img":author_img,
           "thumbnail_url": thumbnail_url,
