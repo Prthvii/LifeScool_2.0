@@ -151,6 +151,12 @@ final size14_600grey = TextStyle(
   color: Color(0xff6D6D6D),
   fontFamily: 'Nunito',
 );
+final size16_400grey = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  color: Color(0xff6D6D6D),
+  fontFamily: 'Nunito',
+);
 final txt14 = TextStyle(
   fontSize: 14,
 );
@@ -364,3 +370,5 @@ h(double w) {
 final liteRed = Color(0xffFFF4F1);
 final selectedRed = Color(0xffEA9985);
 final disableGrey = Color(0xffE4E4E4);
+final tertiaryGreen = Color(0xff17A01D);
+final grey5 = Color(0xff6D6D6D);
