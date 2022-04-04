@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lifescool/Const/Constants.dart';
+import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/CourseIntro.dart';
 import 'package:lifescool/Screens/HomePage.dart';
@@ -12,9 +13,11 @@ import 'package:lifescool/Screens/PlayerScreen.dart';
 import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 import 'package:lifescool/Shorts/Data/addToCache.dart';
 import 'package:lifescool/Shorts/Data/listReels.dart';
+import 'package:lifescool/Shorts/Data/reelsPagination.dart';
 import 'package:lifescool/Shorts/share.dart';
 import 'package:lottie/lottie.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import 'bookmark.dart';
 
@@ -30,13 +33,16 @@ class ShortsPlayerPage extends StatefulWidget {
 class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   VideoPlayerController controller0;
 
+  var isVideoStarted = false;
 
   var arrList = [];
-
-  var isLoading = false;
+  var arrReels = [];
+  var page = 1;
+  var isLoading = true;
   var isPlaying = true;
   var name;
   var nowPlaying = 0;
+  var fetchNew = 5;
   var currentPage = 0;
   var currentIndex = 0;
   var author_img;
@@ -64,12 +70,32 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     SystemChrome.setEnabledSystemUIOverlays([]);
 
     this.getHome();
+
     super.initState();
   }
 
+  final PageController controller = PageController(
+    viewportFraction: 1,
+  );
+
+  void nextPage() async {
+    await controller.nextPage(
+      duration: Duration(milliseconds: 500),
+      curve: Curves.bounceOut,
+    );
+  }
+
+  void prevPage() async {
+    await controller.previousPage(
+      duration: Duration(milliseconds: 200),
+      curve: Curves.easeOut,
+    );
+  }
+
+
   Future<String> getHome() async {
     var rsp = await getFromCache();
-    print("courseeeeeeeeeeeeee");
+
     print(rsp);
 
     // arrProdList = data;
@@ -78,14 +104,27 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       setState(() {
         arrList = rsp;
       });
+      print("reeeeels length");
+      print(arrList.length);
 
-      ControllerIndex(0);
+
+      if(widget.highligts!=null){
+        print("playing high");
+        setState(() {
+          currentIndex =widget.highligts;
+        });
+        ControllerIndex(widget.highligts);
+
+      }else{
+        ControllerIndex(0);
+
+      }
       //setupController(0);
     }
 
-    // setState(() {
-    //   isLoading = false;
-    // });
+    setState(() {
+      isLoading = false;
+    });
     return "0";
   }
 
@@ -111,24 +150,36 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   ControllerIndex(index) async {
 
     print("indexxvdoo");
+    print(widget.highligts);
     print(arrList[index]['video_url'].toString());
 
-    if(index!=0){
-      controller0.dispose();
-    }
-    controller0 =
-        VideoPlayerController.file(File(arrList[index]['video_url'].toString()));
+
+
+
+
+
+      controller0 = VideoPlayerController.file(File(arrList[index]['video_url'].toString()));
+
+
 
     await controller0?.initialize();
     controller0?.setLooping(true);
     if (controller0.value.initialized) {
       setState(() {
         isLoading = false;
+        isPlaying = true;
+        isVideoStarted = true;
         print("falsaaaaaaaaayi");
         name = arrList[index]['title'].toString();
         author_img = arrList[index]['author_img'].toString();
         nowPlaying = index;
       });
+
+      if(isMute==true){
+        controller0.setVolume(0.0);
+      }else{
+        controller0.setVolume(1.0);
+      }
       controller0.play();
     }
 
@@ -141,10 +192,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     });
   }
 
-
-
-
-  Future<Null> setupController(index) async {
+ Future<Null> setupController(index) async {
     if (arrList.length > 0) {
       if (widget.highligts == null) {
       //  Controller0();
@@ -158,6 +206,142 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     // Timer(Duration(seconds: 3), () {
     //
     // });
+  }
+
+  TriggerNextTen(currentIndex) async {
+    arrReels.clear();
+    setState(() {
+      fetchNew =5;
+      page= page+1;
+    });
+
+
+    var totalIndex = await getSharedPrefrence(TOTALREELS);
+    var lastAddedIndex = await getSharedPrefrence(LASTADEED);
+
+    print("totaaaaaaaal");
+    print(totalIndex);
+    print(lastAddedIndex);
+
+    if(int.parse(currentIndex.toString())<int.parse(totalIndex.toString()) && int.parse(lastAddedIndex.toString())<page){
+
+         print("ulill work avndoo");
+      var list = await getPaginationReels(page);
+       if(list!=null){
+           setState(() {
+             arrReels =list;
+           });
+         for (var i = 0; i < arrReels.length; i++) {
+
+           setState(() {
+             arrList.add(
+                 {
+
+                   "id": arrReels[i]["id"],
+                   "uid": arrReels[i]["uid"],
+                   "title": arrReels[i]["title"],
+                   "desc":arrReels[i]["desc"],
+                   "like": arrReels[i]["like"],
+                   "targetType":arrReels[i]["targetType"],
+                   "targetId": arrReels[i]["targetId"],
+                   "targetUid": arrReels[i]["targetUid"],
+                   "targetBtnName": arrReels[i]["targetBtnName"],
+                   "targetJtwContent": arrReels[i]["targetJtwContent"],
+                   "video_source": arrReels[i]["video_source"],
+                   "video_url": arrReels[i]["video_url"],
+                   "author_id":arrReels[i]["author_id"],
+                   "author_img":arrReels[i]["author_img"],
+                   "thumbnail_url": arrReels[i]["thumbnail_url"],
+                   "videoDuration":arrReels[i]["videoDuration"],
+                   "isLiked": arrReels[i]["isLiked"],
+                   "page": arrReels[i]["page"],
+
+
+
+
+                 }
+             );
+           });
+
+         }
+       }
+    }
+
+
+    return;
+    // var arrReels = [];
+    //
+    // var rsp = await reelsListApi(page);
+    //
+    // print(rsp);
+    //
+    // // arrProdList = data;
+    // //
+    // if (rsp != 0 ) {
+    //
+    //   arrReels = rsp['attributes']['shortslist'];
+    //
+    //   for (var i = 0; i < arrReels.length; i++) {
+    //     if(arrReels[i]['video_url_mp4_low']!=""){
+    //       var file = await DefaultCacheManager().getSingleFile(arrReels[i]['video_url_mp4_low']);
+    //       var image = await DefaultCacheManager().getSingleFile(arrReels[i]['thumbnail_url']);
+    //
+    //       print("fetechingggg");
+    //       print(arrReels[i]['id']);
+    //
+    //       setState(() {
+    //         arrList.add(
+    //             {
+    //
+    //               "id": arrReels[i]["id"],
+    //               "uid": arrReels[i]["uid"],
+    //               "title": arrReels[i]["title"],
+    //               "desc":arrReels[i]["desc"],
+    //               "like": arrReels[i]["like"],
+    //               "targetType":arrReels[i]["targetType"],
+    //               "targetId": arrReels[i]["targetId"],
+    //               "targetUid": arrReels[i]["targetUid"],
+    //               "targetBtnName": arrReels[i]["targetBtnName"],
+    //               "targetJtwContent": arrReels[i]["targetJtwContent"],
+    //               "video_source": arrReels[i]["video_source"],
+    //               "video_url": file.path,
+    //               "author_id":arrReels[i]["author_id"],
+    //               "author_img":arrReels[i]["author_img"],
+    //               "thumbnail_url": image.path,
+    //               "videoDuration":arrReels[i]["videoDuration"],
+    //               "isLiked": arrReels[i]["isLiked"],
+    //               "page": "2",
+    //
+    //
+    //
+    //
+    //             }
+    //         );
+    //       });
+    //
+    //
+    //       var add = addCache(arrReels[i]['id'],arrReels[i]['uid'],arrReels[i]['title'],arrReels[i]['desc'],arrReels[i]['like'],arrReels[i]['targetType'],arrReels[i]['targetId'],arrReels[i]['targetUid'],arrReels[i]['targetBtnName'],arrReels[i]['targetJtwContent'],arrReels[i]['video_source'],file.path,arrReels[i]['author_id'],arrReels[i]['author_img'],image.path,arrReels[i]['videoDuration'],arrReels[i]['isLiked'], rsp['attributes']['page'].toString());
+    //     }
+    //
+    //
+    //
+    //   }
+    //   // setState(() {
+    //   //   isLoading = false;
+    //   // });
+    //   return "1";
+    // }
+  }
+
+  TriggerBack() async {
+
+
+
+    if(page!=1){
+      page= page-1;
+    }
+
+
   }
 
 
@@ -208,39 +392,48 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     return Stack(
       children: [
         PageView.builder(
-          controller: PageController(
-            initialPage: 0,
-            viewportFraction: 1,
-          ),
+          controller: controller,
           itemCount: arrList != null ? arrList.length : 0,
+
           onPageChanged: (index) {
+            setState(() {
+              isVideoStarted = false;
 
+            });
+            if(index>currentIndex){
+              print("direction => munnot");
+
+              setState(() {
+                fetchNew = fetchNew - 1;
+              });
+
+
+              if(fetchNew==0){
+                print("TRIGGER");
+                print(fetchNew);
+                TriggerNextTen(page);
+              }
+
+            }else{
+
+              print("direction => backoot");
+
+
+              TriggerBack();
+              //  _previousVideo();
+            }
+            setState(() {
+              currentIndex=index;
+            });
+
+            controller0.dispose();
             ControllerIndex(index);
-            // if(index>currentIndex){
-            //
-            // }else{
-            //
-            //   _playController(currentIndex-1);
-            //   //  _previousVideo();
-            // }
 
 
-            // index = (feedViewModel.videoSource.listVideos.length) % index;
-            //  feedViewModel.changeVideo(index);
 
-            // controller.pause();
-            // if(index==1){
-            //   controller.pause();
-            //   controller1.play();
-            // }
-            //
-            // if(index==2){
-            //   controller1.pause();
-            //   controller2.play();
-            // }
-            // loadController(index);
 
           },
+          allowImplicitScrolling: false,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
             final item = arrList != null ? arrList[index] : null;
@@ -281,12 +474,16 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                           setState(() {
                             isMute = false;
                           });
+                          controller0.setVolume(1.0);
                         } else {
 
 
                           setState(() {
                             isMute = true;
                           });
+
+                          controller0.setVolume(0.0);
+
                         }
                       },
                       child: Row(
@@ -355,7 +552,8 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                               arrList[nowPlaying]['isLiked'] == true
                                   ? (int.parse(arrList[nowPlaying]['like']) + 1)
                                   .toString()
-                                  : arrList[nowPlaying]['like'].toString(),
+                               // : arrList[nowPlaying]['id'].toString(),
+                                : arrList[nowPlaying]['like'].toString(),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -473,70 +671,66 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
 
     return
 
-     Stack(
-      children: [
+     Container(
+       color: Colors.black,
+       child: Stack(
+        children: [
 
 
-        GestureDetector(
-          onTap: () {
-            if (controller0.value.isPlaying == true) {
+          GestureDetector(
 
+            onTap: () {
+              if (controller0.value.isPlaying) {
+                setState(() {
+                  isPlaying=false;
+                });
+                controller0?.pause();
+              } else {
+                controller0?.play();
+
+                setState(() {
+                  isPlaying=true;
+                });
+              }
+              // if (controller0.value.isPlaying) {
+              //   controller0?.pause();
+              // } else {
+              //   controller0?.play();
+              // }
+            },
+            onDoubleTap: () {
               setState(() {
-                isPlaying = false;
+                arrList[index]['isLiked'] = true;
               });
-            } else {
-
-              setState(() {
-                isPlaying = true;
-              });
-            }
-            // if (controller0.value.isPlaying) {
-            //   controller0?.pause();
-            // } else {
-            //   controller0?.play();
-            // }
-          },
-          onDoubleTap: () {
-            setState(() {
-              arrList[index]['isLiked'] = true;
-            });
-          },
-          child:  Center(
-            child:currentIndex!=index? Container(
-
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  image: DecorationImage(
-                      image: FileImage(
-                        File(arrList[index]['thumbnail_url']),
-                      ),
-                      fit: BoxFit.cover)),
-            ): AspectRatio(
-              aspectRatio: controller0.value.aspectRatio,
-              child: Center(child: VideoPlayer(controller0)),
+            },
+            child:  Center(
+              child: AspectRatio(
+                aspectRatio: controller0.value.aspectRatio,
+                child: Container(color:Colors.black,child: Center(child: VideoPlayer(controller0))),
+              ),
             ),
           ),
-        ),
 
 
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                // VideoDescription(video.user, video.videoTitle, video.songName),
-                // ActionsToolbar(video.likes, video.comments,
-                //     "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"
-                // ),
-              ],
-            ),
-            SizedBox(height: 20)
-          ],
-        ),
-      ],
-    );
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  // VideoDescription(video.user, video.videoTitle, video.songName),
+                  // ActionsToolbar(video.likes, video.comments,
+                  //     "https://www.andersonsobelcosmetic.com/wp-content/uploads/2018/09/chin-implant-vs-fillers-best-for-improving-profile-bellevue-washington-chin-surgery.jpg"
+                  // ),
+                ],
+              ),
+              SizedBox(height: 20)
+            ],
+          ),
+        ],
+    ),
+     );
   }
 
 

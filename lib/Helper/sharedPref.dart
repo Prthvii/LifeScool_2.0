@@ -8,6 +8,8 @@ final NUM = "LS-NUM";
 final MAIL = "LS-MAIL";
 final NAME = "LS-NAME";
 final REELS = "LS-CHACHEREELS";
+final LASTADEED = "LS-LASTADDEDREELPG";
+final TOTALREELS = "LS-TOTALREELS";
 
 Future setSharedPrefrence(key, data) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -25,4 +27,6 @@ Future getSharedPrefrence(key) async {
 Future clearSharedPrefrence() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove(REELS);
+  prefs.remove(TOTALREELS);
+  prefs.remove(LASTADEED);
 }

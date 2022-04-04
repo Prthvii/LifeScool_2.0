@@ -55,7 +55,7 @@ dev_dependencies:
   permission_handler: ^5.0.1+1
   razorpay_flutter: ^1.2.7
   shimmer: ^2.0.0
-  jitsi_meet: ^2.1.0
+#  jitsi_meet: ^2.1.0
   flutter_windowmanager: ^0.2.0
   flutter_web_browser: ^0.14.0
   flutter_cache_manager: ^3.0.2

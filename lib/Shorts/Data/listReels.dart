@@ -5,7 +5,7 @@ import 'package:lifescool/Const/network.dart';
 import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 
-Future reelsListApi() async {
+Future reelsListApi(page) async {
 
 
   var id = await getSharedPrefrence(ID);
@@ -19,7 +19,9 @@ Future reelsListApi() async {
     'request_header':getShorts,
     'secKey':secKey,
 
+    'studentId':id.toString(),
     'apiToken':token.toString(),
+    'page':page.toString(),
 
 
 
@@ -41,6 +43,9 @@ Future reelsListApi() async {
     // then parse the JSON.
   } else {
     convertDataToJson = 0;
+    print("reeelsresssp");
+
+    print(response.body);
     showToastSuccess(response.body.toString());
 
 

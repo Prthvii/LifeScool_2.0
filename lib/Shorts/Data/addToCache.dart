@@ -6,7 +6,7 @@ import 'package:lifescool/Helper/sharedPref.dart';
 var cacheItemsNew=[];
 
 
-Future addCache(id,uid,title,desc,like,targetType,targetId,targetUid,targetBtnName,targetJtwContent,video_source,video_url,author_id,author_img,thumbnail_url,videoDuration,isLiked) async {
+Future addCache(id,uid,title,desc,like,targetType,targetId,targetUid,targetBtnName,targetJtwContent,video_source,video_url,author_id,author_img,thumbnail_url,videoDuration,isLiked,page) async {
 
 
 
@@ -21,8 +21,7 @@ Future addCache(id,uid,title,desc,like,targetType,targetId,targetUid,targetBtnNa
     var decodedMap = json.decode(cart);
     for (var i = 0; i < decodedMap.length; i++) {
       var map = decodedMap[i];
-      if (map.containsKey("id")) {
-        if (map["id"] != id) {
+
 
           cacheItemsNew.add(
               {
@@ -44,14 +43,14 @@ Future addCache(id,uid,title,desc,like,targetType,targetId,targetUid,targetBtnNa
                 "thumbnail_url": map["thumbnail_url"],
                 "videoDuration":map["videoDuration"],
                 "isLiked": map["isLiked"],
+                "page": map["page"],
 
 
 
 
               }
               );
-        }
-      }
+
     }
     cacheItemsNew.add(
         {
@@ -73,6 +72,7 @@ Future addCache(id,uid,title,desc,like,targetType,targetId,targetUid,targetBtnNa
           "thumbnail_url": thumbnail_url,
           "videoDuration":videoDuration,
           "isLiked": isLiked,
+          "page": page,
 
 
 
@@ -105,6 +105,7 @@ Future addCache(id,uid,title,desc,like,targetType,targetId,targetUid,targetBtnNa
           "thumbnail_url": thumbnail_url,
           "videoDuration":videoDuration,
           "isLiked": isLiked,
+          "page": page,
 
 
 
@@ -118,7 +119,7 @@ Future addCache(id,uid,title,desc,like,targetType,targetId,targetUid,targetBtnNa
     var add = await setSharedPrefrence(REELS,encodedMap);
   }
 
-
+  var lst = await setSharedPrefrence(LASTADEED,page);
   return 1;
 
 
@@ -133,3 +134,5 @@ Future getFromCache()async{
 
   return decodedMap;
 }
+
+

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
+import 'package:lifescool/Shorts/ShortVideoPage.dart';
 
 class HomeReels extends StatefulWidget {
   // const HomeReels({Key? key}) : super(key: key);
@@ -41,7 +42,7 @@ class _HomeReelsState extends State<HomeReels> {
           context,
           MaterialPageRoute(
             // builder: (context) => MyLearningNew()),
-              builder: (context) => NewTstShortsPlayerPage(highligts: item,)),
+              builder: (context) => ShortsPlayerPage(highligts: int.parse(index.toString()),)),
         );
       },
       child: Container(
