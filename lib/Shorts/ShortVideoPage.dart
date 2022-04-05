@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+
 /// latest date  == 26 -03 -22
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lifescool/Const/Constants.dart';
+import 'package:lifescool/Const/TextConstants.dart';
 import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/CourseIntro.dart';
@@ -12,12 +14,9 @@ import 'package:lifescool/Screens/HomePage.dart';
 import 'package:lifescool/Screens/PlayerScreen.dart';
 import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 import 'package:lifescool/Shorts/Data/addToCache.dart';
-import 'package:lifescool/Shorts/Data/listReels.dart';
 import 'package:lifescool/Shorts/Data/reelsPagination.dart';
-import 'package:lifescool/Shorts/share.dart';
 import 'package:lottie/lottie.dart';
 import 'package:video_player/video_player.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import 'bookmark.dart';
 
@@ -32,6 +31,7 @@ class ShortsPlayerPage extends StatefulWidget {
 
 class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   VideoPlayerController controller0;
+  bool isReadmore = false;
 
   var isVideoStarted = false;
 
@@ -49,20 +49,16 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   var likeTap = false;
   var isMute = false;
 
-  var videoHeight= 0.0;
-  var videoWidth= 0.0;
+  var videoHeight = 0.0;
+  var videoWidth = 0.0;
   @override
   void dispose() {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     controller0.pause();
 
-
-
-
-
     // Navigator.pushReplacement(
     //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
-   // super.dispose();
+    // super.dispose();
   }
 
   @override
@@ -92,7 +88,6 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     );
   }
 
-
   Future<String> getHome() async {
     var rsp = await getFromCache();
 
@@ -107,17 +102,14 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       print("reeeeels length");
       print(arrList.length);
 
-
-      if(widget.highligts!=null){
+      if (widget.highligts != null) {
         print("playing high");
         setState(() {
-          currentIndex =widget.highligts;
+          currentIndex = widget.highligts;
         });
         ControllerIndex(widget.highligts);
-
-      }else{
+      } else {
         ControllerIndex(0);
-
       }
       //setupController(0);
     }
@@ -146,21 +138,13 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     }
   }
 
-
   ControllerIndex(index) async {
-
     print("indexxvdoo");
     print(widget.highligts);
     print(arrList[index]['video_url'].toString());
 
-
-
-
-
-
-      controller0 = VideoPlayerController.file(File(arrList[index]['video_url'].toString()));
-
-
+    controller0 = VideoPlayerController.file(
+        File(arrList[index]['video_url'].toString()));
 
     await controller0?.initialize();
     controller0?.setLooping(true);
@@ -175,27 +159,25 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
         nowPlaying = index;
       });
 
-      if(isMute==true){
+      if (isMute == true) {
         controller0.setVolume(0.0);
-      }else{
+      } else {
         controller0.setVolume(1.0);
       }
       controller0.play();
     }
 
     setState(() {
-      currentIndex=index;
-      videoHeight =controller0
-          .value.size.height;
-      videoWidth =controller0
-          .value.size.width;
+      currentIndex = index;
+      videoHeight = controller0.value.size.height;
+      videoWidth = controller0.value.size.width;
     });
   }
 
- Future<Null> setupController(index) async {
+  Future<Null> setupController(index) async {
     if (arrList.length > 0) {
       if (widget.highligts == null) {
-      //  Controller0();
+        //  Controller0();
       } else {
         HighlightController();
       }
@@ -211,10 +193,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   TriggerNextTen(currentIndex) async {
     arrReels.clear();
     setState(() {
-      fetchNew =5;
-      page= page+1;
+      fetchNew = 5;
+      page = page + 1;
     });
-
 
     var totalIndex = await getSharedPrefrence(TOTALREELS);
     var lastAddedIndex = await getSharedPrefrence(LASTADEED);
@@ -223,50 +204,40 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     print(totalIndex);
     print(lastAddedIndex);
 
-    if(int.parse(currentIndex.toString())<int.parse(totalIndex.toString()) && int.parse(lastAddedIndex.toString())<page){
-
-         print("ulill work avndoo");
+    if (int.parse(currentIndex.toString()) < int.parse(totalIndex.toString()) &&
+        int.parse(lastAddedIndex.toString()) < page) {
+      print("ulill work avndoo");
       var list = await getPaginationReels(page);
-       if(list!=null){
-           setState(() {
-             arrReels =list;
-           });
-         for (var i = 0; i < arrReels.length; i++) {
-
-           setState(() {
-             arrList.add(
-                 {
-
-                   "id": arrReels[i]["id"],
-                   "uid": arrReels[i]["uid"],
-                   "title": arrReels[i]["title"],
-                   "desc":arrReels[i]["desc"],
-                   "like": arrReels[i]["like"],
-                   "targetType":arrReels[i]["targetType"],
-                   "targetId": arrReels[i]["targetId"],
-                   "targetUid": arrReels[i]["targetUid"],
-                   "targetBtnName": arrReels[i]["targetBtnName"],
-                   "targetJtwContent": arrReels[i]["targetJtwContent"],
-                   "video_source": arrReels[i]["video_source"],
-                   "video_url": arrReels[i]["video_url"],
-                   "author_id":arrReels[i]["author_id"],
-                   "author_img":arrReels[i]["author_img"],
-                   "thumbnail_url": arrReels[i]["thumbnail_url"],
-                   "videoDuration":arrReels[i]["videoDuration"],
-                   "isLiked": arrReels[i]["isLiked"],
-                   "page": arrReels[i]["page"],
-
-
-
-
-                 }
-             );
-           });
-
-         }
-       }
+      if (list != null) {
+        setState(() {
+          arrReels = list;
+        });
+        for (var i = 0; i < arrReels.length; i++) {
+          setState(() {
+            arrList.add({
+              "id": arrReels[i]["id"],
+              "uid": arrReels[i]["uid"],
+              "title": arrReels[i]["title"],
+              "desc": arrReels[i]["desc"],
+              "like": arrReels[i]["like"],
+              "targetType": arrReels[i]["targetType"],
+              "targetId": arrReels[i]["targetId"],
+              "targetUid": arrReels[i]["targetUid"],
+              "targetBtnName": arrReels[i]["targetBtnName"],
+              "targetJtwContent": arrReels[i]["targetJtwContent"],
+              "video_source": arrReels[i]["video_source"],
+              "video_url": arrReels[i]["video_url"],
+              "author_id": arrReels[i]["author_id"],
+              "author_img": arrReels[i]["author_img"],
+              "thumbnail_url": arrReels[i]["thumbnail_url"],
+              "videoDuration": arrReels[i]["videoDuration"],
+              "isLiked": arrReels[i]["isLiked"],
+              "page": arrReels[i]["page"],
+            });
+          });
+        }
+      }
     }
-
 
     return;
     // var arrReels = [];
@@ -334,17 +305,10 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   }
 
   TriggerBack() async {
-
-
-
-    if(page!=1){
-      page= page-1;
+    if (page != 1) {
+      page = page - 1;
     }
-
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -358,33 +322,31 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       ),
       body: isLoading == true
           ? Container(
-        color: Colors.white,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Lottie.asset("assets/images/loadingShorts.json",
-                  height: 85, width: 144),
-              Divider(
-                color: Color(0xffB6B6B6),
-                indent: 150,
-                endIndent: 150,
+              color: Colors.white,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset("assets/images/loadingShorts.json",
+                        height: 85, width: 144),
+                    Divider(
+                      color: Color(0xffB6B6B6),
+                      indent: 150,
+                      endIndent: 150,
+                    ),
+                    h(5),
+                    Text(
+                      "Good things, when short, \nare twice as good",
+                      textAlign: TextAlign.center,
+                      style: size14_400,
+                    )
+                  ],
+                ),
               ),
-              h(5),
-              Text(
-                "Good things, when short, \nare twice as good",
-                textAlign: TextAlign.center,
-                style: size14_400,
-              )
-            ],
-          ),
-        ),
-      )
+            )
           : feedVideos(),
     );
   }
-
-
 
   Widget feedVideos() {
     print("feeeeeeeeed");
@@ -394,44 +356,34 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
         PageView.builder(
           controller: controller,
           itemCount: arrList != null ? arrList.length : 0,
-
           onPageChanged: (index) {
             setState(() {
               isVideoStarted = false;
-
             });
-            if(index>currentIndex){
+            if (index > currentIndex) {
               print("direction => munnot");
 
               setState(() {
                 fetchNew = fetchNew - 1;
               });
 
-
-              if(fetchNew==0){
+              if (fetchNew == 0) {
                 print("TRIGGER");
                 print(fetchNew);
                 TriggerNextTen(page);
               }
-
-            }else{
-
+            } else {
               print("direction => backoot");
-
 
               TriggerBack();
               //  _previousVideo();
             }
             setState(() {
-              currentIndex=index;
+              currentIndex = index;
             });
 
             controller0.dispose();
             ControllerIndex(index);
-
-
-
-
           },
           allowImplicitScrolling: false,
           scrollDirection: Axis.vertical,
@@ -446,13 +398,13 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
           child: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    Colors.black,
-                    Colors.transparent,
-                  ],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                )),
+              colors: [
+                Colors.black,
+                Colors.transparent,
+              ],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            )),
             height: 120,
           ),
         ),
@@ -469,21 +421,16 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                     child: GestureDetector(
                       onTap: () {
                         if (isMute == true) {
-
-
                           setState(() {
                             isMute = false;
                           });
                           controller0.setVolume(1.0);
                         } else {
-
-
                           setState(() {
                             isMute = true;
                           });
 
                           controller0.setVolume(0.0);
-
                         }
                       },
                       child: Row(
@@ -491,9 +438,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                           Spacer(),
                           isMute == true
                               ? Icon(Icons.volume_off_outlined,
-                              color: Colors.white, size: 25)
+                                  color: Colors.white, size: 25)
                               : Icon(Icons.volume_up_rounded,
-                              color: Colors.white, size: 25)
+                                  color: Colors.white, size: 25)
                         ],
                       ),
                     ),
@@ -506,15 +453,15 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                     ),
                   ),
                   h(16),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: Row(
-                      children: [Spacer(), shareIcon()],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(right: 20),
+                  //   child: Row(
+                  //     children: [Spacer(), shareIcon()],
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   height: 16,
+                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
@@ -551,9 +498,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                             Text(
                               arrList[nowPlaying]['isLiked'] == true
                                   ? (int.parse(arrList[nowPlaying]['like']) + 1)
-                                  .toString()
-                               // : arrList[nowPlaying]['id'].toString(),
-                                : arrList[nowPlaying]['like'].toString(),
+                                      .toString()
+                                  // : arrList[nowPlaying]['id'].toString(),
+                                  : arrList[nowPlaying]['like'].toString(),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -580,7 +527,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                             style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'Mallu',
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
                         ),
@@ -606,7 +553,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
                                       image: NetworkImage(arrList[nowPlaying]
-                                      ['author_img']
+                                              ['author_img']
                                           .toString()),
                                       fit: BoxFit.cover)),
                             ),
@@ -615,6 +562,32 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                       )
                     ],
                   ),
+                  h(8),
+                  buildText(
+                    sampleTxt,
+                  ),
+                  h(2),
+                  Row(
+                    children: [
+                      Spacer(),
+                      GestureDetector(
+                        child: Text(
+                          (isReadmore ? 'Read Less' : 'Read More'),
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            isReadmore = !isReadmore;
+                          });
+                        },
+                      ),
+                      w(16)
+                    ],
+                  ),
+                  h(16),
                   arrList[nowPlaying]['targetType'].toString() == "OFF"
                       ? Container()
                       : takeFullCourseWidget()
@@ -635,7 +608,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
               opacity: 0.25,
               child: Container(
                 decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.black),
                 child: Icon(
                   Icons.arrow_back,
                   color: Colors.white,
@@ -648,17 +621,17 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
         ),
         isPlaying == true
             ? Align(
-          alignment: Alignment.center,
-          child: Container(),
-        )
+                alignment: Alignment.center,
+                child: Container(),
+              )
             : Align(
-          alignment: Alignment.center,
-          //  child: Icon(Icons.play_arrow, color: Colors.white, size: 30),
-          child: Image.asset(
-            "assets/images/pauseReels.png",
-            height: 40,
-          ),
-        )
+                alignment: Alignment.center,
+                //  child: Icon(Icons.play_arrow, color: Colors.white, size: 30),
+                child: Image.asset(
+                  "assets/images/pauseReels.png",
+                  height: 40,
+                ),
+              )
       ],
     );
   }
@@ -669,27 +642,22 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     print(index);
     print("vdoooolength");
 
-    return
-
-     Container(
-       color: Colors.black,
-       child: Stack(
+    return Container(
+      color: Colors.black,
+      child: Stack(
         children: [
-
-
           GestureDetector(
-
             onTap: () {
               if (controller0.value.isPlaying) {
                 setState(() {
-                  isPlaying=false;
+                  isPlaying = false;
                 });
                 controller0?.pause();
               } else {
                 controller0?.play();
 
                 setState(() {
-                  isPlaying=true;
+                  isPlaying = true;
                 });
               }
               // if (controller0.value.isPlaying) {
@@ -703,15 +671,15 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                 arrList[index]['isLiked'] = true;
               });
             },
-            child:  Center(
+            child: Center(
               child: AspectRatio(
                 aspectRatio: controller0.value.aspectRatio,
-                child: Container(color:Colors.black,child: Center(child: VideoPlayer(controller0))),
+                child: Container(
+                    color: Colors.black,
+                    child: Center(child: VideoPlayer(controller0))),
               ),
             ),
           ),
-
-
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -729,10 +697,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
             ],
           ),
         ],
-    ),
-     );
+      ),
+    );
   }
-
 
   takeFullCourseWidget() {
     return Padding(
@@ -749,9 +716,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => PlayerScreen(
-                        id: arrList[nowPlaying]['targetId'].toString(),
-                        cuid: arrList[nowPlaying]['targetUid'].toString(),
-                      )),
+                            id: arrList[nowPlaying]['targetId'].toString(),
+                            cuid: arrList[nowPlaying]['targetUid'].toString(),
+                          )),
                 );
               }
               break;
@@ -762,8 +729,8 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => CourseIntro(
-                        id: arrList[nowPlaying]['targetId'].toString(),
-                      )),
+                            id: arrList[nowPlaying]['targetId'].toString(),
+                          )),
                 );
               }
               break;
@@ -790,9 +757,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => PlayerScreen(
-                  id: arrList[nowPlaying][''].toString(),
-                  cuid: arrList[nowPlaying][''].toString(),
-                )),
+                      id: arrList[nowPlaying][''].toString(),
+                      cuid: arrList[nowPlaying][''].toString(),
+                    )),
           );
         },
         child: Container(
@@ -822,5 +789,22 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     );
   }
 
+  Widget buildText(String text) {
+    // if read more is false then show only 3 lines from text
+    // else show full text
+    final lines = isReadmore ? null : 2;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Text(
+        text,
+        style: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.w100, color: Colors.white),
+        maxLines: lines,
 
+        // overflow properties is used to show 3 dot in text widget
+        // so that user can understand there are few more line to read.
+        overflow: isReadmore ? TextOverflow.visible : TextOverflow.ellipsis,
+      ),
+    );
+  }
 }

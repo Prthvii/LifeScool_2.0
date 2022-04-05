@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'TutorInfo/Data/getAuther.dart';
 import 'package:lifescool/Const/Constants.dart';
+
+import 'TutorInfo/Data/getAuther.dart';
 
 class TutorInfoNew extends StatefulWidget {
   final id;
