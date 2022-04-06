@@ -442,25 +442,25 @@ class _HomeScreenState extends State<HomeScreen> {
               : Stack(
                   children: [
                     GestureDetector(
-                      onPanUpdate: (details) {
-                        // Swiping in right direction.
-                        if (details.delta.dx > 0) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ShortsPlayerPage()),
-                          );
-                        }
-
-                        // Swiping in left direction.
-                        if (details.delta.dx < 0) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyLearningNew2()),
-                          );
-                        }
-                      },
+                      // onPanUpdate: (details) {
+                      //   // Swiping in right direction.
+                      //   if (details.delta.dx > 0) {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) => ShortsPlayerPage()),
+                      //     );
+                      //   }
+                      //
+                      //   // Swiping in left direction.
+                      //   if (details.delta.dx < 0) {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) => MyLearningNew2()),
+                      //     );
+                      //   }
+                      // },
                       child: TabBarView(
                         children: [
                           SingleChildScrollView(

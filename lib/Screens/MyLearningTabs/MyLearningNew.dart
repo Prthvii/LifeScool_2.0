@@ -178,14 +178,62 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                       ),
                     ),
                   ),
+
+                  // Expanded(
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.only(
+                  //           topRight: Radius.circular(10),
+                  //           bottomRight: Radius.circular(10)),
+                  //     ),
+                  //     child: TabBar(
+                  //       labelColor: Colors.white,
+                  //       unselectedLabelColor: Color(0xffFE5C36),
+                  //       labelStyle: TextStyle(
+                  //           fontSize: 14,
+                  //           fontFamily: 'Nunito',
+                  //           fontWeight: FontWeight.bold,
+                  //           color: Colors.white),
+                  //       unselectedLabelStyle: TextStyle(
+                  //           fontSize: 14,
+                  //           fontWeight: FontWeight.bold,
+                  //           fontFamily: 'Nunito',
+                  //           color: Color(0xffFE5C36)),
+                  //       indicator: BoxDecoration(
+                  //         color: Color(0xffE6E6E6),
+                  //         borderRadius: BorderRadius.circular(10),
+                  //       ),
+                  //       tabs: [
+                  //         Tab(
+                  //           child: Column(
+                  //             mainAxisAlignment: MainAxisAlignment.center,
+                  //             children: [
+                  //               Icon(Icons.lightbulb_outline,
+                  //                   color: themeOrange, size: 22),
+                  //               Text(
+                  //                 "My Learning",
+                  //                 style: TextStyle(
+                  //                     fontSize: 14,
+                  //                     fontWeight: FontWeight.w700,
+                  //                     color: themeOrange),
+                  //               )
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+
+
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MyLearningNew2()),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => MyLearningNew2()),
+                        // );
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(
@@ -193,10 +241,10 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                           bottom: 8,
                         ),
                         child: Container(
-                          // height: 62,
+                           height: 50,
                           // width: 118,
                           decoration: BoxDecoration(
-                              color: lifescool_highlight,
+                              color: Colors.grey.shade200,
                               borderRadius: BorderRadius.circular(10)),
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),

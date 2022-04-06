@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Const/TextConstants.dart';
+import 'package:lifescool/Const/TextConstants.dart';
 import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/CourseIntro.dart';
@@ -102,21 +103,13 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       print("reeeeels length");
       print(arrList.length);
 
-      if (widget.highligts != null) {
-        print("playing high");
-        setState(() {
-          currentIndex = widget.highligts;
-        });
-        ControllerIndex(widget.highligts);
-      } else {
-        ControllerIndex(0);
-      }
+      ControllerIndex(0);
       //setupController(0);
     }
 
-    setState(() {
-      isLoading = false;
-    });
+    // setState(() {
+    //   isLoading = false;
+    // });
     return "0";
   }
 
@@ -138,13 +131,15 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     }
   }
 
-  ControllerIndex(index) async {
+
+  HightlightIndex(index) async {
     print("indexxvdoo");
     print(widget.highligts);
-    print(arrList[index]['video_url'].toString());
-
-    controller0 = VideoPlayerController.file(
-        File(arrList[index]['video_url'].toString()));
+    setState(() {
+      isLoading = true;
+    });
+    controller0 =
+        VideoPlayerController.network(widget.highligts['video_url'].toString());
 
     await controller0?.initialize();
     controller0?.setLooping(true);
@@ -154,8 +149,8 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
         isPlaying = true;
         isVideoStarted = true;
         print("falsaaaaaaaaayi");
-        name = arrList[index]['title'].toString();
-        author_img = arrList[index]['author_img'].toString();
+        name = widget.highligts['title'].toString();
+        author_img = widget.highligts['author_img'].toString();
         nowPlaying = index;
       });
 
@@ -172,6 +167,47 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       videoHeight = controller0.value.size.height;
       videoWidth = controller0.value.size.width;
     });
+  }
+  ControllerIndex(index) async {
+    print("indexxvdoo");
+    print(widget.highligts);
+    print(widget.highligts['video_url'].toString());
+
+
+    if(widget.highligts!=null&&index==0){
+      HightlightIndex(index);
+    }else{
+      controller0 = VideoPlayerController.file(
+          File(arrList[index]['video_url'].toString()));
+
+      await controller0?.initialize();
+      controller0?.setLooping(true);
+      if (controller0.value.initialized) {
+        setState(() {
+          isLoading = false;
+          isPlaying = true;
+          isVideoStarted = true;
+          print("falsaaaaaaaaayi");
+          name = arrList[index]['title'].toString();
+          author_img = arrList[index]['author_img'].toString();
+          nowPlaying = index;
+        });
+
+        if (isMute == true) {
+          controller0.setVolume(0.0);
+        } else {
+          controller0.setVolume(1.0);
+        }
+        controller0.play();
+      }
+
+      setState(() {
+        currentIndex = index;
+        videoHeight = controller0.value.size.height;
+        videoWidth = controller0.value.size.width;
+      });
+    }
+
   }
 
   Future<Null> setupController(index) async {
@@ -564,7 +600,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                   ),
                   h(8),
                   buildText(
-                    sampleTxt,
+                    arrList[nowPlaying]
+                    ['desc']
+                        .toString(),
                   ),
                   h(2),
                   Row(

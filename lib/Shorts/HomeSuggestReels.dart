@@ -42,7 +42,7 @@ class _HomeReelsState extends State<HomeReels> {
           context,
           MaterialPageRoute(
             // builder: (context) => MyLearningNew()),
-              builder: (context) => ShortsPlayerPage(highligts: int.parse(index.toString()),)),
+              builder: (context) => ShortsPlayerPage(highligts: item,)),
         );
       },
       child: Container(

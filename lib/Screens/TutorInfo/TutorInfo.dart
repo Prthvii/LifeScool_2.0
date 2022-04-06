@@ -3,6 +3,7 @@ import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Screens/CourseIntro.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
 import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
+import 'package:lifescool/Shorts/ShortVideoPage.dart';
 
 import '../PlayerScreen.dart';
 import 'Data/getAuther.dart';
@@ -477,7 +478,7 @@ class _TutorInfoState extends State<TutorInfo> {
               context,
               MaterialPageRoute(
                   // builder: (context) => MyLearningNew()),
-                  builder: (context) => NewTstShortsPlayerPage(
+                  builder: (context) => ShortsPlayerPage(
                         highligts: item,
                       )),
             );
@@ -544,7 +545,7 @@ class _TutorInfoState extends State<TutorInfo> {
           context,
           MaterialPageRoute(
               // builder: (context) => MyLearningNew()),
-              builder: (context) => NewTstShortsPlayerPage(
+              builder: (context) => ShortsPlayerPage(
                     highligts: item,
                   )),
         );
