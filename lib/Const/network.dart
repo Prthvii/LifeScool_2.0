@@ -44,3 +44,4 @@ final courseFeedback = "course-feedback";
 final authorDetails = "author-details";
 final genrateCert = "https://lifescool.app/lp/certls/tsa_center_lscool.php";
 final getShorts = "shorts-list";
+final getShortsTrigger = "shorts-trigger";

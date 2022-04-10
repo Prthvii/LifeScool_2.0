@@ -170,8 +170,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   }
   ControllerIndex(index) async {
     print("indexxvdoo");
-    print(widget.highligts);
-    print(widget.highligts['video_url'].toString());
+
 
 
     if(widget.highligts!=null&&index==0){
