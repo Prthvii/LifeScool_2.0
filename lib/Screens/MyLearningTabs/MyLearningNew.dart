@@ -9,6 +9,7 @@ import 'package:lifescool/Screens/PlayerScreen.dart';
 import 'package:lifescool/Screens/Settings.dart';
 import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
+import 'package:lifescool/Shorts/ShortVideoPage.dart';
 
 import '../HomePage.dart';
 
@@ -119,7 +120,7 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NewTstShortsPlayerPage()),
+                              builder: (context) => ShortsPlayerPage()),
                         );
                       },
                       child: Padding(

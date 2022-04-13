@@ -72,6 +72,7 @@ Future<dynamic> getPaginationReels(page) async {
                 "thumbnail_url": image.path,
                 "videoDuration":arrReels[i]["videoDuration"],
                 "isLiked": arrReels[i]["isLiked"],
+                "isSave": false,
                 "page": rsp['attributes']['page'].toString(),
 
 
@@ -82,7 +83,7 @@ Future<dynamic> getPaginationReels(page) async {
 
 
 
-        var add = addCache(arrReels[i]['id'],arrReels[i]['uid'],arrReels[i]['title'],arrReels[i]['desc'],arrReels[i]['like'],arrReels[i]['targetType'],arrReels[i]['targetId'],arrReels[i]['targetUid'],arrReels[i]['targetBtnName'],arrReels[i]['targetJtwContent'],arrReels[i]['video_source'],file.path,arrReels[i]['author_id'],arrReels[i]['author_img'],image.path,arrReels[i]['videoDuration'],arrReels[i]['isLiked'], rsp['attributes']['page'].toString());
+        var add = addCache(arrReels[i]['id'],arrReels[i]['uid'],arrReels[i]['title'],arrReels[i]['desc'],arrReels[i]['like'],arrReels[i]['targetType'],arrReels[i]['targetId'],arrReels[i]['targetUid'],arrReels[i]['targetBtnName'],arrReels[i]['targetJtwContent'],arrReels[i]['video_source'],file.path,arrReels[i]['author_id'],arrReels[i]['author_img'],image.path,arrReels[i]['videoDuration'],arrReels[i]['isLiked'], rsp['attributes']['page'].toString(),false);
       }
 
 

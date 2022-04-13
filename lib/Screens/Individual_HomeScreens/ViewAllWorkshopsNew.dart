@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Api/listAllNewWorkshops.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
+import 'package:lifescool/Screens/CourseIntro.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/listLiveBatchCat.dart';
 import 'package:lifescool/Screens/NewTutorInfo.dart';
 import 'package:lifescool/Screens/PlayerScreen.dart';
@@ -78,7 +79,7 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
     //
     if (rsp['attributes']['message'].toString() == "Success") {
       setState(() {
-        arrList = rsp['attributes']['courselist'];
+        arrList = rsp['attributes']['workshops'];
 
         // totalSale = rsp['total_card_sale'].toString();
         // totalProfit = "₹"+rsp['total_profit'].toString();
@@ -225,10 +226,11 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
               itemCount: arrList != null ? arrList.length : 0,
               itemBuilder: (context, index) {
                 final item = arrList != null ? arrList[index] : null;
-                return LiveClassCards(item, index);
+                return list(item, index);
               },
             ),
-          )
+          ),
+
         ],
       ),
     );
@@ -522,188 +524,137 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
     );
   }
 
-  LiveClassCards(var item, int index) {
+  list(var item, int index) {
+    final ss = MediaQuery.of(context).size;
+
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => LiveClassScreen()),
-        // );
-
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => PlayerScreen(
-                    id: item['id'].toString(),
-                    cuid: item['courseUid'].toString(),
-                  )),
+              builder: (context) => CourseIntro(
+                id: item['id'].toString(),
+              )),
         );
       },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 17, vertical: 2),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              spreadRadius: 1.5,
-              blurRadius: 5,
-              offset: Offset(0, 1),
-            )
-          ],
-        ),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              child: Column(
-                children: [
-                  Container(
-                    child: Row(
+      child: Stack(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  spreadRadius: 1.5,
+                  blurRadius: 5,
+                  offset: Offset(0, 1),
+                )
+              ],
+            ),
+            child: Column(
+              children: [
+                Container(
+                  height: 110,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
+                    ),
+                    image: DecorationImage(
+                      image: NetworkImage(item['workshopThumbnail'].toString()),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item['courseNameEng'].toString(),
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: 'Mallu',
-                                    fontWeight: FontWeight.w700,
-                                    color: darkBlue),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
+                        Text(
+                          item['workshopNameMalayalam'].toString(),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Nunito',
+                              color: lifescoolBlue),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 2),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all(color: Color(0xfffaf6f5)),
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                        item['thumbnailUrl'].toString()),
-                                    fit: BoxFit.cover)),
-                            height: 62,
-                            width: 93,
-                          ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Row(
+                          children: [
+                            Row(
+                              children: [
+                                // Text(
+                                //   item['workshopTime'].toString(),
+                                //   style: size14_700Blue,
+                                // ),
+                                // Padding(
+                                //   padding:
+                                //       const EdgeInsets.symmetric(horizontal: 5),
+                                //   child: Container(
+                                //     height: 12,
+                                //     width: 1,
+                                //     color: lifescoolBlue,
+                                //   ),
+                                // ),
+                                Text(
+                                  item['displaydate'].toString(),
+                                  style: size14_400Blue,
+                                )
+                              ],
+                            ),
+                            Spacer(),
+                            Text(
+                              item['authorName'].toString(),
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Nunito',
+                              ),
+                            ),
+                            SizedBox(
+                              width: 6,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TutorInfo(
+                                          id: item['authorUid'].toString())),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border:
+                                    Border.all(color: Color(0xfffaf6f5)),
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                            item['authorImageUrl']
+                                                .toString()),
+                                        fit: BoxFit.cover)),
+                                height: 24,
+                                width: 24,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Row(
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            item['chaptersCount'].toString() + " chapters",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: Container(
-                                height: 12, width: 2, color: darkBlue),
-                          ),
-                          Text(
-                            item['totalVideolength'].toString(),
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          )
-                        ],
-                      ),
-                      Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    TutorInfo(id: item['authorId'].toString())),
-                          );
-                        },
-                        child: Text(
-                          item['tutorName'].toString(),
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'Nunito',
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    TutorInfo(id: item['authorId'].toString())),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Color(0xfffaf6f5)),
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                      item['tutorProfileImage'].toString()),
-                                  fit: BoxFit.cover)),
-                          height: 24,
-                          width: 24,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                )
+              ],
             ),
-            SizedBox(
-              height: 7,
-            ),
-            item['announceText'] != null
-                ? Container(
-                    alignment: Alignment.centerLeft,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: gradientGreen,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(24),
-                          bottomRight: Radius.circular(24)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      child: Text(
-                        item['announceText'].toString(),
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                            color: liteBlue),
-                      ),
-                    ),
-                  )
-                : Container()
-          ],
-        ),
+          ),
+          // shimmer()
+        ],
       ),
     );
   }

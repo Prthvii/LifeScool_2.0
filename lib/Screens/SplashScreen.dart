@@ -98,7 +98,7 @@ if(arrReels[i]['video_url_mp4_low']!=null&&arrReels[i]['thumbnail_url']!=null){
 
   print("fileee");
   print(file);
-  var add = addCache(arrReels[i]['id'],arrReels[i]['uid'],arrReels[i]['title'],arrReels[i]['desc'],arrReels[i]['like'],arrReels[i]['targetType'],arrReels[i]['targetId'],arrReels[i]['targetUid'],arrReels[i]['targetBtnName'],arrReels[i]['targetJtwContent'],arrReels[i]['video_source'],file.path,arrReels[i]['author_id'],arrReels[i]['author_img'],image.path,arrReels[i]['videoDuration'],arrReels[i]['isLiked'], rsp['attributes']['page'].toString());
+  var add = addCache(arrReels[i]['id'],arrReels[i]['uid'],arrReels[i]['title'],arrReels[i]['desc'],arrReels[i]['like'],arrReels[i]['targetType'],arrReels[i]['targetId'],arrReels[i]['targetUid'],arrReels[i]['targetBtnName'],arrReels[i]['targetJtwContent'],arrReels[i]['video_source'],file.path,arrReels[i]['author_id'],arrReels[i]['author_img'],image.path,arrReels[i]['videoDuration'],arrReels[i]['isLiked'], rsp['attributes']['page'].toString(),false);
 }
 
     }

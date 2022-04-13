@@ -65,13 +65,13 @@ class _HomeScreenState extends State<HomeScreen> {
     this.getProfile();
     //   this.getReels();
 
-    this.getHomePageSuggestion();
+
     setState(() {});
   }
 
   Future<String> getReels() async {
     var arrReels = [];
-    var rsp = await reelsListApi("3");
+    var rsp = await reelsListApi("1");
     print("courseeeeeeeeeeeeee");
     print(rsp);
 
@@ -113,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
             image.path,
             arrReels[i]['videoDuration'],
             arrReels[i]['isLiked'],
-            rsp['attributes']['page'].toString());
+            rsp['attributes']['page'].toString(),false);
       }
       // setState(() {
       //   isLoading = false;
@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
             MAIL, rsp['attributes']['studentInfo']['emailId']);
         var name = await setSharedPrefrence(
             NAME, rsp['attributes']['studentInfo']['fullname']);
-        getHome();
+        getHomePageSuggestion();
       } else {
         showToastSuccess(rsp['attributes']['message'].toString());
 
@@ -150,31 +150,31 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       }
     } else {
-      getHome();
+      getHomePageSuggestion();
     }
 
     return "0";
   }
 
-  Future<String> getHome() async {
-    var rsp = await listCourseApi();
-    print("courseeeeeeeeeeeeee");
-    print(rsp);
-
-    // arrProdList = data;
-    //
-    if (rsp['attributes']['message'].toString() == "Success") {
-      setState(() {
-        arrList = rsp['attributes']['courselist'];
-        resList = rsp['attributes']['resumeCourse'];
-      });
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-    return "0";
-  }
+  // Future<String> getHome() async {
+  //   var rsp = await listCourseApi();
+  //   print("courseeeeeeeeeeeeee");
+  //   print(rsp);
+  //
+  //   // arrProdList = data;
+  //   //
+  //   if (rsp['attributes']['message'].toString() == "Success") {
+  //     setState(() {
+  //       arrList = rsp['attributes']['courselist'];
+  //       resList = rsp['attributes']['resumeCourse'];
+  //     });
+  //   }
+  //
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  //   return "0";
+  // }
 
   Future<String> getHomePageSuggestion() async {
     print("suggesteddddddddd");

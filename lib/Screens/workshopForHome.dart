@@ -348,7 +348,7 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                             Row(
                               children: [
                                 // Text(
-                                //   "12" + " chapters",
+                                //   item['workshopTime'].toString(),
                                 //   style: size14_700Blue,
                                 // ),
                                 // Padding(
@@ -361,14 +361,14 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                                 //   ),
                                 // ),
                                 Text(
-                                  item['courseDuration'].toString(),
+                                  item['displaydate'].toString(),
                                   style: size14_400Blue,
                                 )
                               ],
                             ),
                             Spacer(),
                             Text(
-                              item['tutorName'].toString(),
+                              item['authorName'].toString(),
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
@@ -384,7 +384,7 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => TutorInfo(
-                                          id: item['authorId'].toString())),
+                                          id: item['authorUid'].toString())),
                                 );
                               },
                               child: Container(
@@ -394,7 +394,7 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                                         Border.all(color: Color(0xfffaf6f5)),
                                     image: DecorationImage(
                                         image: NetworkImage(
-                                            item['tutorProfileImage']
+                                            item['authorImageUrl']
                                                 .toString()),
                                         fit: BoxFit.cover)),
                                 height: 24,
