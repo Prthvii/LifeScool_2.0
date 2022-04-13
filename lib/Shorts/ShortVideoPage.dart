@@ -6,8 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lifescool/Const/Constants.dart';
-import 'package:lifescool/Const/TextConstants.dart';
-import 'package:lifescool/Const/TextConstants.dart';
 import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/CourseIntro.dart';
@@ -19,8 +17,6 @@ import 'package:lifescool/Shorts/Data/reelsPagination.dart';
 import 'package:lifescool/Shorts/Data/triggerReels.dart';
 import 'package:lottie/lottie.dart';
 import 'package:video_player/video_player.dart';
-
-import 'bookmark.dart';
 
 class ShortsPlayerPage extends StatefulWidget {
   var highligts;
@@ -132,7 +128,6 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     }
   }
 
-
   HightlightIndex(index) async {
     print("indexxvdoo");
     print(widget.highligts);
@@ -169,14 +164,13 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
       videoWidth = controller0.value.size.width;
     });
   }
+
   ControllerIndex(index) async {
     print("indexxvdoo");
 
-
-
-    if(widget.highligts!=null&&index==0){
+    if (widget.highligts != null && index == 0) {
       HightlightIndex(index);
-    }else{
+    } else {
       controller0 = VideoPlayerController.file(
           File(arrList[index]['video_url'].toString()));
 
@@ -207,7 +201,6 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
         videoWidth = controller0.value.size.width;
       });
     }
-
   }
 
   Future<Null> setupController(index) async {
@@ -357,51 +350,57 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
         ),
       ),
       body: isLoading == false
-          ? Container(
-              color: Colors.white,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Positioned(
-                      top: 16,
-                      left: 16,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) => HomeScreen()));
-                        },
-                        child: Opacity(
-                          opacity: 0.25,
-                          child: Container(
-                            decoration:
-                            BoxDecoration(shape: BoxShape.circle, color: Colors.black),
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                            ),
-                            height: 48,
-                            width: 48,
-                          ),
+          ? Stack(
+              children: [
+                Container(
+                  color: Colors.white,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.asset("assets/images/loadingShorts.json",
+                            height: 85, width: 144),
+                        Divider(
+                          color: Color(0xffB6B6B6),
+                          indent: 150,
+                          endIndent: 150,
                         ),
+                        h(5),
+                        Text(
+                          "Good things, when short, \nare twice as good",
+                          textAlign: TextAlign.center,
+                          style: size14_400,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 16,
+                  left: 16,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomeScreen()));
+                    },
+                    child: Opacity(
+                      opacity: 0.25,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.black),
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        ),
+                        height: 48,
+                        width: 48,
                       ),
                     ),
-                    Lottie.asset("assets/images/loadingShorts.json",
-                        height: 85, width: 144),
-                    Divider(
-                      color: Color(0xffB6B6B6),
-                      indent: 150,
-                      endIndent: 150,
-                    ),
-                    h(5),
-                    Text(
-                      "Good things, when short, \nare twice as good",
-                      textAlign: TextAlign.center,
-                      style: size14_400,
-                    )
-                  ],
+                  ),
                 ),
-              ),
+              ],
             )
           : feedVideos(),
     );
@@ -508,33 +507,44 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Row(
-                      children: [Spacer(),
+                      children: [
+                        Spacer(),
                         GestureDetector(
-                          onTap: () async{
+                          onTap: () async {
                             if (arrList[nowPlaying]['isSave'] == true) {
                               setState(() {
                                 arrList[nowPlaying]['isSave'] = false;
                               });
-                              var rsp = await triggerReelsApi("SAVEDROP",arrList[nowPlaying]['id'],);
-                               var upt= await updateCache(arrList[nowPlaying]['id'],"SAVE",false);
+                              var rsp = await triggerReelsApi(
+                                "SAVEDROP",
+                                arrList[nowPlaying]['id'],
+                              );
+                              var upt = await updateCache(
+                                  arrList[nowPlaying]['id'], "SAVE", false);
                             } else {
                               setState(() {
                                 arrList[nowPlaying]['isSave'] = true;
                               });
 
-                              var rsp = await triggerReelsApi("SAVEIT",arrList[nowPlaying]['id'],);
-                              var upt= await updateCache(arrList[nowPlaying]['id'],"SAVE",true);
+                              var rsp = await triggerReelsApi(
+                                "SAVEIT",
+                                arrList[nowPlaying]['id'],
+                              );
+                              var upt = await updateCache(
+                                  arrList[nowPlaying]['id'], "SAVE", true);
                             }
                           },
-                          child:arrList[nowPlaying]['isSave'] == false ?Icon(
-                            Icons.bookmark_outline,
-                            color: Colors.white,
-                            size: 25,
-                          ): Icon(
-                            Icons.bookmark,
-                            color: Colors.white,
-                            size: 25,
-                          ),
+                          child: arrList[nowPlaying]['isSave'] == false
+                              ? Icon(
+                                  Icons.bookmark_outline,
+                                  color: Colors.white,
+                                  size: 25,
+                                )
+                              : Icon(
+                                  Icons.bookmark,
+                                  color: Colors.white,
+                                  size: 25,
+                                ),
                         ),
                       ],
                     ),
@@ -557,25 +567,29 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                         Column(
                           children: [
                             GestureDetector(
-                              onTap: () async{
+                              onTap: () async {
                                 if (arrList[nowPlaying]['isLiked'] == true) {
                                   setState(() {
                                     arrList[nowPlaying]['isLiked'] = false;
                                   });
-                                  var rsp = await triggerReelsApi("LIKEDROP",arrList[nowPlaying]['id'],);
+                                  var rsp = await triggerReelsApi(
+                                    "LIKEDROP",
+                                    arrList[nowPlaying]['id'],
+                                  );
 
-                                  var upt= await updateCache(arrList[nowPlaying]['id'],"LIKE",false);
-
+                                  var upt = await updateCache(
+                                      arrList[nowPlaying]['id'], "LIKE", false);
                                 } else {
                                   setState(() {
                                     arrList[nowPlaying]['isLiked'] = true;
                                   });
 
-                                  var rsp = await triggerReelsApi("LIKEIT",arrList[nowPlaying]['id'],);
-                                  var upt= await updateCache(arrList[nowPlaying]['id'],"LIKE",true);
-
-
-
+                                  var rsp = await triggerReelsApi(
+                                    "LIKEIT",
+                                    arrList[nowPlaying]['id'],
+                                  );
+                                  var upt = await updateCache(
+                                      arrList[nowPlaying]['id'], "LIKE", true);
                                 }
                               },
                               child: CircleAvatar(
@@ -594,7 +608,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                             ),
                             Text(
                               arrList[nowPlaying]['isLiked'] == true
-                                  ? (int.parse(arrList[nowPlaying]['like'].toString())+1)
+                                  ? (int.parse(arrList[nowPlaying]['like']
+                                              .toString()) +
+                                          1)
                                       .toString()
                                   // : arrList[nowPlaying]['id'].toString(),
                                   : arrList[nowPlaying]['like'].toString(),
@@ -661,9 +677,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                   ),
                   h(8),
                   buildText(
-                    arrList[nowPlaying]
-                    ['desc']
-                        .toString(),
+                    arrList[nowPlaying]['desc'].toString(),
                   ),
                   h(2),
                   Row(
