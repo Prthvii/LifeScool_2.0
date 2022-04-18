@@ -4,14 +4,14 @@ import 'package:http/http.dart' as http;
 import 'package:lifescool/Const/network.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 
-Future sendOtpApi(num) async {
+Future sendOtpApi(num,code) async {
 
 
 final json = {
   'request_header':sendOtp,
   'secKey':secKey,
   'mobileNumber':num.toString(),
-  'countryCode':countryCode,
+  'countryCode':code,
 
 
 };

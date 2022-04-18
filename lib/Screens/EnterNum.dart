@@ -22,7 +22,18 @@ class _EntNumState extends State<EntNum> {
   // TextEditingController nameController = new TextEditingController();
   // TextEditingController dateController = new TextEditingController();
   bool isTap = false;
+  String dropdownvalue = '+91';
 
+  var items = [
+    '+91',
+    '+973',
+    '+974',
+    '+968',
+    '+971',
+    '+966',
+    '+44',
+    '+1',
+  ];
   @override
   void initState() {
     super.initState();
@@ -133,7 +144,7 @@ class _EntNumState extends State<EntNum> {
                               if (phone.isNotEmpty && phone.length == 10) {
                                 enableTap();
                                 var rsp = await sendOtpApi(
-                                    numController.text.toString());
+                                    numController.text.toString(),dropdownvalue);
                                 print("rsp['attributes']");
                                 if (rsp['attributes']['message'].toString() ==
                                     "Success") {
@@ -198,11 +209,7 @@ class _EntNumState extends State<EntNum> {
           Container(
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Text(
-                "+91",
-                style: TextStyle(
-                    fontSize: 18, letterSpacing: 1, color: Color(0xff2F455C)),
-              ),
+              child: drop(),
             ),
             decoration: BoxDecoration(
                 color: Color(0xffE9E9E9),
@@ -243,5 +250,25 @@ class _EntNumState extends State<EntNum> {
         ],
       ),
     );
+  }
+
+
+  Widget drop() {
+    return DropdownButton(
+        isDense: true,
+        value: dropdownvalue,
+        elevation: 1,
+        dropdownColor: Colors.white,
+        // style: size18_700,
+        underline: Container(),
+        icon: const Icon(Icons.keyboard_arrow_down),
+        items: items.map((String items) {
+          return DropdownMenuItem(value: items, child: Text(items));
+        }).toList(),
+        onChanged: (String newValue) {
+          setState(() {
+            dropdownvalue = newValue;
+          });
+        });
   }
 }

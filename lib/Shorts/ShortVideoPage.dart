@@ -349,7 +349,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
           backgroundColor: Colors.transparent,
         ),
       ),
-      body: isLoading == false
+      body: isLoading == true
           ? Stack(
               children: [
                 Container(
@@ -367,7 +367,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                         ),
                         h(5),
                         Text(
-                          "Good things, when short, \nare twice as good",
+                          "Good things, when short, \n are twice as good",
                           textAlign: TextAlign.center,
                           style: size14_400,
                         )

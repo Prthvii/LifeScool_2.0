@@ -20,9 +20,19 @@ class _FindCourseState extends State<FindCourse> {
   bool isExpanded = false;
 
   var arrList = [];
-  var searchList = [];
-  var catogeryItems = [];
 
+
+  bool isCourse=false;
+  bool isWorkshop=false;
+  bool isLiveBatch=false;
+  var courselist = [];
+  var workshoplist = [];
+  var livebatchlist = [];
+
+  var isSelected = 1;
+
+
+  var catogeryItems = [];
   var isLoading = true;
   var isSearchActive = false;
   var token;
@@ -79,13 +89,17 @@ class _FindCourseState extends State<FindCourse> {
     //
     if (rsp['attributes']['message'].toString() == "Success") {
       setState(() {
-        searchList = rsp['attributes']['courselist'];
+
+
+        courselist = rsp['attributes']['courselist'];
+        workshoplist = rsp['attributes']['workshoplist'];
+        livebatchlist = rsp['attributes']['livebatchlist'];
 
         // totalSale = rsp['total_card_sale'].toString();
         // totalProfit = "₹"+rsp['total_profit'].toString();
       });
       print("searchhhhhhhh");
-      print(searchList);
+      print(courselist);
     } else {
       //showToastSuccess(rsp['attributes']['message'].toString());
     }
@@ -94,6 +108,11 @@ class _FindCourseState extends State<FindCourse> {
       isLoading = false;
     });
     return "0";
+  }
+
+  Future<String> filterDown() async {
+
+
   }
 
   @override
@@ -232,19 +251,161 @@ class _FindCourseState extends State<FindCourse> {
     );
   }
 
+  // Widget listViewOld() {
+  //   return ListView.separated(
+  //     scrollDirection: Axis.vertical,
+  //     physics: BouncingScrollPhysics(),
+  //     separatorBuilder: (context, index) => SizedBox(
+  //       height: 20,
+  //     ),
+  //     shrinkWrap: true,
+  //     itemCount: courselist != null ? courselist.length : 0,
+  //     itemBuilder: (context, index) {
+  //       final item = courselist != null ? courselist[index] : null;
+  //       return HomeCards(item, index);
+  //     },
+  //   );
+  // }
+
+
   Widget listViewOld() {
-    return ListView.separated(
-      scrollDirection: Axis.vertical,
-      physics: BouncingScrollPhysics(),
-      separatorBuilder: (context, index) => SizedBox(
-        height: 20,
-      ),
-      shrinkWrap: true,
-      itemCount: searchList != null ? searchList.length : 0,
-      itemBuilder: (context, index) {
-        final item = searchList != null ? searchList[index] : null;
-        return HomeCards(item, index);
-      },
+    return Column(
+      children: [
+        h(8),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isSelected = 1;
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color:
+                      isSelected == 1 ? Color(0xffFEE9E4) : Colors.white,
+                      border: Border.all(color: grey2),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 19),
+                    child: Text("Courses", style: size14_600),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isSelected = 2;
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: isSelected == 2
+                            ? Color(0xffFEE9E4)
+                            : Colors.white,
+                        border: Border.all(color: grey2),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 19),
+                      child: Text("Live Batches", style: size14_600),
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isSelected = 3;
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color:
+                      isSelected == 3 ? Color(0xffFEE9E4) : Colors.white,
+                      border: Border.all(color: grey2),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 19),
+                    child: Text("Workshops", style: size14_600),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        h(16),
+        isSelected == 1
+            ? Expanded(
+          child: Scrollbar(
+            child: ListView.separated(
+              scrollDirection: Axis.vertical,
+              physics: BouncingScrollPhysics(),
+              separatorBuilder: (context, index) => SizedBox(
+                height: 15,
+              ),
+              shrinkWrap: true,
+              //  itemCount: 2,
+
+              itemCount: courselist != null ? courselist.length : 0,
+              itemBuilder: (context, index) {
+                final item =
+                courselist != null ? courselist[index] : null;
+                return HomeCards(item, index);
+              },
+            ),
+          ),
+        )
+            : isSelected == 2
+            ? Expanded(
+          child: Scrollbar(
+            child: ListView.separated(
+              scrollDirection: Axis.vertical,
+              physics: BouncingScrollPhysics(),
+              separatorBuilder: (context, index) => SizedBox(
+                height: 15,
+              ),
+              shrinkWrap: true,
+              //  itemCount: 2,
+
+              itemCount: livebatchlist != null ? livebatchlist.length : 0,
+              itemBuilder: (context, index) {
+                final item =
+                livebatchlist != null ? livebatchlist[index] : null;
+                return HomeCards(item, index);
+              },
+            ),
+          ),
+        )
+            : Expanded(
+          child: Scrollbar(
+            child: ListView.separated(
+              scrollDirection: Axis.vertical,
+              physics: BouncingScrollPhysics(),
+              separatorBuilder: (context, index) => SizedBox(
+                height: 15,
+              ),
+              shrinkWrap: true,
+              //  itemCount: 2,
+
+              itemCount:
+              workshoplist != null ? workshoplist.length : 0,
+              itemBuilder: (context, index) {
+                final item =
+                workshoplist != null ? workshoplist[index] : null;
+                return HomeCards(item, index);
+              },
+            ),
+          ),
+        ),
+        h(16)
+      ],
     );
   }
 
@@ -266,6 +427,7 @@ class _FindCourseState extends State<FindCourse> {
   newList(var item, int index) {
     return GestureDetector(
       onTap: () {
+        print("tappp");
         Navigator.push(
           context,
           MaterialPageRoute(

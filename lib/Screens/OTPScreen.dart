@@ -15,7 +15,8 @@ import 'HomePage.dart';
 
 class OtpScreen extends StatefulWidget {
   final mob;
-  OtpScreen({this.mob});
+  final code;
+  OtpScreen({this.mob,this.code});
 
   // const OtpScreen({Key? key}) : super(key: key);
 
@@ -91,7 +92,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               GestureDetector(
                                 onTap: () async {
                                   var rsp =
-                                      await sendOtpApi(widget.mob.toString());
+                                      await sendOtpApi(widget.mob.toString(),widget.code.toString());
                                   print("rsp['attributes']");
                                   if (rsp['attributes']['message'].toString() ==
                                       "Success") {
@@ -118,7 +119,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             height: 15,
                           ),
                           Text(
-                            "Enter OTP sent to +91 ${widget.mob.toString()}",
+                            "Enter OTP sent to ${widget.code} ${widget.mob.toString()}",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 14,
