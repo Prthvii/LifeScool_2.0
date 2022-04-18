@@ -21,16 +21,14 @@ class _FindCourseState extends State<FindCourse> {
 
   var arrList = [];
 
-
-  bool isCourse=false;
-  bool isWorkshop=false;
-  bool isLiveBatch=false;
+  bool isCourse = false;
+  bool isWorkshop = false;
+  bool isLiveBatch = false;
   var courselist = [];
   var workshoplist = [];
   var livebatchlist = [];
 
   var isSelected = 1;
-
 
   var catogeryItems = [];
   var isLoading = true;
@@ -89,8 +87,6 @@ class _FindCourseState extends State<FindCourse> {
     //
     if (rsp['attributes']['message'].toString() == "Success") {
       setState(() {
-
-
         courselist = rsp['attributes']['courselist'];
         workshoplist = rsp['attributes']['workshoplist'];
         livebatchlist = rsp['attributes']['livebatchlist'];
@@ -110,10 +106,7 @@ class _FindCourseState extends State<FindCourse> {
     return "0";
   }
 
-  Future<String> filterDown() async {
-
-
-  }
+  Future<String> filterDown() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -241,12 +234,7 @@ class _FindCourseState extends State<FindCourse> {
           SingleChildScrollView(
               child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Column(
-                children: [
-                  // TopCategorySelect(),
-                  isSearchActive == true ? listViewOld() : newListView(),
-                ],
-              ),
+              child: isSearchActive == true ? listViewOld() : newListView(),
             )),
     );
   }
@@ -267,7 +255,6 @@ class _FindCourseState extends State<FindCourse> {
   //   );
   // }
 
-
   Widget listViewOld() {
     return Column(
       children: [
@@ -284,8 +271,7 @@ class _FindCourseState extends State<FindCourse> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      color:
-                      isSelected == 1 ? Color(0xffFEE9E4) : Colors.white,
+                      color: isSelected == 1 ? Color(0xffFEE9E4) : Colors.white,
                       border: Border.all(color: grey2),
                       borderRadius: BorderRadius.circular(10)),
                   child: Padding(
@@ -305,9 +291,8 @@ class _FindCourseState extends State<FindCourse> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Container(
                     decoration: BoxDecoration(
-                        color: isSelected == 2
-                            ? Color(0xffFEE9E4)
-                            : Colors.white,
+                        color:
+                            isSelected == 2 ? Color(0xffFEE9E4) : Colors.white,
                         border: Border.all(color: grey2),
                         borderRadius: BorderRadius.circular(10)),
                     child: Padding(
@@ -326,8 +311,7 @@ class _FindCourseState extends State<FindCourse> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      color:
-                      isSelected == 3 ? Color(0xffFEE9E4) : Colors.white,
+                      color: isSelected == 3 ? Color(0xffFEE9E4) : Colors.white,
                       border: Border.all(color: grey2),
                       borderRadius: BorderRadius.circular(10)),
                   child: Padding(
@@ -341,69 +325,67 @@ class _FindCourseState extends State<FindCourse> {
           ),
         ),
         h(16),
-        isSelected == 1
-            ? Expanded(
-          child: Scrollbar(
-            child: ListView.separated(
-              scrollDirection: Axis.vertical,
-              physics: BouncingScrollPhysics(),
-              separatorBuilder: (context, index) => SizedBox(
-                height: 15,
-              ),
-              shrinkWrap: true,
-              //  itemCount: 2,
+        Container(
+            child: isSelected == 1
+                ? Scrollbar(
+                    child: ListView.separated(
+                      scrollDirection: Axis.vertical,
+                      physics: BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) => SizedBox(
+                        height: 15,
+                      ),
+                      shrinkWrap: true,
+                      //  itemCount: 2,
 
-              itemCount: courselist != null ? courselist.length : 0,
-              itemBuilder: (context, index) {
-                final item =
-                courselist != null ? courselist[index] : null;
-                return HomeCards(item, index);
-              },
-            ),
-          ),
-        )
-            : isSelected == 2
-            ? Expanded(
-          child: Scrollbar(
-            child: ListView.separated(
-              scrollDirection: Axis.vertical,
-              physics: BouncingScrollPhysics(),
-              separatorBuilder: (context, index) => SizedBox(
-                height: 15,
-              ),
-              shrinkWrap: true,
-              //  itemCount: 2,
+                      itemCount: courselist != null ? courselist.length : 0,
+                      itemBuilder: (context, index) {
+                        final item =
+                            courselist != null ? courselist[index] : null;
+                        return HomeCards(item, index);
+                      },
+                    ),
+                  )
+                : isSelected == 2
+                    ? Scrollbar(
+                        child: ListView.separated(
+                          scrollDirection: Axis.vertical,
+                          physics: BouncingScrollPhysics(),
+                          separatorBuilder: (context, index) => SizedBox(
+                            height: 15,
+                          ),
+                          shrinkWrap: true,
+                          //  itemCount: 2,
 
-              itemCount: livebatchlist != null ? livebatchlist.length : 0,
-              itemBuilder: (context, index) {
-                final item =
-                livebatchlist != null ? livebatchlist[index] : null;
-                return HomeCards(item, index);
-              },
-            ),
-          ),
-        )
-            : Expanded(
-          child: Scrollbar(
-            child: ListView.separated(
-              scrollDirection: Axis.vertical,
-              physics: BouncingScrollPhysics(),
-              separatorBuilder: (context, index) => SizedBox(
-                height: 15,
-              ),
-              shrinkWrap: true,
-              //  itemCount: 2,
+                          itemCount:
+                              livebatchlist != null ? livebatchlist.length : 0,
+                          itemBuilder: (context, index) {
+                            final item = livebatchlist != null
+                                ? livebatchlist[index]
+                                : null;
+                            return HomeCards(item, index);
+                          },
+                        ),
+                      )
+                    : Scrollbar(
+                        child: ListView.separated(
+                          scrollDirection: Axis.vertical,
+                          physics: BouncingScrollPhysics(),
+                          separatorBuilder: (context, index) => SizedBox(
+                            height: 15,
+                          ),
+                          shrinkWrap: true,
+                          //  itemCount: 2,
 
-              itemCount:
-              workshoplist != null ? workshoplist.length : 0,
-              itemBuilder: (context, index) {
-                final item =
-                workshoplist != null ? workshoplist[index] : null;
-                return HomeCards(item, index);
-              },
-            ),
-          ),
-        ),
+                          itemCount:
+                              workshoplist != null ? workshoplist.length : 0,
+                          itemBuilder: (context, index) {
+                            final item = workshoplist != null
+                                ? workshoplist[index]
+                                : null;
+                            return HomeCards(item, index);
+                          },
+                        ),
+                      )),
         h(16)
       ],
     );
