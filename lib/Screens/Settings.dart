@@ -118,9 +118,7 @@ class _SettingsState extends State<Settings> {
         var id = await setSharedPrefrence(ID, null);
 
         Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => EntNum()),
-        );
+            context, MaterialPageRoute(builder: (context) => EntNum()));
       },
     );
 

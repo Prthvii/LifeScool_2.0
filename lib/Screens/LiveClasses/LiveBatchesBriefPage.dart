@@ -1,3 +1,5 @@
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Const/Constants.dart';
@@ -5,8 +7,7 @@ import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/joinBatch.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/liveBatchBreif.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
 class liveBatchesBriefPage extends StatefulWidget {
   final item;
 
@@ -28,14 +29,13 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
   var currentIndex = 3000;
   //List<dynamic> data = [];
 
-
   var banners = [];
-  var basic ;
+  var basic;
   var features = [];
   var traniners = [];
   var modules = [];
   var faqs = [];
-  var cert ;
+  var cert;
 
   List<Widget> columnContent = [];
   final CarouselController controller = CarouselController();
@@ -50,12 +50,10 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
     setState(() {});
   }
 
-
   Future<String> getData() async {
     var rsp = await liveBatchBreifApi(widget.item['id'].toString());
     print("courseeeeeeeeeeeeee");
     print(rsp);
-
 
     if (rsp['attributes']['message'].toString() == "Success") {
       setState(() {
@@ -65,8 +63,6 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
         modules = rsp['attributes']['modules'];
         faqs = rsp['attributes']['faqs'];
         cert = rsp['attributes']['cert'];
-
-
       });
       _buildExpandableContent();
     } else {
@@ -79,10 +75,9 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
     return "0";
   }
 
-
   _buildExpandableContent() {
     for (var value in banners) {
-      columnContent.add( Card(
+      columnContent.add(Card(
           elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
@@ -91,19 +86,16 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 image: DecorationImage(
-                  image: NetworkImage(
-                      value['type'].toString()=="IMAGE"?  value['content'].toString():"https://t4.ftcdn.net/jpg/04/32/14/71/360_F_432147139_H6qEZ6Pdw04kKmK0LW27xZHRLWPT6h4D.jpg"
-                  ),
+                  image: NetworkImage(value['type'].toString() == "IMAGE"
+                      ? value['content'].toString()
+                      : "https://t4.ftcdn.net/jpg/04/32/14/71/360_F_432147139_H6qEZ6Pdw04kKmK0LW27xZHRLWPT6h4D.jpg"),
                   fit: BoxFit.cover,
                 )),
             alignment: Alignment.bottomCenter,
-
           )));
-
-
     }
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -234,207 +226,164 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
           ),
         ),
       ),
-      body:isLoading == true
+      body: isLoading == true
           ? Container(
-        child: Center(
-          child: Image.asset(
-            "assets/images/loading.gif",
-            height: 40,
-          ),
-        ),
-      )
-          :  SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 233,
-              color: themeOrange,
-              child: CarouselSlider(
-                items: columnContent,
-                carouselController: controller,
-                options: CarouselOptions(
-                  aspectRatio: 16 / 9,
-                  viewportFraction: 0.95,
-                  initialPage: 0,
-                  enableInfiniteScroll: true,
-                  reverse: false,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration:
-                  Duration(milliseconds: 800),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enlargeCenterPage: true,
-                  scrollDirection: Axis.horizontal,
-                ),
-              ),
-            ),
-            h(24),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Center(
+                  child: Image.asset(
+              "assets/images/loading.gif",
+              height: 40,
+            )))
+          : SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                      basic['name'].toString(),
-                      style: size16_700Mallu),
-                  h(8),
-                  Text(
-                      basic['description'].toString(),
-                      style: size14_400),
-                  h(16),
-                  Row(
-                    children: [
-                      Icon(Icons.calendar_today, size: 18),
-                      w(12),
-                      Text(basic['schedule'].toString(), style: size14_600),
-                      // Text(" to ", style: size14_400),
-                      // Text("September 12", style: size14_600),
-                    ],
-                  ),
-                  h(32),
-                  Text("Features", style: size16_700Red),
-                  h(32),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              "assets/svg/video.svg",
-                              height: 32,
-                            ),
-                            w(16),
-                            Expanded(
-                              child: Text("Five hours of video on-demand",
-                                  style: size14_400),
-                            )
-                          ],
-                        ),
-                      ),
-                      w(16),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              "assets/svg/mobile.svg",
-                              height: 32,
-                            ),
-                            w(16),
-                            Expanded(
-                              child: Text("Lifetime Access on Mobiled",
-                                  style: size14_400),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  h(24),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              "assets/svg/downlaod.svg",
-                              height: 32,
-                            ),
-                            w(16),
-                            Expanded(
-                              child: Text("3 downloadable resources",
-                                  style: size14_400),
-                            )
-                          ],
-                        ),
-                      ),
-                      w(16),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              "assets/svg/live.svg",
-                              height: 32,
-                            ),
-                            w(16),
-                            Expanded(
-                              child: Text("2 live projects", style: size14_400),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  h(32),
-                  Text("Trainer", style: size16_700Red),
-                  h(16),
-                  profileContainer(),
-                  h(32),
-                  Text("Modules", style: size16_700Red),
-                  h(24),
-                  ListView.separated(
-                    scrollDirection: Axis.vertical,
-                    physics: NeverScrollableScrollPhysics(),
-                    separatorBuilder: (context, index) => Divider(color: grey2),
-                    shrinkWrap: true,
-                    itemCount: modules != null ? modules.length : 0,
-                    itemBuilder: (context, index) {
-                      final item = modules != null ? modules[index] : null;
-                      return list(item,index);
-                    },
-                  ),
-                  Divider(color: grey2),
-                  Row(
-                    children: [
-                      Text("FAQ", style: size16_700Red),
-                      Spacer(),
-                      // Text("View All", style: size14_700),
-                      w(3),
-                      Icon(Icons.arrow_forward_ios, size: 12)
-                    ],
-                  ),
-                  h(16),
-                  SizedBox(
-                    height: 177,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (context, index) => SizedBox(width: 16),
-                      shrinkWrap: true,
-                      itemCount: faqs != null ? faqs.length : 0,
-                      itemBuilder: (context, index) {
-                        final item = faqs != null ? faqs[index] : null;
-                        return faqList(item,index);
-                      },
+                  Container(
+                    height: 210,
+                    child: Stack(
+                      children: [
+                        CarouselSlider(
+                            items: columnContent,
+                            carouselController: controller,
+                            options: CarouselOptions(
+                              aspectRatio: 16 / 9,
+                              viewportFraction: 1,
+                              initialPage: 0,
+                              enableInfiniteScroll: true,
+                              reverse: false,
+                              autoPlay: true,
+                              autoPlayInterval: Duration(seconds: 3),
+                              autoPlayAnimationDuration:
+                                  Duration(milliseconds: 800),
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              enlargeCenterPage: true,
+                              scrollDirection: Axis.horizontal,
+                            )),
+                        Align(
+                            alignment: Alignment.center,
+                            child: Icon(Icons.play_arrow,
+                                color: Colors.white, size: 40))
+                      ],
                     ),
                   ),
-                  h(32),
-                  Text("Certificate", style: size16_700Red),
-                  h(15),
-                  Row(
-                    children: [
-                      Image.network(
-                        cert['image'].toString(),
-                        height: 112,
-                        width: 179,
-                      ),
-                      w(16),
-                      Expanded(
-                        child: Text(
-                            cert['description'].toString(),
+                  h(24),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(basic['name'].toString(), style: size16_700Mallu),
+                        h(8),
+                        Text(basic['description'].toString(),
                             style: size14_400),
-                      )
-                    ],
-                  ),
-                  h(33)
+                        h(16),
+                        Row(children: [
+                          Icon(Icons.calendar_today, size: 18),
+                          w(12),
+                          Text(basic['schedule'].toString(), style: size14_600),
+                        ]),
+                        h(32),
+                        Text("Features", style: size16_700Red),
+                        h(22),
+                        GridView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: 6,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                  childAspectRatio: 2.5),
+                          itemBuilder: (BuildContext context, int index) {
+                            return FeaturesGrid(index);
+                          },
+                        ),
+                        h(32),
+                        Text("Trainer", style: size16_700Red),
+                        h(16),
+                        Container(
+                          height: 230,
+                          width: double.infinity,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            physics: BouncingScrollPhysics(),
+                            separatorBuilder: (context, index) =>
+                                SizedBox(width: 16),
+                            shrinkWrap: true,
+                            itemCount: faqs != null ? faqs.length : 0,
+                            itemBuilder: (context, index) {
+                              final item = faqs != null ? faqs[index] : null;
+                              return profileContainer(item, index);
+                            },
+                          ),
+                        ),
+                        h(32),
+                        Text("Modules", style: size16_700Red),
+                        h(24),
+                        ListView.separated(
+                          scrollDirection: Axis.vertical,
+                          physics: NeverScrollableScrollPhysics(),
+                          separatorBuilder: (context, index) =>
+                              Divider(color: grey2),
+                          shrinkWrap: true,
+                          itemCount: modules != null ? modules.length : 0,
+                          itemBuilder: (context, index) {
+                            final item =
+                                modules != null ? modules[index] : null;
+                            return list(item, index);
+                          },
+                        ),
+                        Divider(color: grey2),
+                        Row(
+                          children: [
+                            Text("FAQ", style: size16_700Red),
+                            Spacer(),
+                            w(3),
+                            Icon(Icons.arrow_forward_ios, size: 12)
+                          ],
+                        ),
+                        h(16),
+                        SizedBox(
+                          height: 185,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            separatorBuilder: (context, index) =>
+                                SizedBox(width: 16),
+                            shrinkWrap: true,
+                            itemCount: faqs != null ? faqs.length : 0,
+                            itemBuilder: (context, index) {
+                              final item = faqs != null ? faqs[index] : null;
+                              return faqList(item, index);
+                            },
+                          ),
+                        ),
+                        h(32),
+                        Text("Certificate", style: size16_700Red),
+                        h(15),
+                        Row(
+                          children: [
+                            Image.network(
+                              cert['image'].toString(),
+                              height: 112,
+                              width: 179,
+                            ),
+                            w(16),
+                            Expanded(
+                              child: Text(cert['description'].toString(),
+                                  style: size14_400),
+                            )
+                          ],
+                        ),
+                        h(33)
+                      ],
+                    ),
+                  )
                 ],
               ),
-            )
-          ],
-        ),
-      ),
+            ),
     );
   }
 
-  faqList(var item,int index) {
+  faqList(var item, int index) {
     return Container(
       width: 305,
       decoration: BoxDecoration(
@@ -444,23 +393,19 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(item['question'].toString(),
-                style: size14_400),
+            Text(item['question'].toString(), style: size14_400),
             h(12),
-            Text(
-                item['answer'].toString(),
-                style: size14_400)
+            Text(item['answer'].toString(), style: size14_400)
           ],
         ),
       ),
     );
   }
 
-  list(var item,int index) {
+  list(var item, int index) {
     return ExpansionTile(
       title: Text(item['title'].toString(), style: size16_400),
-      subtitle: Text(item['schedule'].toString(),
-          style: size14_400),
+      subtitle: Text(item['schedule'].toString(), style: size14_400),
       children: <Widget>[
         ListTile(
           title: Text(
@@ -471,8 +416,9 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
     );
   }
 
-  profileContainer() {
+  profileContainer(var item, int index) {
     return Container(
+      width: MediaQuery.of(context).size.width * 0.85,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16), color: lifescool_highlight),
       child: Padding(
@@ -488,6 +434,7 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                     fontStyle: FontStyle.italic)),
             h(16),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.network(
                   "https://purepng.com/public/uploads/large/purepng.com-female-studentstudentcollege-studentschool-studentfemale-student-14215269231647tn6r.png",
@@ -653,6 +600,21 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
           ),
         ),
       ),
+    );
+  }
+
+  FeaturesGrid(int index) {
+    return Row(
+      children: [
+        SvgPicture.asset(
+          "assets/svg/video.svg",
+          height: 32,
+        ),
+        w(16),
+        Expanded(
+          child: Text("Five hours of video on-demand", style: size14_400),
+        )
+      ],
     );
   }
 
