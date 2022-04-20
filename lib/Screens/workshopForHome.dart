@@ -347,19 +347,19 @@ class _WorkshopForHomeState extends State<WorkshopForHome> {
                           children: [
                             Row(
                               children: [
-                                // Text(
-                                //   item['workshopTime'].toString(),
-                                //   style: size14_700Blue,
-                                // ),
-                                // Padding(
-                                //   padding:
-                                //       const EdgeInsets.symmetric(horizontal: 5),
-                                //   child: Container(
-                                //     height: 12,
-                                //     width: 1,
-                                //     color: lifescoolBlue,
-                                //   ),
-                                // ),
+                                Text(
+                                  item['workshopDuration'].toString(),
+                                  style: size14_700Blue,
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: Container(
+                                    height: 12,
+                                    width: 1,
+                                    color: lifescoolBlue,
+                                  ),
+                                ),
                                 Text(
                                   item['displaydate'].toString(),
                                   style: size14_400Blue,

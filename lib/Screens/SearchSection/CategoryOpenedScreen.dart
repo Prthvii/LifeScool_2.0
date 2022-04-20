@@ -7,7 +7,8 @@ import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 
 class CategoryOpenedScreen extends StatefulWidget {
   final id;
-  CategoryOpenedScreen({this.id});
+  final name;
+  CategoryOpenedScreen({this.id,this.name});
 
   @override
   _CategoryOpenedScreenState createState() => _CategoryOpenedScreenState();
@@ -93,7 +94,7 @@ class _CategoryOpenedScreenState extends State<CategoryOpenedScreen> {
               ),
             ),
             w(12),
-            Text("Courses", style: size20_700),
+            Text(widget.name, style: size20_700),
           ],
         ),
       ),

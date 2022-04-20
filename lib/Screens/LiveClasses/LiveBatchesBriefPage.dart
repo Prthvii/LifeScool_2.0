@@ -3,8 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/joinBatch.dart';
+import 'package:lifescool/Screens/LiveClasses/Data/liveBatchBreif.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
-
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 class liveBatchesBriefPage extends StatefulWidget {
   final item;
 
@@ -25,15 +27,83 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
 
   var currentIndex = 3000;
   //List<dynamic> data = [];
+
+
+  var banners = [];
+  var basic ;
+  var features = [];
+  var traniners = [];
+  var modules = [];
+  var faqs = [];
+  var cert ;
+
+  List<Widget> columnContent = [];
+  final CarouselController controller = CarouselController();
+
   @override
   void initState() {
     super.initState();
 
     print("xoxoxo");
-
+    print(widget.item);
+    this.getData();
     setState(() {});
   }
 
+
+  Future<String> getData() async {
+    var rsp = await liveBatchBreifApi(widget.item['id'].toString());
+    print("courseeeeeeeeeeeeee");
+    print(rsp);
+
+
+    if (rsp['attributes']['message'].toString() == "Success") {
+      setState(() {
+        banners = rsp['attributes']['banners'];
+        basic = rsp['attributes']['basic'];
+        features = rsp['attributes']['features'];
+        modules = rsp['attributes']['modules'];
+        faqs = rsp['attributes']['faqs'];
+        cert = rsp['attributes']['cert'];
+
+
+      });
+      _buildExpandableContent();
+    } else {
+      showToastSuccess(rsp['attributes']['message'].toString());
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+    return "0";
+  }
+
+
+  _buildExpandableContent() {
+    for (var value in banners) {
+      columnContent.add( Card(
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                image: DecorationImage(
+                  image: NetworkImage(
+                      value['type'].toString()=="IMAGE"?  value['content'].toString():"https://t4.ftcdn.net/jpg/04/32/14/71/360_F_432147139_H6qEZ6Pdw04kKmK0LW27xZHRLWPT6h4D.jpg"
+                  ),
+                  fit: BoxFit.cover,
+                )),
+            alignment: Alignment.bottomCenter,
+
+          )));
+
+
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,12 +234,39 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body:isLoading == true
+          ? Container(
+        child: Center(
+          child: Image.asset(
+            "assets/images/loading.gif",
+            height: 40,
+          ),
+        ),
+      )
+          :  SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: 233,
               color: themeOrange,
+              child: CarouselSlider(
+                items: columnContent,
+                carouselController: controller,
+                options: CarouselOptions(
+                  aspectRatio: 16 / 9,
+                  viewportFraction: 0.95,
+                  initialPage: 0,
+                  enableInfiniteScroll: true,
+                  reverse: false,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 3),
+                  autoPlayAnimationDuration:
+                  Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enlargeCenterPage: true,
+                  scrollDirection: Axis.horizontal,
+                ),
+              ),
             ),
             h(24),
             Padding(
@@ -178,20 +275,20 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      "ഗാർഡനിങ് : പ്രൊഫഷണൽ ആയി ഹോബി യ്ക്കപ്പുറം തുടങ്ങുന്നതെങ്ങനെ? ",
+                      basic['name'].toString(),
                       style: size16_700Mallu),
                   h(8),
                   Text(
-                      "This course is a refreshing take on gardening and take a learner though all the basics of ambroidery skills to techniques and hacks needed to embark on your journey.",
+                      basic['description'].toString(),
                       style: size14_400),
                   h(16),
                   Row(
                     children: [
                       Icon(Icons.calendar_today, size: 18),
                       w(12),
-                      Text("Aug 14", style: size14_600),
-                      Text(" to ", style: size14_400),
-                      Text("September 12", style: size14_600),
+                      Text(basic['schedule'].toString(), style: size14_600),
+                      // Text(" to ", style: size14_400),
+                      // Text("September 12", style: size14_600),
                     ],
                   ),
                   h(32),
@@ -279,9 +376,10 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                     physics: NeverScrollableScrollPhysics(),
                     separatorBuilder: (context, index) => Divider(color: grey2),
                     shrinkWrap: true,
-                    itemCount: 4,
+                    itemCount: modules != null ? modules.length : 0,
                     itemBuilder: (context, index) {
-                      return list(index);
+                      final item = modules != null ? modules[index] : null;
+                      return list(item,index);
                     },
                   ),
                   Divider(color: grey2),
@@ -289,7 +387,7 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                     children: [
                       Text("FAQ", style: size16_700Red),
                       Spacer(),
-                      Text("View All", style: size14_700),
+                      // Text("View All", style: size14_700),
                       w(3),
                       Icon(Icons.arrow_forward_ios, size: 12)
                     ],
@@ -301,9 +399,10 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                       scrollDirection: Axis.horizontal,
                       separatorBuilder: (context, index) => SizedBox(width: 16),
                       shrinkWrap: true,
-                      itemCount: 5,
+                      itemCount: faqs != null ? faqs.length : 0,
                       itemBuilder: (context, index) {
-                        return faqList(index);
+                        final item = faqs != null ? faqs[index] : null;
+                        return faqList(item,index);
                       },
                     ),
                   ),
@@ -312,15 +411,15 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                   h(15),
                   Row(
                     children: [
-                      Image.asset(
-                        "assets/images/certificate.png",
+                      Image.network(
+                        cert['image'].toString(),
                         height: 112,
                         width: 179,
                       ),
                       w(16),
                       Expanded(
                         child: Text(
-                            "After course completion you get certificate issued by Lifescool and Farooq College",
+                            cert['description'].toString(),
                             style: size14_400),
                       )
                     ],
@@ -335,7 +434,7 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
     );
   }
 
-  faqList(int index) {
+  faqList(var item,int index) {
     return Container(
       width: 305,
       decoration: BoxDecoration(
@@ -345,11 +444,11 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("What are the requirements for the course?",
+            Text(item['question'].toString(),
                 style: size14_400),
             h(12),
             Text(
-                "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolore mque architecto beatae sunt explicabo  volup tatem accus. Sit voluptatem accusantium doloremque architecto beatae vitae dicta sunt explicabo.",
+                item['answer'].toString(),
                 style: size14_400)
           ],
         ),
@@ -357,15 +456,15 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
     );
   }
 
-  list(int index) {
+  list(var item,int index) {
     return ExpansionTile(
-      title: Text("1: Introduction", style: size16_400),
-      subtitle: Text("5 hours watchtime | 4 live classes | 4 quizes",
+      title: Text(item['title'].toString(), style: size16_400),
+      subtitle: Text(item['schedule'].toString(),
           style: size14_400),
       children: <Widget>[
         ListTile(
           title: Text(
-            "items.description",
+            item['description'].toString(),
           ),
         )
       ],

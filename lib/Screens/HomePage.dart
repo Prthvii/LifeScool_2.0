@@ -156,25 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return "0";
   }
 
-  // Future<String> getHome() async {
-  //   var rsp = await listCourseApi();
-  //   print("courseeeeeeeeeeeeee");
-  //   print(rsp);
-  //
-  //   // arrProdList = data;
-  //   //
-  //   if (rsp['attributes']['message'].toString() == "Success") {
-  //     setState(() {
-  //       arrList = rsp['attributes']['courselist'];
-  //       resList = rsp['attributes']['resumeCourse'];
-  //     });
-  //   }
-  //
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  //   return "0";
-  // }
+
 
   Future<String> getHomePageSuggestion() async {
     print("suggesteddddddddd");

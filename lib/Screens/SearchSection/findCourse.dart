@@ -3,6 +3,7 @@ import 'package:lifescool/Api/listCatAndSub.dart';
 import 'package:lifescool/Api/searchItem.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
+import 'package:lifescool/Screens/CourseIntro.dart';
 import 'package:lifescool/Screens/PlayerScreen.dart';
 import 'package:lifescool/Screens/SingleCourseScreen.dart';
 import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
@@ -94,6 +95,8 @@ class _FindCourseState extends State<FindCourse> {
         // totalSale = rsp['total_card_sale'].toString();
         // totalProfit = "₹"+rsp['total_profit'].toString();
       });
+
+      filterDown();
       print("searchhhhhhhh");
       print(courselist);
     } else {
@@ -106,7 +109,21 @@ class _FindCourseState extends State<FindCourse> {
     return "0";
   }
 
-  Future<String> filterDown() async {}
+  Future<String> filterDown() async {
+
+    if(workshoplist.isNotEmpty){
+      isSelected=3;
+    }
+
+    if(livebatchlist.isNotEmpty){
+      isSelected=2;
+    }
+
+
+    if(courselist.isNotEmpty){
+      isSelected=1;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -382,7 +399,7 @@ class _FindCourseState extends State<FindCourse> {
                             final item = workshoplist != null
                                 ? workshoplist[index]
                                 : null;
-                            return HomeCards(item, index);
+                            return workshopCard(item, index);
                           },
                         ),
                       )),
@@ -415,6 +432,7 @@ class _FindCourseState extends State<FindCourse> {
           MaterialPageRoute(
               builder: (context) => CategoryOpenedScreen(
                     id: item['id'].toString(),
+                name: item['categoryName'].toString() ,
                   )),
         );
       },
@@ -489,6 +507,142 @@ class _FindCourseState extends State<FindCourse> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+
+  workshopCard(var item, int index) {
+    final ss = MediaQuery.of(context).size;
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CourseIntro(
+                id: item['id'].toString(),
+              )),
+        );
+      },
+      child: Stack(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  spreadRadius: 1.5,
+                  blurRadius: 5,
+                  offset: Offset(0, 1),
+                )
+              ],
+            ),
+            child: Column(
+              children: [
+                Container(
+                  height: 110,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
+                    ),
+                    image: DecorationImage(
+                      image: NetworkImage(item['workshopThumbnail'].toString()),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item['workshopNameEng'].toString(),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Nunito',
+                              color: lifescoolBlue),
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Row(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  item['workshopDuration'].toString(),
+                                  style: size14_700Blue,
+                                ),
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                                  child: Container(
+                                    height: 12,
+                                    width: 1,
+                                    color: lifescoolBlue,
+                                  ),
+                                ),
+                                Text(
+                                  item['displaydate'].toString(),
+                                  style: size14_400Blue,
+                                )
+                              ],
+                            ),
+                            Spacer(),
+                            Text(
+                              item['authorName'].toString(),
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Nunito',
+                              ),
+                            ),
+                            SizedBox(
+                              width: 6,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TutorInfo(
+                                          id: item['authorUid'].toString())),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border:
+                                    Border.all(color: Color(0xfffaf6f5)),
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                            item['authorImageUrl']
+                                                .toString()),
+                                        fit: BoxFit.cover)),
+                                height: 24,
+                                width: 24,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          // shimmer()
+        ],
       ),
     );
   }

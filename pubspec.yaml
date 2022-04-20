@@ -59,7 +59,7 @@ dev_dependencies:
   flutter_windowmanager: ^0.2.0
   flutter_web_browser: ^0.14.0
   flutter_cache_manager: ^3.0.2
-
+  carousel_slider:
 #  flutter_fadein: ^2.0.0
 #  better_player: ^0.0.62
 
