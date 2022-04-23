@@ -191,6 +191,12 @@ final size14_700 = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Nunito',
 );
+final size14_700Green = TextStyle(
+  color: Color(0xff17A01D),
+  fontSize: 14,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Nunito',
+);
 final size14_700Blue = TextStyle(
   color: lifescoolBlue,
   fontSize: 14,
@@ -199,7 +205,7 @@ final size14_700Blue = TextStyle(
 );
 
 final size15_400 =
-TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.green);
+    TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.green);
 final size14_400 = TextStyle(
   color: Colors.black,
   fontSize: 14,

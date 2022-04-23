@@ -4,20 +4,15 @@ import 'package:lifescool/Shorts/Data/triggerReels.dart';
 import 'package:lifescool/Shorts/ShortVideoPage.dart';
 
 class SavedShorts extends StatefulWidget {
-
-
   @override
   _SavedShortsState createState() => _SavedShortsState();
 }
 
 class _SavedShortsState extends State<SavedShorts> {
-
-
   var arrSaved = [];
 
   var userName = "";
   var isLoading = true;
-
 
   @override
   void initState() {
@@ -25,7 +20,6 @@ class _SavedShortsState extends State<SavedShorts> {
 
     print("xoxoxo");
     this.getData();
-
 
     setState(() {});
   }
@@ -35,17 +29,14 @@ class _SavedShortsState extends State<SavedShorts> {
       isLoading = true;
     });
 
-
-    var rsp = await triggerReelsApi("SAVEDSHORTSLIST","");
+    var rsp = await triggerReelsApi("SAVEDSHORTSLIST", "");
     print("searchhhhhhhh");
     print(rsp);
 
     if (rsp['attributes']['message'].toString() == "Success") {
       setState(() {
         arrSaved = rsp['attributes']['triggerdata'][0]['savedshorts'];
-
       });
-
     }
 
     setState(() {
@@ -53,7 +44,6 @@ class _SavedShortsState extends State<SavedShorts> {
     });
     return "0";
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +80,6 @@ class _SavedShortsState extends State<SavedShorts> {
           child: GridView.builder(
             physics: BouncingScrollPhysics(),
             shrinkWrap: true,
-
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 crossAxisSpacing: 8,
@@ -99,7 +88,7 @@ class _SavedShortsState extends State<SavedShorts> {
             itemCount: arrSaved != null ? arrSaved.length : 0,
             itemBuilder: (context, index) {
               final item = arrSaved != null ? arrSaved[index] : null;
-              return Item(item,index);
+              return Item(item, index);
             },
           ),
         ),
@@ -107,26 +96,29 @@ class _SavedShortsState extends State<SavedShorts> {
     );
   }
 
-  Item(var item,int index) {
+  Item(var item, int index) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            // builder: (context) => MyLearningNew()),
+              // builder: (context) => MyLearningNew()),
               builder: (context) => ShortsPlayerPage(
-                highligts: item,
-              )),
+                    highligts: item,
+                  )),
         );
       },
       child: Container(
+        decoration: BoxDecoration(
+            color: Colors.grey[300],
+            borderRadius: BorderRadius.circular(10),
+            image: DecorationImage(
+                image: NetworkImage(
+                  item['thumbnail_url'].toString(),
+                ),
+                fit: BoxFit.cover)),
         width: 90,
         height: 158,
-        color: themeOrange,
-        child: Image.network(
-          item['thumbnail_url'].toString(),
-          fit: BoxFit.cover,
-        ),
       ),
     );
   }

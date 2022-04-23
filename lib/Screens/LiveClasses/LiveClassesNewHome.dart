@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
@@ -96,6 +97,8 @@ class _ViewAllLiveClassesNewState extends State<ViewAllLiveClassesNew> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Color(0xffF3FFF2)));
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(99),
@@ -212,20 +215,23 @@ class _ViewAllLiveClassesNewState extends State<ViewAllLiveClassesNew> {
             ),
           ),
           h(16),
-          Expanded(
-            child: ListView.separated(
-              scrollDirection: Axis.vertical,
-              separatorBuilder: (context, index) => SizedBox(
-                height: 10,
-              ),
-              shrinkWrap: true,
-              itemCount: arrList != null ? arrList.length : 0,
-              itemBuilder: (context, index) {
-                final item = arrList != null ? arrList[index] : null;
-                return LiveClassCards(item, index);
-              },
-            ),
-          )
+          arrList.isNotEmpty
+              ? Expanded(
+                  child: ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: 16,
+                    ),
+                    shrinkWrap: true,
+                    itemCount: arrList != null ? arrList.length : 0,
+                    itemBuilder: (context, index) {
+                      final item = arrList != null ? arrList[index] : null;
+                      return LiveClassCards(item, index);
+                    },
+                  ),
+                )
+              : Expanded(child: Center(child: Text("NO DATA"))),
+          h(30)
         ],
       ),
     );

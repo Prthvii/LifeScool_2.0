@@ -30,11 +30,9 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
   var currentIndex = 900;
   //List<dynamic> data = [];
 
-
-
-  var arrLive=[] ;
-  var arrUpcoming=[] ;
-  var arrCompleted =[] ;
+  var arrLive = [];
+  var arrUpcoming = [];
+  var arrCompleted = [];
   @override
   void initState() {
     super.initState();
@@ -89,7 +87,6 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
         arrUpcoming = rsp['attributes']['upcoming'];
         arrCompleted = rsp['attributes']['completed'];
 
-
         // totalSale = rsp['total_card_sale'].toString();
         // totalProfit = "₹"+rsp['total_profit'].toString();
       });
@@ -108,7 +105,7 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+        SystemUiOverlayStyle(statusBarColor: liteBlue));
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(99),
@@ -230,88 +227,102 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 0),
                 child: Column(
-
                   crossAxisAlignment: CrossAxisAlignment.start,
-
                   children: [
-                    arrLive.isNotEmpty?Padding(
-                      padding: const EdgeInsets.only(left: 12),
-                      child: Container(
-
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset("assets/Icons/liveGIF.gif", height: 15),
-                              w(5),
-                              Text("Live", style: size15_400),
-                            ],
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: Colors.grey, width: 1)),
-                      ),
-                    ):Container(),
-                    h(12),
-                    arrLive.isNotEmpty?ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
-                      separatorBuilder: (context, index) => SizedBox(
-                        height: 10,
-                      ),
-                      shrinkWrap: true,
-                      itemCount: arrLive != null ? arrLive.length : 0,
-                      itemBuilder: (context, index) {
-                        final item = arrLive != null ? arrLive[index] : null;
-                        return list(item,index);
-                      },
-                    ):Container(),
+                    arrLive.isNotEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 3, vertical: 1),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.circle,
+                                      size: 18, color: Colors.green),
+                                  w(5),
+                                  Text("Live now", style: size14_700Green)
+                                ],
+                              ),
+                            ),
+                          )
+                        : Container(),
+                    h(16),
+                    arrLive.isNotEmpty
+                        ? ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            separatorBuilder: (context, index) => SizedBox(
+                              height: 16,
+                            ),
+                            shrinkWrap: true,
+                            itemCount: arrLive != null ? arrLive.length : 0,
+                            itemBuilder: (context, index) {
+                              final item =
+                                  arrLive != null ? arrLive[index] : null;
+                              return list(item, index);
+                            },
+                          )
+                        : Container(),
                     h(24),
-                    arrUpcoming.isNotEmpty?Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text("Upcoming Workshops", style: size14_400),
-                    ):Container(),
-                    h(8),
-                    arrUpcoming.isNotEmpty?ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
-                      separatorBuilder: (context, index) => SizedBox(
-                        height: 10,
-                      ),
-                      shrinkWrap: true,
-                      itemCount: arrUpcoming != null ? arrUpcoming.length : 0,
-                      itemBuilder: (context, index) {
-                        final item = arrUpcoming != null ? arrUpcoming[index] : null;
-                        return list(item,index);
-                      },
-                    ):Container(),
+                    arrUpcoming.isNotEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child:
+                                Text("Upcoming Workshops", style: size14_700),
+                          )
+                        : Container(),
+                    h(16),
+                    arrUpcoming.isNotEmpty
+                        ? ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            separatorBuilder: (context, index) => SizedBox(
+                              height: 16,
+                            ),
+                            shrinkWrap: true,
+                            itemCount:
+                                arrUpcoming != null ? arrUpcoming.length : 0,
+                            itemBuilder: (context, index) {
+                              final item = arrUpcoming != null
+                                  ? arrUpcoming[index]
+                                  : null;
+                              return list(item, index);
+                            },
+                          )
+                        : Container(),
                     h(24),
-                    arrCompleted.isNotEmpty?Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text("Past Workshops", style: size14_400),
-                    ):Container(),
-                    h(8),
-                    arrCompleted.isNotEmpty?ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
-                      separatorBuilder: (context, index) => SizedBox(
-                        height: 10,
-                      ),
-                      shrinkWrap: true,
-                      itemCount: arrCompleted != null ? arrCompleted.length : 0,
-                      itemBuilder: (context, index) {
-                        final item = arrCompleted != null ? arrCompleted[index] : null;
-                        return list(item,index);
-                      },
-                    ):Container(),
+                    arrCompleted.isNotEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text("Past Workshops", style: size14_700),
+                          )
+                        : Container(),
+                    h(16),
+                    arrCompleted.isNotEmpty
+                        ? ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            separatorBuilder: (context, index) => SizedBox(
+                              height: 16,
+                            ),
+                            shrinkWrap: true,
+                            itemCount:
+                                arrCompleted != null ? arrCompleted.length : 0,
+                            itemBuilder: (context, index) {
+                              final item = arrCompleted != null
+                                  ? arrCompleted[index]
+                                  : null;
+                              return list(item, index);
+                            },
+                          )
+                        : Container(),
+                    h(16),
                   ],
                 ),
               ),
             ),
           ),
-
         ],
       ),
     );
@@ -614,8 +625,8 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
           context,
           MaterialPageRoute(
               builder: (context) => CourseIntro(
-                id: item['id'].toString(),
-              )),
+                    id: item['id'].toString(),
+                  )),
         );
       },
       child: Stack(
@@ -715,11 +726,10 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border:
-                                    Border.all(color: Color(0xfffaf6f5)),
+                                        Border.all(color: Color(0xfffaf6f5)),
                                     image: DecorationImage(
                                         image: NetworkImage(
-                                            item['authorImageUrl']
-                                                .toString()),
+                                            item['authorImageUrl'].toString()),
                                         fit: BoxFit.cover)),
                                 height: 24,
                                 width: 24,

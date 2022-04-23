@@ -8,7 +8,6 @@ import 'package:lifescool/Screens/MyLearningTabs/SavedShortsMyLearning.dart';
 import 'package:lifescool/Screens/PlayerScreen.dart';
 import 'package:lifescool/Screens/Settings.dart';
 import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
-import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
 import 'package:lifescool/Shorts/ShortVideoPage.dart';
 
 import '../HomePage.dart';
@@ -31,7 +30,6 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
 
   var userName = "";
   var isLoading = true;
-
 
   @override
   void initState() {
@@ -87,6 +85,7 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
     });
     return "0";
   }
+
   @override
   Widget build(BuildContext context) {
     final ss = MediaQuery.of(context).size;
@@ -109,7 +108,7 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
               color: Colors.white,
             ),
             // height: 78,
-            height: ss.height * 0.1,
+            height: 78,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: ss.width * 0.06),
               child: Row(
@@ -179,54 +178,6 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                       ),
                     ),
                   ),
-
-                  // Expanded(
-                  //   child: Container(
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.only(
-                  //           topRight: Radius.circular(10),
-                  //           bottomRight: Radius.circular(10)),
-                  //     ),
-                  //     child: TabBar(
-                  //       labelColor: Colors.white,
-                  //       unselectedLabelColor: Color(0xffFE5C36),
-                  //       labelStyle: TextStyle(
-                  //           fontSize: 14,
-                  //           fontFamily: 'Nunito',
-                  //           fontWeight: FontWeight.bold,
-                  //           color: Colors.white),
-                  //       unselectedLabelStyle: TextStyle(
-                  //           fontSize: 14,
-                  //           fontWeight: FontWeight.bold,
-                  //           fontFamily: 'Nunito',
-                  //           color: Color(0xffFE5C36)),
-                  //       indicator: BoxDecoration(
-                  //         color: Color(0xffE6E6E6),
-                  //         borderRadius: BorderRadius.circular(10),
-                  //       ),
-                  //       tabs: [
-                  //         Tab(
-                  //           child: Column(
-                  //             mainAxisAlignment: MainAxisAlignment.center,
-                  //             children: [
-                  //               Icon(Icons.lightbulb_outline,
-                  //                   color: themeOrange, size: 22),
-                  //               Text(
-                  //                 "My Learning",
-                  //                 style: TextStyle(
-                  //                     fontSize: 14,
-                  //                     fontWeight: FontWeight.w700,
-                  //                     color: themeOrange),
-                  //               )
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-
-
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
@@ -242,10 +193,10 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                           bottom: 8,
                         ),
                         child: Container(
-                           height: 50,
+                          height: 62,
                           // width: 118,
                           decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
+                              color: lifescool_highlight,
                               borderRadius: BorderRadius.circular(10)),
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
@@ -296,25 +247,14 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
             Spacer(),
             Icon(Icons.notifications, color: lifescoolBlue, size: 20),
             w(16),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Settings()),
-                );
-              },
-              child: Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: themeOrange,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: Text("Settings", style: size14_700W),
-                ),
-              ),
-            )
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Settings()),
+                  );
+                },
+                icon: Icon(Icons.settings, color: lifescoolBlue, size: 20))
           ],
         ),
       ),
@@ -332,48 +272,29 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
             h(16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SavedShorts()),
-                      );
-                    },
-                    child: Container(
-                      height: 56,
-                      width: 117,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: lifescool_highlight),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset("assets/svg/saved.svg", height: 17),
-                          h(4),
-                          Text("Saved", style: size14_700Red)
-                        ],
-                      ),
-                    ),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SavedShorts()),
+                  );
+                },
+                child: Container(
+                  height: 56,
+                  width: double.infinity,
+                  // width: 117,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: lifescool_highlight),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset("assets/svg/saved.svg", height: 17),
+                      w(12),
+                      Text("Saved Shorts", style: size14_700Red)
+                    ],
                   ),
-                  w(16),
-                  Container(
-                    height: 56,
-                    width: 117,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: lifescool_highlight),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset("assets/svg/certi.svg", height: 17),
-                        h(4),
-                        Text("Certificates", style: size14_700Red)
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
             h(16),
@@ -493,8 +414,6 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
     );
   }
 
-
-
   FullScroll() {
     return SingleChildScrollView(
       child: Padding(
@@ -504,24 +423,24 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
           children: [
             arrUpcoming.isNotEmpty
                 ? Text("Upcoming (" + arrUpcoming.length.toString() + ")",
-                style: size14_700, key: dataKeyUpcoming)
+                    style: size14_700, key: dataKeyUpcoming)
                 : Container(),
             h(8),
             Upcoming(),
             h(24),
             arrOngoing.isNotEmpty
                 ? Text("Ongoing (" + arrOngoing.length.toString() + ")",
-                style: size14_700, key: dataKeyOngoing)
+                    style: size14_700, key: dataKeyOngoing)
                 : Container(),
             h(8),
             Ongoing(),
             h(24),
             arrCompleted.isNotEmpty
                 ? Text(
-              "Completed (" + arrCompleted.length.toString() + ")",
-              style: size14_700,
-              key: dataKeyCompleted,
-            )
+                    "Completed (" + arrCompleted.length.toString() + ")",
+                    style: size14_700,
+                    key: dataKeyCompleted,
+                  )
                 : Container(),
             h(8),
             Completed()
@@ -558,9 +477,9 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => PlayerScreen(
-                      id: item['id'].toString(),
-                      cuid: item['courseUid'].toString(),
-                    )),
+                          id: item['id'].toString(),
+                          cuid: item['courseUid'].toString(),
+                        )),
               );
             }
             break;
@@ -575,8 +494,8 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => liveBatchesBriefPage(
-                      item: item,
-                    )),
+                          item: item,
+                        )),
               );
             }
             break;
@@ -630,43 +549,43 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                     children: [
                       item['type'] == "Course"
                           ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image(
-                            image: NetworkImage(item['progressImg'] !=
-                                null
-                                ? item['progressImg'].toString()
-                                : "https://www.freeiconspng.com/uploads/green-video-play-icon-13.jpeg"),
-                            height: 15,
-                            width: 15,
-                          ),
-                          w(5),
-                          Text(
-                            item['learningProgress'],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          ),
-                        ],
-                      )
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: NetworkImage(item['progressImg'] !=
+                                          null
+                                      ? item['progressImg'].toString()
+                                      : "https://www.freeiconspng.com/uploads/green-video-play-icon-13.jpeg"),
+                                  height: 15,
+                                  width: 15,
+                                ),
+                                w(5),
+                                Text(
+                                  item['learningProgress'],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Nunito',
+                                      color: darkBlue),
+                                ),
+                              ],
+                            )
                           : Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.calendar_today,
-                              size: 13, color: themeOrange),
-                          w(5),
-                          Text(
-                            item['displayText'],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          ),
-                        ],
-                      ),
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.calendar_today,
+                                    size: 13, color: themeOrange),
+                                w(5),
+                                Text(
+                                  item['displayText'],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Nunito',
+                                      color: darkBlue),
+                                ),
+                              ],
+                            ),
                       Spacer(),
                       GestureDetector(
                         onTap: () {
@@ -748,9 +667,9 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => PlayerScreen(
-                      id: item['id'].toString(),
-                      cuid: item['courseUid'].toString(),
-                    )),
+                          id: item['id'].toString(),
+                          cuid: item['courseUid'].toString(),
+                        )),
               );
             }
             break;
@@ -765,8 +684,8 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => liveBatchesBriefPage(
-                      item: item,
-                    )),
+                          item: item,
+                        )),
               );
             }
             break;
@@ -820,43 +739,43 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                     children: [
                       item['type'] == "Course"
                           ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image(
-                            image: NetworkImage(item['progressImg'] !=
-                                null
-                                ? item['progressImg'].toString()
-                                : "https://www.freeiconspng.com/uploads/green-video-play-icon-13.jpeg"),
-                            height: 15,
-                            width: 15,
-                          ),
-                          w(5),
-                          Text(
-                            item['learningProgress'],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          ),
-                        ],
-                      )
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: NetworkImage(item['progressImg'] !=
+                                          null
+                                      ? item['progressImg'].toString()
+                                      : "https://www.freeiconspng.com/uploads/green-video-play-icon-13.jpeg"),
+                                  height: 15,
+                                  width: 15,
+                                ),
+                                w(5),
+                                Text(
+                                  item['learningProgress'],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Nunito',
+                                      color: darkBlue),
+                                ),
+                              ],
+                            )
                           : Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.calendar_today,
-                              size: 13, color: themeOrange),
-                          w(5),
-                          Text(
-                            item['displayText'],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          ),
-                        ],
-                      ),
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.calendar_today,
+                                    size: 13, color: themeOrange),
+                                w(5),
+                                Text(
+                                  item['displayText'],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Nunito',
+                                      color: darkBlue),
+                                ),
+                              ],
+                            ),
                       Spacer(),
                       GestureDetector(
                         onTap: () {
@@ -938,9 +857,9 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => PlayerScreen(
-                      id: item['id'].toString(),
-                      cuid: item['courseUid'].toString(),
-                    )),
+                          id: item['id'].toString(),
+                          cuid: item['courseUid'].toString(),
+                        )),
               );
             }
             break;
@@ -955,8 +874,8 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => liveBatchesBriefPage(
-                      item: item,
-                    )),
+                          item: item,
+                        )),
               );
             }
             break;
@@ -1010,43 +929,43 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
                     children: [
                       item['type'] == "Course"
                           ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image(
-                            image: NetworkImage(item['progressImg'] !=
-                                null
-                                ? item['progressImg'].toString()
-                                : "https://www.freeiconspng.com/uploads/green-video-play-icon-13.jpeg"),
-                            height: 15,
-                            width: 15,
-                          ),
-                          w(5),
-                          Text(
-                            item['learningProgress'],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          ),
-                        ],
-                      )
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: NetworkImage(item['progressImg'] !=
+                                          null
+                                      ? item['progressImg'].toString()
+                                      : "https://www.freeiconspng.com/uploads/green-video-play-icon-13.jpeg"),
+                                  height: 15,
+                                  width: 15,
+                                ),
+                                w(5),
+                                Text(
+                                  item['learningProgress'],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Nunito',
+                                      color: darkBlue),
+                                ),
+                              ],
+                            )
                           : Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.calendar_today,
-                              size: 13, color: themeOrange),
-                          w(5),
-                          Text(
-                            item['displayText'],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Nunito',
-                                color: darkBlue),
-                          ),
-                        ],
-                      ),
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.calendar_today,
+                                    size: 13, color: themeOrange),
+                                w(5),
+                                Text(
+                                  item['displayText'],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Nunito',
+                                      color: darkBlue),
+                                ),
+                              ],
+                            ),
                       Spacer(),
                       GestureDetector(
                         onTap: () {

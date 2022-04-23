@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Screens/CourseIntro.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
-import 'package:lifescool/Shorts/NewTstShortVideoPage.dart';
 import 'package:lifescool/Shorts/ShortVideoPage.dart';
 
 import '../PlayerScreen.dart';
@@ -67,11 +66,28 @@ class _TutorInfoState extends State<TutorInfo> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0.1),
-          child: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.white,
+        appBar: AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          title: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: CircleAvatar(
+                  backgroundColor: lifescool_highlight,
+                  radius: 22,
+                  child: Icon(
+                    Icons.arrow_back,
+                    size: 20,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              w(20),
+              Text("Trainer", style: size20_700)
+            ],
           ),
         ),
         body: isLoading == true
@@ -91,21 +107,6 @@ class _TutorInfoState extends State<TutorInfo> {
                           horizontal: 16, vertical: 4),
                       child: Row(
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: lifescool_highlight,
-                              radius: 22,
-                              child: Icon(
-                                Icons.arrow_back,
-                                size: 20,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          w(12),
                           Container(
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,

@@ -456,6 +456,8 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
           child: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
+              stops: [0.5, 3.0],
+              tileMode: TileMode.mirror,
               colors: [
                 Colors.black,
                 Colors.transparent,
@@ -474,179 +476,190 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: GestureDetector(
-                      onTap: () {
-                        if (isMute == true) {
-                          setState(() {
-                            isMute = false;
-                          });
-                          controller0.setVolume(1.0);
-                        } else {
-                          setState(() {
-                            isMute = true;
-                          });
-
-                          controller0.setVolume(0.0);
-                        }
-                      },
-                      child: Row(
-                        children: [
-                          Spacer(),
-                          isMute == true
-                              ? Icon(Icons.volume_off_outlined,
-                                  color: Colors.white, size: 25)
-                              : Icon(Icons.volume_up_rounded,
-                                  color: Colors.white, size: 25)
-                        ],
-                      ),
-                    ),
-                  ),
-                  h(16),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: Row(
-                      children: [
-                        Spacer(),
-                        GestureDetector(
-                          onTap: () async {
-                            if (arrList[nowPlaying]['isSave'] == true) {
-                              setState(() {
-                                arrList[nowPlaying]['isSave'] = false;
-                              });
-                              var rsp = await triggerReelsApi(
-                                "SAVEDROP",
-                                arrList[nowPlaying]['id'],
-                              );
-                              var upt = await updateCache(
-                                  arrList[nowPlaying]['id'], "SAVE", false);
-                            } else {
-                              setState(() {
-                                arrList[nowPlaying]['isSave'] = true;
-                              });
-
-                              var rsp = await triggerReelsApi(
-                                "SAVEIT",
-                                arrList[nowPlaying]['id'],
-                              );
-                              var upt = await updateCache(
-                                  arrList[nowPlaying]['id'], "SAVE", true);
-                            }
-                          },
-                          child: arrList[nowPlaying]['isSave'] == false
-                              ? Icon(
-                                  Icons.bookmark_outline,
-                                  color: Colors.white,
-                                  size: 25,
-                                )
-                              : Icon(
-                                  Icons.bookmark,
-                                  color: Colors.white,
-                                  size: 25,
-                                ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  h(16),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(right: 20),
-                  //   child: Row(
-                  //     children: [Spacer(), shareIcon()],
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 16,
-                  // ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      children: [
-                        Spacer(),
-                        Column(
+                  Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                    Expanded(
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            GestureDetector(
-                              onTap: () async {
-                                if (arrList[nowPlaying]['isLiked'] == true) {
-                                  setState(() {
-                                    arrList[nowPlaying]['isLiked'] = false;
-                                  });
-                                  var rsp = await triggerReelsApi(
-                                    "LIKEDROP",
-                                    arrList[nowPlaying]['id'],
-                                  );
-
-                                  var upt = await updateCache(
-                                      arrList[nowPlaying]['id'], "LIKE", false);
-                                } else {
-                                  setState(() {
-                                    arrList[nowPlaying]['isLiked'] = true;
-                                  });
-
-                                  var rsp = await triggerReelsApi(
-                                    "LIKEIT",
-                                    arrList[nowPlaying]['id'],
-                                  );
-                                  var upt = await updateCache(
-                                      arrList[nowPlaying]['id'], "LIKE", true);
-                                }
-                              },
-                              child: CircleAvatar(
-                                backgroundColor: Colors.white,
-                                child: Icon(
-                                  Icons.favorite,
-                                  color: arrList[nowPlaying]['isLiked'] == true
-                                      ? Colors.red
-                                      : Colors.grey,
-                                ),
-                                radius: 20,
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Text(
+                                name == null ? "" : name,
+                                maxLines: 2,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'Mallu',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
                               ),
                             ),
-                            SizedBox(
-                              height: 3,
+                            buildText(
+                              arrList[nowPlaying]['desc'].toString(),
                             ),
-                            Text(
-                              arrList[nowPlaying]['isLiked'] == true
-                                  ? (int.parse(arrList[nowPlaying]['like']
-                                              .toString()) +
-                                          1)
-                                      .toString()
-                                  // : arrList[nowPlaying]['id'].toString(),
-                                  : arrList[nowPlaying]['like'].toString(),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600),
+                            h(2),
+                            Row(
+                              children: [
+                                Spacer(),
+                                GestureDetector(
+                                  child: Text(
+                                    (isReadmore ? 'Read Less' : 'Read More'),
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white),
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      isReadmore = !isReadmore;
+                                    });
+                                  },
+                                ),
+                                w(16)
+                              ],
                             )
                           ],
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        flex: 6,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: Text(
-                            name == null ? "" : name,
-                            maxLines: 2,
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Mallu',
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
                         ),
                       ),
-                      Expanded(
-                        child: Padding(
+                    ),
+                    Container(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: GestureDetector(
+                            onTap: () {
+                              if (isMute == true) {
+                                setState(() {
+                                  isMute = false;
+                                });
+                                controller0.setVolume(1.0);
+                              } else {
+                                setState(() {
+                                  isMute = true;
+                                });
+
+                                controller0.setVolume(0.0);
+                              }
+                            },
+                            child: isMute == true
+                                ? Icon(Icons.volume_off_outlined,
+                                    color: Colors.white, size: 25)
+                                : Icon(Icons.volume_up_rounded,
+                                    color: Colors.white, size: 25),
+                          ),
+                        ),
+                        h(30),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: GestureDetector(
+                            onTap: () async {
+                              if (arrList[nowPlaying]['isSave'] == true) {
+                                setState(() {
+                                  arrList[nowPlaying]['isSave'] = false;
+                                });
+                                var rsp = await triggerReelsApi(
+                                  "SAVEDROP",
+                                  arrList[nowPlaying]['id'],
+                                );
+                                var upt = await updateCache(
+                                    arrList[nowPlaying]['id'], "SAVE", false);
+                              } else {
+                                setState(() {
+                                  arrList[nowPlaying]['isSave'] = true;
+                                });
+
+                                var rsp = await triggerReelsApi(
+                                  "SAVEIT",
+                                  arrList[nowPlaying]['id'],
+                                );
+                                var upt = await updateCache(
+                                    arrList[nowPlaying]['id'], "SAVE", true);
+                              }
+                            },
+                            child: arrList[nowPlaying]['isSave'] == false
+                                ? Icon(
+                                    Icons.bookmark_outline,
+                                    color: Colors.white,
+                                    size: 25,
+                                  )
+                                : Icon(
+                                    Icons.bookmark,
+                                    color: Colors.white,
+                                    size: 25,
+                                  ),
+                          ),
+                        ),
+                        h(30),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  if (arrList[nowPlaying]['isLiked'] == true) {
+                                    setState(() {
+                                      arrList[nowPlaying]['isLiked'] = false;
+                                    });
+                                    var rsp = await triggerReelsApi(
+                                      "LIKEDROP",
+                                      arrList[nowPlaying]['id'],
+                                    );
+
+                                    var upt = await updateCache(
+                                        arrList[nowPlaying]['id'],
+                                        "LIKE",
+                                        false);
+                                  } else {
+                                    setState(() {
+                                      arrList[nowPlaying]['isLiked'] = true;
+                                    });
+
+                                    var rsp = await triggerReelsApi(
+                                      "LIKEIT",
+                                      arrList[nowPlaying]['id'],
+                                    );
+                                    var upt = await updateCache(
+                                        arrList[nowPlaying]['id'],
+                                        "LIKE",
+                                        true);
+                                  }
+                                },
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  child: Icon(
+                                    Icons.favorite,
+                                    color:
+                                        arrList[nowPlaying]['isLiked'] == true
+                                            ? Colors.red
+                                            : Colors.grey,
+                                  ),
+                                  radius: 20,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 3,
+                              ),
+                              Text(
+                                arrList[nowPlaying]['isLiked'] == true
+                                    ? (int.parse(arrList[nowPlaying]['like']
+                                                .toString()) +
+                                            1)
+                                        .toString()
+                                    // : arrList[nowPlaying]['id'].toString(),
+                                    : arrList[nowPlaying]['like'].toString(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600),
+                              )
+                            ],
+                          ),
+                        ),
+                        h(30),
+                        Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: GestureDetector(
                             onTap: () {
@@ -672,35 +685,9 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                             ),
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                  h(8),
-                  buildText(
-                    arrList[nowPlaying]['desc'].toString(),
-                  ),
-                  h(2),
-                  Row(
-                    children: [
-                      Spacer(),
-                      GestureDetector(
-                        child: Text(
-                          (isReadmore ? 'Read Less' : 'Read More'),
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white),
-                        ),
-                        onTap: () {
-                          setState(() {
-                            isReadmore = !isReadmore;
-                          });
-                        },
-                      ),
-                      w(16)
-                    ],
-                  ),
-                  h(16),
+                      ],
+                    ))
+                  ]),
                   arrList[nowPlaying]['targetType'].toString() == "OFF"
                       ? Container()
                       : takeFullCourseWidget()
@@ -717,18 +704,15 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => HomeScreen()));
             },
-            child: Opacity(
-              opacity: 0.25,
-              child: Container(
-                decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: Colors.black),
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                ),
-                height: 48,
-                width: 48,
+            child: Container(
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, color: Colors.black38),
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
               ),
+              height: 48,
+              width: 48,
             ),
           ),
         ),
@@ -740,9 +724,27 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
             : Align(
                 alignment: Alignment.center,
                 //  child: Icon(Icons.play_arrow, color: Colors.white, size: 30),
-                child: Image.asset(
-                  "assets/images/pauseReels.png",
-                  height: 40,
+                child: GestureDetector(
+                  onTap: () {
+                    if (controller0.value.isPlaying) {
+                      setState(() {
+                        isPlaying = false;
+                      });
+                      controller0?.pause();
+                    } else {
+                      controller0?.play();
+
+                      setState(() {
+                        isPlaying = true;
+                      });
+                    }
+                  },
+                  child: CircleAvatar(
+                    radius: 36,
+                    backgroundColor: Colors.black38,
+                    child:
+                        Icon(Icons.play_arrow, color: Colors.white, size: 30),
+                  ),
                 ),
               )
       ],

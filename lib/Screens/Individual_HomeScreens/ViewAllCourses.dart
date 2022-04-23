@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Api/listCatAndSub.dart';
 import 'package:lifescool/Api/searchItem.dart';
@@ -96,6 +97,8 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: liteYellow));
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(99),
@@ -212,21 +215,32 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
             ),
           ),
           h(16),
-          Expanded(
-            child: ListView.separated(
-              scrollDirection: Axis.vertical,
-              separatorBuilder: (context, index) => SizedBox(
-                height: 10,
-              ),
-              shrinkWrap: true,
-              //  itemCount: 5,
-              itemCount: arrList != null ? arrList.length : 0,
-              itemBuilder: (context, index) {
-                final item = arrList != null ? arrList[index] : null;
-                return HomeCards(item, index);
-              },
-            ),
-          )
+          arrList.isEmpty
+              ? Expanded(child: Center(child: Text("NO DATA")))
+              : Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        ListView.separated(
+                          scrollDirection: Axis.vertical,
+                          physics: NeverScrollableScrollPhysics(),
+                          separatorBuilder: (context, index) => SizedBox(
+                            height: 16,
+                          ),
+                          shrinkWrap: true,
+                          //  itemCount: 5,
+                          itemCount: arrList != null ? arrList.length : 0,
+                          itemBuilder: (context, index) {
+                            final item =
+                                arrList != null ? arrList[index] : null;
+                            return HomeCards(item, index);
+                          },
+                        ),
+                        h(30)
+                      ],
+                    ),
+                  ),
+                ),
         ],
       ),
     );
@@ -332,23 +346,6 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item['courseNameEng'].toString(),
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: 'Mallu',
-                                    fontWeight: FontWeight.w700,
-                                    color: darkBlue),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 2),
                           child: Container(
@@ -360,7 +357,20 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
                                         item['thumbnailUrl'].toString()),
                                     fit: BoxFit.cover)),
                             height: 62,
-                            width: 93,
+                            width: 62,
+                          ),
+                        ),
+                        w(16),
+                        Expanded(
+                          child: Text(
+                            item['courseNameEng'].toString(),
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'Mallu',
+                                fontWeight: FontWeight.w700,
+                                color: darkBlue),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -388,6 +398,7 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
                           ),
                           Text(
                             item['totalVideolength'].toString(),
+                            maxLines: 2,
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
