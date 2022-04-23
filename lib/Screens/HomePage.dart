@@ -20,7 +20,7 @@ import 'package:lifescool/Shorts/ShortVideoPage.dart';
 import 'package:lottie/lottie.dart';
 
 import 'Individual_HomeScreens/ViewAllCourses.dart';
-import 'Individual_HomeScreens/ViewAllWorkshopsNew.dart';
+import 'Workshop/ViewAllWorkshopsNew.dart';
 import 'LiveClasses/LiveClassesNewHome.dart';
 import 'MyLearningTabs/MyLearningNew.dart';
 import 'PlayerScreen.dart';

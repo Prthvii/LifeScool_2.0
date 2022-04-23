@@ -7,6 +7,7 @@ import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/joinBatch.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/liveBatchBreif.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
+import 'package:lifescool/widgets/play_video.dart';
 
 class liveBatchesBriefPage extends StatefulWidget {
   final item;
@@ -38,6 +39,7 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
   var cert;
 
   List<Widget> columnContent = [];
+  int _carouselIndex = 0;
   final CarouselController controller = CarouselController();
 
   @override
@@ -60,9 +62,13 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
         banners = rsp['attributes']['banners'];
         basic = rsp['attributes']['basic'];
         features = rsp['attributes']['features'];
+        traniners = rsp['attributes']['traniners'];
         modules = rsp['attributes']['modules'];
         faqs = rsp['attributes']['faqs'];
         cert = rsp['attributes']['cert'];
+
+        print("trainer");
+        print("trainer");
       });
       _buildExpandableContent();
     } else {
@@ -82,17 +88,37 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                image: DecorationImage(
-                  image: NetworkImage(value['type'].toString() == "IMAGE"
-                      ? value['content'].toString()
-                      : "https://t4.ftcdn.net/jpg/04/32/14/71/360_F_432147139_H6qEZ6Pdw04kKmK0LW27xZHRLWPT6h4D.jpg"),
-                  fit: BoxFit.cover,
-                )),
-            alignment: Alignment.bottomCenter,
-          )));
+          child:    Container(
+
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      image: DecorationImage(
+                        image: NetworkImage(value['type'].toString() == "IMAGE"
+                            ? value['content'].toString()
+                            : value['thumbnail'].toString()),
+                        fit: BoxFit.cover,
+                      )),
+                  alignment: Alignment.bottomCenter,
+                ),
+                value['type'].toString() == "VIDEO"?Align(
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      "assets/images/pauseReels.png",
+                      height: 40,
+                    )):Container()
+              ],
+            ),
+          ),
+
+
+
+
+
+
+      ));
     }
   }
 
@@ -236,32 +262,47 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  Container(
-                    height: 210,
-                    child: Stack(
-                      children: [
-                        CarouselSlider(
-                            items: columnContent,
-                            carouselController: controller,
-                            options: CarouselOptions(
-                              aspectRatio: 16 / 9,
-                              viewportFraction: 1,
-                              initialPage: 0,
-                              enableInfiniteScroll: true,
-                              reverse: false,
-                              autoPlay: true,
-                              autoPlayInterval: Duration(seconds: 3),
-                              autoPlayAnimationDuration:
-                                  Duration(milliseconds: 800),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              enlargeCenterPage: true,
-                              scrollDirection: Axis.horizontal,
-                            )),
-                        Align(
-                            alignment: Alignment.center,
-                            child: Icon(Icons.play_arrow,
-                                color: Colors.white, size: 40))
-                      ],
+                  GestureDetector(
+                    onTap: (){
+                     print("casoulindexx");
+                     print(_carouselIndex);
+
+                   if(banners[_carouselIndex]['type']=="VIDEO"){
+                     Navigator.push(
+                       context,
+                       MaterialPageRoute(builder: (context) => PlayVideo(url:banners[_carouselIndex]['content'].toString())),
+                     );
+                   }
+                    },
+                    child: Container(
+                      height: 210,
+                      child: CarouselSlider(
+                          items: columnContent,
+                          carouselController: controller,
+
+                          options: CarouselOptions(
+                            onPageChanged : (index, reason) {
+
+                              setState((){
+
+                                _carouselIndex = index;
+
+                              });
+
+                           },
+                            aspectRatio: 16 / 9,
+                            viewportFraction: 1,
+                            initialPage: 0,
+                            enableInfiniteScroll: true,
+                            reverse: false,
+                            autoPlay: true,
+                            autoPlayInterval: Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                                Duration(milliseconds: 800),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enlargeCenterPage: true,
+                            scrollDirection: Axis.horizontal,
+                          )),
                     ),
                   ),
                   h(24),
@@ -286,15 +327,17 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                         GridView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: 6,
+
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 10,
                                   mainAxisSpacing: 10,
                                   childAspectRatio: 2.5),
-                          itemBuilder: (BuildContext context, int index) {
-                            return FeaturesGrid(index);
+                          itemCount: features != null ? features.length : 0,
+                          itemBuilder: (context, index) {
+                            final item = features != null ? features[index] : null;
+                            return FeaturesGrid(item,index);
                           },
                         ),
                         h(32),
@@ -309,9 +352,9 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                             separatorBuilder: (context, index) =>
                                 SizedBox(width: 16),
                             shrinkWrap: true,
-                            itemCount: faqs != null ? faqs.length : 0,
+                            itemCount: traniners != null ? traniners.length : 0,
                             itemBuilder: (context, index) {
-                              final item = faqs != null ? faqs[index] : null;
+                              final item = traniners != null ? traniners[index] : null;
                               return profileContainer(item, index);
                             },
                           ),
@@ -364,7 +407,7 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                             Image.network(
                               cert['image'].toString(),
                               height: 112,
-                              width: 179,
+                              width: 90,
                             ),
                             w(16),
                             Expanded(
@@ -426,8 +469,8 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Jane Doe", style: size16_700Mallu),
-            Text("Gardening expert and entrepreneur",
+            Text(item['name'].toString(), style: size16_700Mallu),
+            Text(item['designation'].toString(),
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -437,14 +480,14 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.network(
-                  "https://purepng.com/public/uploads/large/purepng.com-female-studentstudentcollege-studentschool-studentfemale-student-14215269231647tn6r.png",
+                  item['image'].toString(),
                   height: 130,
                   width: 130,
                 ),
                 w(16),
                 Expanded(
                   child: Text(
-                    "Jane Doe is well established gardening entrepreneur who have turned her self-taught hobby into a living by creating a world of gardening. She is also a pioneer in miniature gardening.",
+                    item['bio'].toString(),
                     style: size14_400,
                   ),
                 )
@@ -603,16 +646,16 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
     );
   }
 
-  FeaturesGrid(int index) {
+  FeaturesGrid(var item,int index) {
     return Row(
       children: [
-        SvgPicture.asset(
-          "assets/svg/video.svg",
+        Image.network(
+          item['icon'].toString(),
           height: 32,
         ),
         w(16),
         Expanded(
-          child: Text("Five hours of video on-demand", style: size14_400),
+          child: Text( item['schedule'].toString(), style: size14_400),
         )
       ],
     );
