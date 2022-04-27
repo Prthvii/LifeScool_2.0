@@ -153,7 +153,7 @@ class _EntNumState extends State<EntNum> {
                                     MaterialPageRoute(
                                         builder: (context) => OtpScreen(
                                             mob:
-                                                numController.text.toString())),
+                                                numController.text.toString(),code: dropdownvalue,)),
                                   );
                                 }
                                 disableTap();

@@ -115,7 +115,7 @@ class _SettingsState extends State<Settings> {
     Widget continueButton = TextButton(
       child: Text("Yes"),
       onPressed: () async {
-        var id = await setSharedPrefrence(ID, null);
+        var id = await clearSharedPrefrence();
 
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => EntNum()));

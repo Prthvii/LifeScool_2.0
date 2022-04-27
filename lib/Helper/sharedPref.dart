@@ -26,7 +26,7 @@ Future getSharedPrefrence(key) async {
 
 Future clearSharedPrefrence() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.remove(REELS);
-  prefs.remove(TOTALREELS);
-  prefs.remove(LASTADEED);
+  prefs.remove(TOKEN);
+  prefs.remove(ID);
+
 }

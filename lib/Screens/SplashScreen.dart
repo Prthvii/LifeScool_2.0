@@ -110,14 +110,15 @@ if(arrReels[i]['video_url_mp4_low']!=null&&arrReels[i]['thumbnail_url']!=null){
   }
   _loadWidget() async {
     var token = await getSharedPrefrence(TOKEN);
+   getReels();
 
-    if(token!=null){
-        var reels = await   getReels();
-    }
+    // if(token!=null){
+ // var reel= await getReels();
+    // }
     print("tokennnn");
     print(token);
     return Timer(
-        Duration(seconds: 1), token != null ? navigationHome : navigationLogin);
+        Duration(seconds: 6), token != null ? navigationHome : navigationLogin);
   }
 
   void navigationHome() {

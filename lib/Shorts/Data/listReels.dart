@@ -19,8 +19,8 @@ Future reelsListApi(page) async {
     'request_header':getShorts,
     'secKey':secKey,
 
-    'studentId':id.toString(),
-    'apiToken':token.toString(),
+    'studentId':"no".toString(),
+    'apiToken':"no".toString(),
     'page':page.toString(),
 
 
