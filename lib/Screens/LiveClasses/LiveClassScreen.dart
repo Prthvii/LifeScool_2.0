@@ -128,6 +128,31 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
             isLoading = false;
             moduleLoading = false;
           });
+
+          FlutterWebBrowser.openWebPage(
+            url: url,
+            customTabsOptions: CustomTabsOptions(
+              colorScheme: CustomTabsColorScheme.dark,
+              toolbarColor: themeOrange,
+              secondaryToolbarColor: Colors.green,
+              navigationBarColor: imgBgClr,
+              addDefaultShareMenuItem: false,
+              instantAppsEnabled: false,
+              showTitle: true,
+              urlBarHidingEnabled: false,
+            ),
+            safariVCOptions:
+            SafariViewControllerOptions(
+              barCollapsingEnabled: true,
+              preferredBarTintColor: Colors.green,
+              preferredControlTintColor: Colors.amber,
+              dismissButtonStyle:
+              SafariViewControllerDismissButtonStyle
+                  .close,
+              modalPresentationCapturesStatusBarAppearance:
+              true,
+            ),
+          );
         }
       });
       print("searchhhhhhhh");
@@ -200,6 +225,32 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         isLoading = false;
         moduleLoading = false;
       });
+
+
+      FlutterWebBrowser.openWebPage(
+        url: type=="MIPDF"?'https://docs.google.com/gview?embedded=true&url=${url}':url,
+        customTabsOptions: CustomTabsOptions(
+          colorScheme: CustomTabsColorScheme.dark,
+          toolbarColor: themeOrange,
+          secondaryToolbarColor: Colors.green,
+          navigationBarColor: imgBgClr,
+          addDefaultShareMenuItem: false,
+          instantAppsEnabled: false,
+          showTitle: true,
+          urlBarHidingEnabled: false,
+        ),
+        safariVCOptions:
+        SafariViewControllerOptions(
+          barCollapsingEnabled: true,
+          preferredBarTintColor: Colors.green,
+          preferredControlTintColor: Colors.amber,
+          dismissButtonStyle:
+          SafariViewControllerDismissButtonStyle
+              .close,
+          modalPresentationCapturesStatusBarAppearance:
+          true,
+        ),
+      );
     }
   }
 
@@ -219,6 +270,31 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
 
       if (type == "MIVIDEO") {
         initializePlayer();
+      }else{
+        FlutterWebBrowser.openWebPage(
+          url: url,
+          customTabsOptions: CustomTabsOptions(
+            colorScheme: CustomTabsColorScheme.dark,
+            toolbarColor: themeOrange,
+            secondaryToolbarColor: Colors.green,
+            navigationBarColor: imgBgClr,
+            addDefaultShareMenuItem: false,
+            instantAppsEnabled: false,
+            showTitle: true,
+            urlBarHidingEnabled: false,
+          ),
+          safariVCOptions:
+          SafariViewControllerOptions(
+            barCollapsingEnabled: true,
+            preferredBarTintColor: Colors.green,
+            preferredControlTintColor: Colors.amber,
+            dismissButtonStyle:
+            SafariViewControllerDismissButtonStyle
+                .close,
+            modalPresentationCapturesStatusBarAppearance:
+            true,
+          ),
+        );
       }
     });
   }
