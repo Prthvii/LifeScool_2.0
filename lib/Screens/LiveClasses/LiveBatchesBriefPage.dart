@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/joinBatch.dart';
@@ -84,40 +83,35 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
   _buildExpandableContent() {
     for (var value in banners) {
       columnContent.add(Card(
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Container(
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    image: DecorationImage(
+                      image: NetworkImage(value['type'].toString() == "IMAGE"
+                          ? value['content'].toString()
+                          : value['thumbnail'].toString()),
+                      fit: BoxFit.cover,
+                    )),
+                alignment: Alignment.bottomCenter,
+              ),
+              value['type'].toString() == "VIDEO"
+                  ? Align(
+                      alignment: Alignment.center,
+                      child: Image.asset(
+                        "assets/images/pauseReels.png",
+                        height: 40,
+                      ))
+                  : Container()
+            ],
           ),
-          child:    Container(
-
-            child: Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      image: DecorationImage(
-                        image: NetworkImage(value['type'].toString() == "IMAGE"
-                            ? value['content'].toString()
-                            : value['thumbnail'].toString()),
-                        fit: BoxFit.cover,
-                      )),
-                  alignment: Alignment.bottomCenter,
-                ),
-                value['type'].toString() == "VIDEO"?Align(
-                    alignment: Alignment.center,
-                    child: Image.asset(
-                      "assets/images/pauseReels.png",
-                      height: 40,
-                    )):Container()
-              ],
-            ),
-          ),
-
-
-
-
-
-
+        ),
       ));
     }
   }
@@ -263,33 +257,31 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
               child: Column(
                 children: [
                   GestureDetector(
-                    onTap: (){
-                     print("casoulindexx");
-                     print(_carouselIndex);
+                    onTap: () {
+                      print("casoulindexx");
+                      print(_carouselIndex);
 
-                   if(banners[_carouselIndex]['type']=="VIDEO"){
-                     Navigator.push(
-                       context,
-                       MaterialPageRoute(builder: (context) => PlayVideo(url:banners[_carouselIndex]['content'].toString())),
-                     );
-                   }
+                      if (banners[_carouselIndex]['type'] == "VIDEO") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PlayVideo(
+                                  url: banners[_carouselIndex]['content']
+                                      .toString())),
+                        );
+                      }
                     },
                     child: Container(
                       height: 210,
                       child: CarouselSlider(
                           items: columnContent,
                           carouselController: controller,
-
                           options: CarouselOptions(
-                            onPageChanged : (index, reason) {
-
-                              setState((){
-
+                            onPageChanged: (index, reason) {
+                              setState(() {
                                 _carouselIndex = index;
-
                               });
-
-                           },
+                            },
                             aspectRatio: 16 / 9,
                             viewportFraction: 1,
                             initialPage: 0,
@@ -327,7 +319,6 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                         GridView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
@@ -336,8 +327,9 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                                   childAspectRatio: 2.5),
                           itemCount: features != null ? features.length : 0,
                           itemBuilder: (context, index) {
-                            final item = features != null ? features[index] : null;
-                            return FeaturesGrid(item,index);
+                            final item =
+                                features != null ? features[index] : null;
+                            return FeaturesGrid(item, index);
                           },
                         ),
                         h(32),
@@ -354,7 +346,8 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                             shrinkWrap: true,
                             itemCount: traniners != null ? traniners.length : 0,
                             itemBuilder: (context, index) {
-                              final item = traniners != null ? traniners[index] : null;
+                              final item =
+                                  traniners != null ? traniners[index] : null;
                               return profileContainer(item, index);
                             },
                           ),
@@ -486,9 +479,14 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                 ),
                 w(16),
                 Expanded(
-                  child: Text(
-                    item['bio'].toString(),
-                    style: size14_400,
+                  child: Container(
+                    height: 150,
+                    child: Scrollbar(
+                      interactive: true,
+                      child: SingleChildScrollView(
+                        child: Text(item['bio'].toString(), style: size14_400),
+                      ),
+                    ),
                   ),
                 )
               ],
@@ -646,7 +644,7 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
     );
   }
 
-  FeaturesGrid(var item,int index) {
+  FeaturesGrid(var item, int index) {
     return Row(
       children: [
         Image.network(
@@ -655,7 +653,7 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
         ),
         w(16),
         Expanded(
-          child: Text( item['schedule'].toString(), style: size14_400),
+          child: Text(item['schedule'].toString(), style: size14_400),
         )
       ],
     );

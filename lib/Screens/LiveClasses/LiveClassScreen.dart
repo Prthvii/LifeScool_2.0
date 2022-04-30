@@ -141,16 +141,12 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
               showTitle: true,
               urlBarHidingEnabled: false,
             ),
-            safariVCOptions:
-            SafariViewControllerOptions(
+            safariVCOptions: SafariViewControllerOptions(
               barCollapsingEnabled: true,
               preferredBarTintColor: Colors.green,
               preferredControlTintColor: Colors.amber,
-              dismissButtonStyle:
-              SafariViewControllerDismissButtonStyle
-                  .close,
-              modalPresentationCapturesStatusBarAppearance:
-              true,
+              dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
+              modalPresentationCapturesStatusBarAppearance: true,
             ),
           );
         }
@@ -226,9 +222,10 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         moduleLoading = false;
       });
 
-
       FlutterWebBrowser.openWebPage(
-        url: type=="MIPDF"?'https://docs.google.com/gview?embedded=true&url=${url}':url,
+        url: type == "MIPDF"
+            ? 'https://docs.google.com/gview?embedded=true&url=${url}'
+            : url,
         customTabsOptions: CustomTabsOptions(
           colorScheme: CustomTabsColorScheme.dark,
           toolbarColor: themeOrange,
@@ -239,16 +236,12 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
           showTitle: true,
           urlBarHidingEnabled: false,
         ),
-        safariVCOptions:
-        SafariViewControllerOptions(
+        safariVCOptions: SafariViewControllerOptions(
           barCollapsingEnabled: true,
           preferredBarTintColor: Colors.green,
           preferredControlTintColor: Colors.amber,
-          dismissButtonStyle:
-          SafariViewControllerDismissButtonStyle
-              .close,
-          modalPresentationCapturesStatusBarAppearance:
-          true,
+          dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
+          modalPresentationCapturesStatusBarAppearance: true,
         ),
       );
     }
@@ -270,7 +263,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
 
       if (type == "MIVIDEO") {
         initializePlayer();
-      }else{
+      } else {
         FlutterWebBrowser.openWebPage(
           url: url,
           customTabsOptions: CustomTabsOptions(
@@ -283,16 +276,12 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
             showTitle: true,
             urlBarHidingEnabled: false,
           ),
-          safariVCOptions:
-          SafariViewControllerOptions(
+          safariVCOptions: SafariViewControllerOptions(
             barCollapsingEnabled: true,
             preferredBarTintColor: Colors.green,
             preferredControlTintColor: Colors.amber,
-            dismissButtonStyle:
-            SafariViewControllerDismissButtonStyle
-                .close,
-            modalPresentationCapturesStatusBarAppearance:
-            true,
+            dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
+            modalPresentationCapturesStatusBarAppearance: true,
           ),
         );
       }
@@ -416,7 +405,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         )
                       : Stack(
@@ -500,6 +489,28 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
                                     decoration:
                                         BoxDecoration(color: Colors.black),
                                   ),
+                            Positioned(
+                              top: 10,
+                              left: 16,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+
+                                  // Navigator.pushReplacement(
+                                  //   context,
+                                  //   MaterialPageRoute(builder: (context) => LiveClassScreen(id:widget.item['courseUid'].toString(),item: widget.item,)),
+                                  // );
+                                },
+                                child: CircleAvatar(
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    color: Colors.black,
+                                  ),
+                                  radius: 24,
+                                  backgroundColor: lifescool_highlight,
+                                ),
+                              ),
+                            )
                           ],
                         ),
                   Padding(
@@ -854,7 +865,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          Cont(Icons.notes, "Course Brief"),
+          Cont(Icons.notes, "Batch Brief"),
           Cont(Icons.receipt_outlined, "News"),
           Cont(Icons.share, "Share"),
         ],

@@ -527,70 +527,64 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                         child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: GestureDetector(
-                            onTap: () {
-                              if (isMute == true) {
-                                setState(() {
-                                  isMute = false;
-                                });
-                                controller0.setVolume(1.0);
-                              } else {
-                                setState(() {
-                                  isMute = true;
-                                });
+                        GestureDetector(
+                          onTap: () {
+                            if (isMute == true) {
+                              setState(() {
+                                isMute = false;
+                              });
+                              controller0.setVolume(1.0);
+                            } else {
+                              setState(() {
+                                isMute = true;
+                              });
 
-                                controller0.setVolume(0.0);
-                              }
-                            },
-                            child: isMute == true
-                                ? Icon(Icons.volume_off_outlined,
-                                    color: Colors.white, size: 25)
-                                : Icon(Icons.volume_up_rounded,
-                                    color: Colors.white, size: 25),
-                          ),
+                              controller0.setVolume(0.0);
+                            }
+                          },
+                          child: isMute == true
+                              ? Icon(Icons.volume_off_outlined,
+                                  color: Colors.white, size: 25)
+                              : Icon(Icons.volume_up_rounded,
+                                  color: Colors.white, size: 25),
                         ),
                         h(30),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: GestureDetector(
-                            onTap: () async {
-                              if (arrList[nowPlaying]['isSave'] == true) {
-                                setState(() {
-                                  arrList[nowPlaying]['isSave'] = false;
-                                });
-                                var rsp = await triggerReelsApi(
-                                  "SAVEDROP",
-                                  arrList[nowPlaying]['id'],
-                                );
-                                var upt = await updateCache(
-                                    arrList[nowPlaying]['id'], "SAVE", false);
-                              } else {
-                                setState(() {
-                                  arrList[nowPlaying]['isSave'] = true;
-                                });
+                        GestureDetector(
+                          onTap: () async {
+                            if (arrList[nowPlaying]['isSave'] == true) {
+                              setState(() {
+                                arrList[nowPlaying]['isSave'] = false;
+                              });
+                              var rsp = await triggerReelsApi(
+                                "SAVEDROP",
+                                arrList[nowPlaying]['id'],
+                              );
+                              var upt = await updateCache(
+                                  arrList[nowPlaying]['id'], "SAVE", false);
+                            } else {
+                              setState(() {
+                                arrList[nowPlaying]['isSave'] = true;
+                              });
 
-                                var rsp = await triggerReelsApi(
-                                  "SAVEIT",
-                                  arrList[nowPlaying]['id'],
-                                );
-                                var upt = await updateCache(
-                                    arrList[nowPlaying]['id'], "SAVE", true);
-                              }
-                            },
-                            child: arrList[nowPlaying]['isSave'] == false
-                                ? Icon(
-                                    Icons.bookmark_outline,
-                                    color: Colors.white,
-                                    size: 25,
-                                  )
-                                : Icon(
-                                    Icons.bookmark,
-                                    color: Colors.white,
-                                    size: 25,
-                                  ),
-                          ),
+                              var rsp = await triggerReelsApi(
+                                "SAVEIT",
+                                arrList[nowPlaying]['id'],
+                              );
+                              var upt = await updateCache(
+                                  arrList[nowPlaying]['id'], "SAVE", true);
+                            }
+                          },
+                          child: arrList[nowPlaying]['isSave'] == false
+                              ? Icon(
+                                  Icons.bookmark_outline,
+                                  color: Colors.white,
+                                  size: 25,
+                                )
+                              : Icon(
+                                  Icons.bookmark,
+                                  color: Colors.white,
+                                  size: 25,
+                                ),
                         ),
                         h(30),
                         Padding(
@@ -659,30 +653,27 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
                           ),
                         ),
                         h(30),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: GestureDetector(
-                            onTap: () {
-                              controller0.pause();
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TutorInfo(
-                                        id: arrList[nowPlaying]['author_id']
-                                            .toString())),
-                              );
-                            },
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: NetworkImage(arrList[nowPlaying]
-                                              ['author_img']
-                                          .toString()),
-                                      fit: BoxFit.cover)),
-                            ),
+                        GestureDetector(
+                          onTap: () {
+                            controller0.pause();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TutorInfo(
+                                      id: arrList[nowPlaying]['author_id']
+                                          .toString())),
+                            );
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: NetworkImage(arrList[nowPlaying]
+                                            ['author_img']
+                                        .toString()),
+                                    fit: BoxFit.cover)),
                           ),
                         ),
                       ],
