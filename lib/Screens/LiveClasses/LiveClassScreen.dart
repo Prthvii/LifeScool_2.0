@@ -9,10 +9,11 @@ import 'package:lifescool/Screens/LiveClasses/Data/moduleList.dart';
 import 'package:lifescool/Screens/LiveClasses/DownloadsPage.dart';
 import 'package:lifescool/Screens/LiveClasses/LinksPage.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
+import 'package:lifescool/Screens/LiveClasses/SongBar.dart';
 import 'package:lifescool/Screens/LiveClasses/Utils/catName.dart';
 import 'package:lifescool/Screens/LiveClasses/webviewLiveClass.dart';
 import 'package:video_player/video_player.dart';
-
+import 'package:just_audio/just_audio.dart';
 class LiveClassScreen extends StatefulWidget {
   final id;
   final item;
@@ -34,6 +35,8 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   var type = "";
 
   var arrList = [];
+  var arrLinks = [];
+  var arrDownloads = [];
 
   var arrCat = [];
   var arrLive = [];
@@ -52,6 +55,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   VideoPlayerController _videoPlayerController1;
 
   ChewieController _chewieController;
+  final player = AudioPlayer();
   @override
   void initState() {
     super.initState();
@@ -103,6 +107,8 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       setState(() {
         arrList = rsp['attributes']['response'];
         arrLive = rsp['attributes']['livedata'];
+        arrLinks = rsp['attributes']['links'];
+        arrDownloads = rsp['attributes']['downloads'];
 
         type = arrList[index]['itemType'];
 
@@ -114,7 +120,10 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
           img = arrList[index]['itemData']['thumbnail'];
           // dec1 = arrList[index]['itemData']['title'];
           // dec2 = arrList[index]['itemData']['desc'];
-
+          setState(() {
+            isLoading = false;
+            moduleLoading = false;
+          });
           initializePlayer();
         } else {
           title = arrList[index]['itemName'];
@@ -129,26 +138,26 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
             moduleLoading = false;
           });
 
-          FlutterWebBrowser.openWebPage(
-            url: url,
-            customTabsOptions: CustomTabsOptions(
-              colorScheme: CustomTabsColorScheme.dark,
-              toolbarColor: themeOrange,
-              secondaryToolbarColor: Colors.green,
-              navigationBarColor: imgBgClr,
-              addDefaultShareMenuItem: false,
-              instantAppsEnabled: false,
-              showTitle: true,
-              urlBarHidingEnabled: false,
-            ),
-            safariVCOptions: SafariViewControllerOptions(
-              barCollapsingEnabled: true,
-              preferredBarTintColor: Colors.green,
-              preferredControlTintColor: Colors.amber,
-              dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
-              modalPresentationCapturesStatusBarAppearance: true,
-            ),
-          );
+          // FlutterWebBrowser.openWebPage(
+          //   url: url,
+          //   customTabsOptions: CustomTabsOptions(
+          //     colorScheme: CustomTabsColorScheme.dark,
+          //     toolbarColor: themeOrange,
+          //     secondaryToolbarColor: Colors.green,
+          //     navigationBarColor: imgBgClr,
+          //     addDefaultShareMenuItem: false,
+          //     instantAppsEnabled: false,
+          //     showTitle: true,
+          //     urlBarHidingEnabled: false,
+          //   ),
+          //   safariVCOptions: SafariViewControllerOptions(
+          //     barCollapsingEnabled: true,
+          //     preferredBarTintColor: Colors.green,
+          //     preferredControlTintColor: Colors.amber,
+          //     dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
+          //     modalPresentationCapturesStatusBarAppearance: true,
+          //   ),
+          // );
         }
       });
       print("searchhhhhhhh");
@@ -175,12 +184,13 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
     //_videoPlayerController1 = VideoPlayerController.network("https://player.vimeo.com/external/685172136.m3u8?s=c2bad28611536ff026a7181fef97d52416f07a2e&oauth2_token_id=1526368676".toString());
     _videoPlayerController1 = VideoPlayerController.network(url.toString());
     //  _videoPlayerController1 = VideoPlayerController.network("https://firebasestorage.googleapis.com/v0/b/togo-be1ba.appspot.com/o/www.DVDPLay.Rest%20-%20Meppadiyan%20(2022)%20Malayalam%20HQ%20HDRip%20-%20400MB%20-%20x264%20-%20AAC%20-%20ESub.mkv?alt=media&token=bd5a2f1c-5ac5-416b-8e51-d0d7fa7e4118".toString());
-
+      print("urllllll");
+      print(url);
     await _videoPlayerController1.initialize();
 
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController1,
-      autoPlay: true,
+      autoPlay: false,
       looping: false,
     );
 
@@ -188,14 +198,18 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
       isLoading = false;
       isVdoLoading = false;
       moduleLoading = false;
+
+      //_videoPlayerController1.pause();
     });
   }
 
   Future<void> selectCourse(index) async {
-    if (_videoPlayerController1.value.isPlaying) {
-      _videoPlayerController1.pause();
-    }
 
+    player.pause();
+   if (type == "MIVIDEO") {
+     _videoPlayerController1.pause();
+   }
+  //  _videoPlayerController1.dispose();
     type = arrList[index]['itemType'];
 
     if (type == "MIVIDEO") {
@@ -222,33 +236,34 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
         moduleLoading = false;
       });
 
-      FlutterWebBrowser.openWebPage(
-        url: type == "MIPDF"
-            ? 'https://docs.google.com/gview?embedded=true&url=${url}'
-            : url,
-        customTabsOptions: CustomTabsOptions(
-          colorScheme: CustomTabsColorScheme.dark,
-          toolbarColor: themeOrange,
-          secondaryToolbarColor: Colors.green,
-          navigationBarColor: imgBgClr,
-          addDefaultShareMenuItem: false,
-          instantAppsEnabled: false,
-          showTitle: true,
-          urlBarHidingEnabled: false,
-        ),
-        safariVCOptions: SafariViewControllerOptions(
-          barCollapsingEnabled: true,
-          preferredBarTintColor: Colors.green,
-          preferredControlTintColor: Colors.amber,
-          dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
-          modalPresentationCapturesStatusBarAppearance: true,
-        ),
-      );
+      // FlutterWebBrowser.openWebPage(
+      //   url: type == "MIPDF"
+      //       ? 'https://docs.google.com/gview?embedded=true&url=${url}'
+      //       : url,
+      //   customTabsOptions: CustomTabsOptions(
+      //     colorScheme: CustomTabsColorScheme.dark,
+      //     toolbarColor: themeOrange,
+      //     secondaryToolbarColor: Colors.green,
+      //     navigationBarColor: imgBgClr,
+      //     addDefaultShareMenuItem: false,
+      //     instantAppsEnabled: false,
+      //     showTitle: true,
+      //     urlBarHidingEnabled: false,
+      //   ),
+      //   safariVCOptions: SafariViewControllerOptions(
+      //     barCollapsingEnabled: true,
+      //     preferredBarTintColor: Colors.green,
+      //     preferredControlTintColor: Colors.amber,
+      //     dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
+      //     modalPresentationCapturesStatusBarAppearance: true,
+      //   ),
+      // );
     }
   }
 
   Future<void> selectLive(index) async {
-    if (_videoPlayerController1.value.isPlaying) {
+    player.pause();
+    if (type == "MIVIDEO") {
       _videoPlayerController1.pause();
     }
     setState(() {
@@ -291,13 +306,14 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   Future<bool> _onBackPressed() async {
     print("baaack");
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-          builder: (context) => liveBatchesBriefPage(
-                item: widget.item,
-              )),
-    );
+    Navigator.pop(context);
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(
+    //       builder: (context) => liveBatchesBriefPage(
+    //             item: widget.item,
+    //           )),
+    // );
     _videoPlayerController1.pause();
     //  _videoPlayerController1.dispose();
 
@@ -306,6 +322,8 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
@@ -381,14 +399,40 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
                                     //   MaterialPageRoute(builder: (context) => WebViewLive(url: url,type: type,)),
                                     // );
                                   } else {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => WebViewLive(
-                                                url: url,
-                                                type: type,
-                                              )),
+
+
+                                    FlutterWebBrowser.openWebPage(
+                                      url: type=="MIPDF"?'https://docs.google.com/gview?embedded=true&url=${url}': url,
+                                      customTabsOptions: CustomTabsOptions(
+                                        colorScheme: CustomTabsColorScheme.dark,
+                                        toolbarColor: themeOrange,
+                                        secondaryToolbarColor: Colors.green,
+                                        navigationBarColor: imgBgClr,
+                                        addDefaultShareMenuItem: false,
+                                        instantAppsEnabled: false,
+                                        showTitle: true,
+                                        urlBarHidingEnabled: false,
+                                      ),
+                                      safariVCOptions:
+                                      SafariViewControllerOptions(
+                                        barCollapsingEnabled: true,
+                                        preferredBarTintColor: Colors.green,
+                                        preferredControlTintColor: Colors.amber,
+                                        dismissButtonStyle:
+                                        SafariViewControllerDismissButtonStyle
+                                            .close,
+                                        modalPresentationCapturesStatusBarAppearance:
+                                        true,
+                                      ),
                                     );
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //       builder: (context) => WebViewLive(
+                                    //             url: url,
+                                    //             type: type,
+                                    //           )),
+                                    // );
                                   }
                                 },
                                 child: Container(
@@ -607,12 +651,12 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
                       children: [
-                        GestureDetector(
+                       arrDownloads.isNotEmpty ?GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DownloadsPage()),
+                                  builder: (context) => DownloadsPage(data: arrDownloads,)),
                             );
                           },
                           child: Container(
@@ -629,14 +673,14 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
                               ),
                             ),
                           ),
-                        ),
+                        ):Container(),
                         w(8),
-                        GestureDetector(
+                        arrLinks.isNotEmpty ?GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => LinksPage()),
+                                  builder: (context) => LinksPage(data: arrLinks,)),
                             );
                           },
                           child: Container(
@@ -653,7 +697,7 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
                               ),
                             ),
                           ),
-                        ),
+                        ):Container(),
                       ],
                     ),
                   ),
@@ -695,12 +739,87 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
                             ),
                     ),
                   ),
+                  type == "MIAUDIO"?Align(
+                      alignment: Alignment.bottomCenter,
+                      child:nowPlayingSong(height,width)
+                  ):Container()
                 ],
               ),
       ),
     );
   }
 
+
+  nowPlayingSong(height,width){
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 0),
+            blurRadius: 15,
+            color: Color(0xFF757575).withOpacity(.8),
+          )
+        ],
+      ),
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.only(right: 15),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Image(
+                image: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmfIJ5ZPIJv1jwNXm3zDmpleT2mkGE8_S7IunKxuaFPjB7Ng9jUv6aBOjWjN3Zdm7ofzY&usqp=CAU"),
+                fit: BoxFit.fill,
+                height: height * 0.075,
+                width: width * 0.15,
+              ),
+            ),
+          ),
+          Expanded(
+              child: GestureDetector(
+                  onTap: () {
+
+                  },
+                  child: Text(
+                    title ,
+                    style: size14_600,
+                    maxLines: 1,
+                  ))),
+          // GestureDetector(
+          //     child: Icon(
+          //       Icons.skip_previous,
+          //       color: Colors.black,
+          //       size: width * 0.08,
+          //     ),
+          //     onTap: () {
+          //
+          //     }),
+//        Icon(playIcon, color: Colors.black, size: width * 0.16),
+          GestureDetector(
+              child: Icon(player.playing==true?Icons.pause_circle_outline:Icons.play_circle_outline, color: Colors.black, size: width * 0.10),
+              onTap: () {
+
+                if(player.playing==true){
+                  player.pause();
+                }else{
+                  player.setUrl(url);
+                  player.play();
+                }
+              }),
+          // GestureDetector(
+          //     child: Icon(Icons.skip_next,
+          //         color: Colors.black, size: width * 0.08),
+          //     onTap:   () {}),
+        ],
+      ),
+    );
+  }
   ChaptersList(var item, int index) {
     return GestureDetector(
       onTap: () {
@@ -941,28 +1060,41 @@ class _LiveClassScreenState extends State<LiveClassScreen> {
   }
 
   Widget Cont(IconData icn, String txt) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 16),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: greyClr,
-            border: Border.all(color: Colors.black12)),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              Icon(
-                icn,
-                size: 20,
-                color: Color(0xff6D6D6D),
-              ),
-              w(10),
-              Text(txt, style: size14_700Grey)
-            ],
+    return GestureDetector(
+      onTap: (){
+        if(txt=="Batch Brief"){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => liveBatchesBriefPage(
+                  item: widget.item,
+                )),
+          );
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: greyClr,
+              border: Border.all(color: Colors.black12)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Icon(
+                  icn,
+                  size: 20,
+                  color: Color(0xff6D6D6D),
+                ),
+                w(10),
+                Text(txt, style: size14_700Grey)
+              ],
+            ),
           ),
+          height: 58,
         ),
-        height: 58,
       ),
     );
   }

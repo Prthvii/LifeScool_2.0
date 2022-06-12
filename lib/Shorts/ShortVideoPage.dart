@@ -40,7 +40,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   var isPlaying = true;
   var name;
   var nowPlaying = 0;
-  var fetchNew = 5;
+  var fetchNew = 9;
   var currentPage = 0;
   var currentIndex = 0;
   var author_img;
@@ -64,6 +64,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
     SystemChrome.setEnabledSystemUIOverlays([]);
 
     this.getHome();
+    this. TriggerNextTen(currentIndex);
 
     super.initState();
   }
@@ -222,7 +223,7 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
   TriggerNextTen(currentIndex) async {
     arrReels.clear();
     setState(() {
-      fetchNew = 5;
+      fetchNew = 9;
       page = page + 1;
     });
 
@@ -235,8 +236,20 @@ class _ShortsPlayerPageState extends State<ShortsPlayerPage> {
 
     if (int.parse(currentIndex.toString()) < int.parse(totalIndex.toString()) &&
         int.parse(lastAddedIndex.toString()) < page) {
-      print("ulill work avndoo");
+      print("ulill work ilaaa");
+      print(page);
+
+
       var list = await getPaginationReels(page);
+      print("pagee");
+
+
+      print(page);
+      print("pagee");
+
+      print(list);
+      print("dataaaa");
+
       if (list != null) {
         setState(() {
           arrReels = list;

@@ -14,7 +14,7 @@
 
     <application
         tools:replace="android:label"
-        android:label="Beta Lifescool"
+        android:label="Lifescool"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -178,7 +178,7 @@ class _ViewAllWorkshopsNewState extends State<ViewAllWorkshopsNew> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 16, right: 16),
                     child: Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, phasellus rhoncus libero justo uctus. ",
+                        "Topic specific, short and live webinars. ",
                         style: size16_400),
                   ),
                 ),

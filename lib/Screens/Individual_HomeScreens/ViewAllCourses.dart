@@ -171,7 +171,7 @@ class _ViewAllCoursesState extends State<ViewAllCourses> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 16, right: 16),
                     child: Text(
-                        "Recorded videos and additional resources that are accessible anytime, anywhere.",
+                        "Ready to access learning without fixed schedules.",
                         style: size16_400),
                   ),
                 ),

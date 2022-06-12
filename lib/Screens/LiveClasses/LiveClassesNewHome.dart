@@ -5,6 +5,7 @@ import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/listLiveBatchCat.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/listLiveBatchClasses.dart';
+import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
 import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 
 import 'LiveBatchesBriefPage.dart';
@@ -137,7 +138,7 @@ class _ViewAllLiveClassesNewState extends State<ViewAllLiveClassesNew> {
                       ),
                       h(24),
                       Text(
-                        "Cohort based Learning",
+                        "Cohort based Live",
                         style: TextStyle(
                             fontSize: 16,
                             fontFamily: 'Nunito',
@@ -171,7 +172,7 @@ class _ViewAllLiveClassesNewState extends State<ViewAllLiveClassesNew> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 16, right: 16),
                     child: Text(
-                        "Recorded videos, live sessions, other resources accessible as a batch with fixed start & end dates.",
+                        "Interactive learning in a group with fixed schedules.",
                         style: size16_400),
                   ),
                 ),
@@ -230,7 +231,7 @@ class _ViewAllLiveClassesNewState extends State<ViewAllLiveClassesNew> {
                     },
                   ),
                 )
-              : Expanded(child: Center(child: Text("NO DATA"))),
+              : Expanded(child: Center(child: Text(" "))),
           h(30)
         ],
       ),
@@ -303,13 +304,32 @@ class _ViewAllLiveClassesNewState extends State<ViewAllLiveClassesNew> {
         //   context,
         //   MaterialPageRoute(builder: (context) => LiveClassScreen()),
         // );
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => liveBatchesBriefPage(
-                    item: item,
-                  )),
-        );
+        print("fffffffff");
+        if(item['isApplied'].toString() ==
+            "true" &&
+            item['startFlag'] == "1"){
+          print("yessssssss");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => LiveClassScreen(
+                  id: item['courseUid'].toString(),
+                  item: item,
+                )),
+          );
+
+        }else{
+          print("nooooo");
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => liveBatchesBriefPage(
+                  item: item,
+                )),
+          );
+        }
+
         // Navigator.push(
         //   context,
         //   MaterialPageRoute(

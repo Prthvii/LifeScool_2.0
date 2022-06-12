@@ -141,7 +141,7 @@ class _EntNumState extends State<EntNum> {
                           child: InkWell(
                             onTap: () async {
                               var phone = numController.text.toString();
-                              if (phone.isNotEmpty && phone.length == 10) {
+                              if (phone.isNotEmpty) {
                                 enableTap();
                                 var rsp = await sendOtpApi(
                                     numController.text.toString(),dropdownvalue);

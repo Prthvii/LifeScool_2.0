@@ -17,6 +17,8 @@ import 'package:lifescool/Shorts/Data/listReels.dart';
 import 'package:lifescool/Shorts/HomeSuggestReels.dart';
 import 'package:lifescool/Shorts/ShortVideoPage.dart';
 import 'package:lottie/lottie.dart';
+import 'package:package_info/package_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'Individual_HomeScreens/ViewAllCourses.dart';
 import 'LiveClasses/LiveClassesNewHome.dart';
@@ -62,11 +64,67 @@ class _HomeScreenState extends State<HomeScreen> {
 
     print("xoxoxo");
     this.getProfile();
+    this.getVersion();
     //   this.getReels();
 
     setState(() {});
   }
+  void _showUpdate(type) {
+    showDialog(
+      context: context,
+      barrierDismissible: type=="FORCEUPDATE"?false:true,
+      builder: (context) => AlertDialog(
+        shape:
+        RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10)),
+        elevation: 10,
+        title: Text('New Update Found!'),
+        titleTextStyle: TextStyle(
+            fontSize: 16,
+            letterSpacing: 0.6,
+            color: Color(0xff333333),
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.bold),
+        content: Text('Update the app to access the latest features.'),
+        actions: <Widget>[
+          // FlatButton(
+          //   onPressed: () {
+          //     Navigator.of(context).pop();
+          //   },
+          //   child: Text('No', style: TextStyle(color: Colors.deepOrangeAccent)),
+          // ),
+          FlatButton(
+            onPressed: () {
+              try {
+                launch(
+                    "https://play.google.com/store/apps/details?id=com.lifeplug.lifescool");
+              } on PlatformException catch (e) {
+                launch(
+                    "https://play.google.com/store/apps/details?id=com.lifeplug.lifescool");
+              } finally {
+                launch(
+                    "https://play.google.com/store/apps/details?id=com.lifeplug.lifescool");
+              }
+            },
+            child: Text(
+              'UPDATE',
+              style: TextStyle(color: lifescoolBlue),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  Future<String> getVersion() async {
+    var current = await getSharedPrefrence(VERSION);
+    var type = await getSharedPrefrence(VERSIONTYPE);
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
+    String version = packageInfo.buildNumber;
+
+    if (current != version) {
+      _showUpdate(type);
+    }
+  }
   Future<String> getReels() async {
     var arrReels = [];
     var rsp = await reelsListApi("1");
@@ -448,237 +506,241 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               )
-            : Stack(
-                children: [
-                  SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        topCategory(),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 16, top: 24, bottom: 8, right: 16),
-                          child: Row(
-                            children: [
-                              Text(
-                                "Suggested courses",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'Nunito',
-                                ),
-                              ),
-                              Spacer(),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ViewAllCourses()),
-                                  );
-                                },
-                                child: Text(
-                                  "View All",
-                                  style: size14_700,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                size: 10,
-                                color: Colors.black,
-                              )
-                            ],
-                          ),
-                        ),
-                        ListView.separated(
-                          scrollDirection: Axis.vertical,
-                          physics: NeverScrollableScrollPhysics(),
-                          separatorBuilder: (context, index) => SizedBox(
-                            height: 15,
-                          ),
-                          shrinkWrap: true,
-                          //  itemCount: 2,
-                          itemCount: arrSuggestedCourse != null
-                              ? arrSuggestedCourse.length
-                              : 0,
-                          itemBuilder: (context, index) {
-                            final item = arrSuggestedCourse != null
-                                ? arrSuggestedCourse[index]
-                                : null;
-                            return HomeCards(item, index);
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 16, top: 24, bottom: 8, right: 16),
-                          child: Row(
-                            children: [
-                              Text(
-                                "Suggested shorts",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'Nunito',
-                                ),
-                              ),
-                              Spacer(),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ShortsPlayerPage()),
-                                  );
-                                },
-                                child: Text(
-                                  "View All",
-                                  style: size14_700,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                size: 10,
-                                color: Colors.black,
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Padding(
+            : RefreshIndicator(
+          onRefresh: () => getHomePageSuggestion(),
+              child: Stack(
+                  children: [
+                    SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          topCategory(),
+                          arrSuggestedCourse.isNotEmpty?Padding(
                             padding: const EdgeInsets.only(
-                                left: 17, top: 2, bottom: 2),
-                            child: HomeReels(
-                              reelsArr: arrReels,
+                                left: 16, top: 24, bottom: 8, right: 16),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Suggested courses",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'Nunito',
+                                  ),
+                                ),
+                                Spacer(),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ViewAllCourses()),
+                                    );
+                                  },
+                                  child: Text(
+                                    "View All",
+                                    style: size14_700,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 10,
+                                  color: Colors.black,
+                                )
+                              ],
+                            ),
+                          ):Container(),
+                          ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            separatorBuilder: (context, index) => SizedBox(
+                              height: 15,
+                            ),
+                            shrinkWrap: true,
+                            //  itemCount: 2,
+                            itemCount: arrSuggestedCourse != null
+                                ? arrSuggestedCourse.length
+                                : 0,
+                            itemBuilder: (context, index) {
+                              final item = arrSuggestedCourse != null
+                                  ? arrSuggestedCourse[index]
+                                  : null;
+                              return HomeCards(item, index);
+                            },
+                          ),
+                          arrReels.isNotEmpty
+                              ? Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, top: 24, bottom: 8, right: 16),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Suggested shorts",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'Nunito',
+                                  ),
+                                ),
+                                Spacer(),
+                                // GestureDetector(
+                                //   onTap: () {
+                                //     Navigator.push(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //           builder: (context) =>
+                                //               ShortsPlayerPage()),
+                                //     );
+                                //   },
+                                //   child: Text(
+                                //     "View All",
+                                //     style: size14_700,
+                                //   ),
+                                // ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                // Icon(
+                                //   Icons.arrow_forward_ios_rounded,
+                                //   size: 10,
+                                //   color: Colors.black,
+                                // )
+                              ],
+                            ),
+                          ) :Container(),
+                          Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 17, top: 2, bottom: 2),
+                              child: HomeReels(
+                                reelsArr: arrReels,
+                              ),
                             ),
                           ),
-                        ),
-                        arrSuggestedWorkshops != null
-                            ? Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 16, top: 21, bottom: 8, right: 16),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Suggested workshops",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'Nunito',
+                          arrSuggestedWorkshops.isNotEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 16, top: 21, bottom: 8, right: 16),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Suggested workshops",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Nunito',
+                                        ),
                                       ),
-                                    ),
-                                    Spacer(),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ViewAllWorkshopsNew()),
-                                        );
-                                      },
-                                      child: Text(
-                                        "View All",
-                                        style: size14_700,
+                                      Spacer(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewAllWorkshopsNew()),
+                                          );
+                                        },
+                                        child: Text(
+                                          "View All",
+                                          style: size14_700,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 10,
-                                      color: Colors.black,
-                                    )
-                                  ],
-                                ),
-                              )
-                            : Container(),
-                        WorkshopForHome(
-                          arrWorkshop: arrSuggestedWorkshops,
-                        ),
-                        arrSuggestedLiveBatch.isNotEmpty
-                            ? Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 16, top: 21, bottom: 8, right: 16),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Suggested live batches",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'Nunito',
+                                      SizedBox(
+                                        width: 8,
                                       ),
-                                    ),
-                                    Spacer(),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ViewAllLiveClassesNew(
-                                                      data: arrList)),
-                                        );
-                                      },
-                                      child: Text(
-                                        "View All",
-                                        style: size14_700,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 10,
-                                      color: Colors.black,
-                                    )
-                                  ],
-                                ),
-                              )
-                            : Container(),
-                        ListView.separated(
-                          scrollDirection: Axis.vertical,
-                          physics: NeverScrollableScrollPhysics(),
-                          separatorBuilder: (context, index) => SizedBox(
-                            height: 15,
+                                      Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 10,
+                                        color: Colors.black,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              : Container(),
+                          WorkshopForHome(
+                            arrWorkshop: arrSuggestedWorkshops,
                           ),
-                          shrinkWrap: true,
-                          itemCount: arrSuggestedLiveBatch != null
-                              ? arrSuggestedLiveBatch.length
-                              : 0,
-                          itemBuilder: (context, index) {
-                            final item = arrSuggestedLiveBatch != null
-                                ? arrSuggestedLiveBatch[index]
-                                : null;
-                            return LiveClassCards(item, index);
-                          },
-                        ),
-                        h(16)
-                      ],
+                          arrSuggestedLiveBatch.isNotEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 16, top: 21, bottom: 8, right: 16),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Suggested live batches",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Nunito',
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewAllLiveClassesNew(
+                                                        data: arrList)),
+                                          );
+                                        },
+                                        child: Text(
+                                          "View All",
+                                          style: size14_700,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 10,
+                                        color: Colors.black,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              : Container(),
+                          ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            separatorBuilder: (context, index) => SizedBox(
+                              height: 15,
+                            ),
+                            shrinkWrap: true,
+                            itemCount: arrSuggestedLiveBatch != null
+                                ? arrSuggestedLiveBatch.length
+                                : 0,
+                            itemBuilder: (context, index) {
+                              final item = arrSuggestedLiveBatch != null
+                                  ? arrSuggestedLiveBatch[index]
+                                  : null;
+                              return LiveClassCards(item, index);
+                            },
+                          ),
+                          h(16)
+                        ],
+                      ),
                     ),
-                  ),
-                  Align(
-                    child: resList.isNotEmpty
-                        ? Container(
-                            child: ContinueCourse(),
-                          )
-                        : Opacity(
-                            opacity: 0,
-                          ),
-                    alignment: Alignment.bottomCenter,
-                  )
-                ],
-              ),
+                    Align(
+                      child: resList.isNotEmpty
+                          ? Container(
+                              child: ContinueCourse(),
+                            )
+                          : Opacity(
+                              opacity: 0,
+                            ),
+                      alignment: Alignment.bottomCenter,
+                    )
+                  ],
+                ),
+            ),
       ),
     );
   }

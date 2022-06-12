@@ -35,7 +35,9 @@ Future<dynamic> getPaginationReels(page) async {
   arrList.clear();
   var rsp = await reelsListApi(page);
 
+  print("pagiiiiiiii");
   print(rsp);
+  print(page);
 
   // arrProdList = data;
   //
@@ -92,6 +94,10 @@ Future<dynamic> getPaginationReels(page) async {
     // setState(() {
     //   isLoading = false;
     // });
-    return arrList;
+
+
   }
+
+  print("returnnn");
+  return arrList;
 }

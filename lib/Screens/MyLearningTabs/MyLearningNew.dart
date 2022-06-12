@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lifescool/Api/getUser.dart';
 import 'package:lifescool/Const/Constants.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
+import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
 import 'package:lifescool/Screens/MyLearningTabs/Data/myLearning.dart';
 import 'package:lifescool/Screens/MyLearningTabs/SavedShortsMyLearning.dart';
 import 'package:lifescool/Screens/PlayerScreen.dart';
@@ -490,13 +491,34 @@ class _MyLearningNew2State extends State<MyLearningNew2> {
 
           case "Live batch":
             {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => liveBatchesBriefPage(
-                          item: item,
-                        )),
-              );
+
+
+
+              // if(item['isApplied'].toString() ==
+              //     "true" &&
+              //     item['startFlag'] == "1"){
+              //
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => LiveClassScreen(
+              //           id: item['courseUid'].toString(),
+              //           item: item,
+              //         )),
+              //   );
+              //
+              // }
+
+             // else{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => liveBatchesBriefPage(
+                        item: item,
+                      )),
+                );
+           //   }
+
             }
             break;
 

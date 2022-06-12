@@ -40,6 +40,7 @@ final myLearnings = "my-learnings";
 final postComments = "post-comments";
 final editComments = "edit-post";
 final deleteComments = "delete-post";
+final versionCheck = "version-check";
 final postRply = "post-reply";
 final courseFeedback = "course-feedback";
 final authorDetails = "author-details";

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lifescool/Api/updateVersion.dart';
 import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Shorts/Data/addToCache.dart';
 import 'package:lifescool/Shorts/Data/listReels.dart';
@@ -88,7 +89,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
 
-    var clr = await  clearSharedPrefrence();
+   var clr = await  clearShorts();
       var lst = await setSharedPrefrence(TOTALREELS,rsp['attributes']['totalIndexes'].toString());
     /// arrReels[i]['video_url']
     for (var i = 0; i < arrReels.length; i++) {
@@ -112,16 +113,20 @@ if(arrReels[i]['video_url_mp4_low']!=null&&arrReels[i]['thumbnail_url']!=null){
     var token = await getSharedPrefrence(TOKEN);
    getReels();
 
-    // if(token!=null){
- // var reel= await getReels();
-    // }
-    print("tokennnn");
-    print(token);
+    if(token!=null){
+      var rsp = await updateVersionApi();
+      print("tokennnn");
+      print(rsp);
+      var sav = await setSharedPrefrence(VERSION, rsp['attributes']['response']['version'].toString());
+      var type = await setSharedPrefrence(VERSIONTYPE, rsp['attributes']['response']['activity'].toString());
+    }
+
     return Timer(
         Duration(seconds: 6), token != null ? navigationHome : navigationLogin);
   }
 
-  void navigationHome() {
+  void navigationHome() async{
+
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => HomeScreen()));
   }

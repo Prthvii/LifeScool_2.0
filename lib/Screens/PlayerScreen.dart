@@ -296,6 +296,51 @@ class _PlayerScreenState extends State<PlayerScreen> {
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           extendBody: true,
+          // appBar: PreferredSize(
+          //   preferredSize: Size.fromHeight(60),
+          //   child: SafeArea(
+          //     child: AppBar(
+          //       //   backgroundColor: liteBlue,
+          //       elevation: 0,
+          //       titleSpacing: 1,
+          //       flexibleSpace: Padding(
+          //         padding: const EdgeInsets.only(left: 16, right: 16, top: 4),
+          //         child: Row(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             Column(
+          //               crossAxisAlignment: CrossAxisAlignment.start,
+          //               children: [
+          //                 Row(
+          //                   children: [
+          //                     GestureDetector(
+          //                       onTap: () {
+          //                         Navigator.pop(context);
+          //                       },
+          //                       child: CircleAvatar(
+          //                         backgroundColor: Colors.black,
+          //                         radius: 22,
+          //                         child: Icon(
+          //                           Icons.arrow_back,
+          //                           size: 20,
+          //                           color: Colors.white,
+          //                         ),
+          //                       ),
+          //                     ),
+          //
+          //                   ],
+          //                 ),
+          //
+          //               ],
+          //             ),
+          //
+          //           ],
+          //         ),
+          //       ),
+          //       automaticallyImplyLeading: false,
+          //     ),
+          //   ),
+          // ),
           bottomNavigationBar:
               // isRatable == true
               //     ? rateButton()

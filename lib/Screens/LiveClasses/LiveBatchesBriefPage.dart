@@ -6,6 +6,7 @@ import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/joinBatch.dart';
 import 'package:lifescool/Screens/LiveClasses/Data/liveBatchBreif.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
+import 'package:lifescool/Screens/LiveClasses/full_photo.dart';
 import 'package:lifescool/widgets/play_video.dart';
 
 class liveBatchesBriefPage extends StatefulWidget {
@@ -48,6 +49,9 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
     print("xoxoxo");
     print(widget.item);
     this.getData();
+
+
+
     setState(() {});
   }
 
@@ -235,7 +239,7 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                                   (widget.item['isApplied'].toString() ==
                                               "true" &&
                                           widget.item['startFlag'] == "1")
-                                      ? "Join"
+                                      ? "Continue"
                                       : "Apply now",
                                   style: size14_700W,
                                 ),
@@ -266,6 +270,14 @@ class _liveBatchesBriefPageState extends State<liveBatchesBriefPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => PlayVideo(
+                                  url: banners[_carouselIndex]['content']
+                                      .toString())),
+                        );
+                      }else{
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FullPhoto(
                                   url: banners[_carouselIndex]['content']
                                       .toString())),
                         );

@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -14,7 +14,29 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
+
+void initPlatformStateNotification() async {
+  print(
+      "---------------------------------------------------------------------------");
+  OneSignal.shared.setAppId(
+    'd9bcccbd-9ecf-4df5-b1e6-4cefee79bff9',
+  );
+
+  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+  bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
+  final status = await OneSignal.shared.getDeviceState();
+  final String osUserID = status?.userId;
+  print("`````````````````````````osUserID`````````````````````````");
+  print(osUserID);
+  print("``````````````````````````osUserID``````````````````````````");
+
+
+
+
+
+}
 void main() async {
+  initPlatformStateNotification();
   WidgetsFlutterBinding.ensureInitialized();
 
   await Permission.camera.request();

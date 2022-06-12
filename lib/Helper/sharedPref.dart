@@ -10,6 +10,9 @@ final NAME = "LS-NAME";
 final REELS = "LS-CHACHEREELS";
 final LASTADEED = "LS-LASTADDEDREELPG";
 final TOTALREELS = "LS-TOTALREELS";
+final VERSION = "WSO-VERSION";
+final VERSIONTYPE = "WSO-VERSIONTYPE";
+
 
 Future setSharedPrefrence(key, data) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -28,5 +31,14 @@ Future clearSharedPrefrence() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove(TOKEN);
   prefs.remove(ID);
+
+}
+
+
+Future clearShorts() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove(REELS);
+  prefs.remove(LASTADEED);
+  prefs.remove(TOTALREELS);
 
 }
