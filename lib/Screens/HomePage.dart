@@ -10,6 +10,7 @@ import 'package:lifescool/Helper/sharedPref.dart';
 import 'package:lifescool/Helper/snackbar_toast_helper.dart';
 import 'package:lifescool/Screens/EnterNum.dart';
 import 'package:lifescool/Screens/LiveClasses/LiveBatchesBriefPage.dart';
+import 'package:lifescool/Screens/LiveClasses/LiveClassScreen.dart';
 import 'package:lifescool/Screens/TutorInfo/TutorInfo.dart';
 import 'package:lifescool/Screens/workshopForHome.dart';
 import 'package:lifescool/Shorts/Data/addToCache.dart';
@@ -935,13 +936,30 @@ class _HomeScreenState extends State<HomeScreen> {
         //   MaterialPageRoute(builder: (context) => LiveClassScreen()),
         // );
         //-----------------------------------------------
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => liveBatchesBriefPage(
-                    item: item,
-                  )),
-        );
+        if(item['isApplied'].toString() ==
+            "true" &&
+            item['startFlag'] == "1"){
+          print("yessssssss");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => LiveClassScreen(
+                  id: item['courseUid'].toString(),
+                  item: item,
+                )),
+          );
+
+        }else{
+          print("nooooo");
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => liveBatchesBriefPage(
+                  item: item,
+                )),
+          );
+        }
 
         //-----------------------------------------------
 

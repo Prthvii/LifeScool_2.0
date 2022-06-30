@@ -15,28 +15,28 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 
-void initPlatformStateNotification() async {
-  print(
-      "---------------------------------------------------------------------------");
-  OneSignal.shared.setAppId(
-    'd9bcccbd-9ecf-4df5-b1e6-4cefee79bff9',
-  );
-
-  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-  bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
-  final status = await OneSignal.shared.getDeviceState();
-  final String osUserID = status?.userId;
-  print("`````````````````````````osUserID`````````````````````````");
-  print(osUserID);
-  print("``````````````````````````osUserID``````````````````````````");
-
-
-
-
-
-}
+// void initPlatformStateNotification() async {
+//   print(
+//       "---------------------------------------------------------------------------");
+//   OneSignal.shared.setAppId(
+//     'd9bcccbd-9ecf-4df5-b1e6-4cefee79bff9',
+//   );
+//
+//   OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+//   bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
+//   final status = await OneSignal.shared.getDeviceState();
+//   final String osUserID = status?.userId;
+//   print("`````````````````````````osUserID`````````````````````````");
+//   print(osUserID);
+//   print("``````````````````````````osUserID``````````````````````````");
+//
+//
+//
+//
+//
+// }
 void main() async {
-  initPlatformStateNotification();
+
   WidgetsFlutterBinding.ensureInitialized();
 
   await Permission.camera.request();
@@ -53,12 +53,47 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool _enableConsentButton = false;
+  String externalUserId = "";
+  String _homeScreenText = "Waiting for token...";
+  String _debugLabelString;
   @override
   void initState() {
     HttpOverrides.global = new MyHttpOverrides();
+    initPlatformState();
+
     super.initState();
   }
 
+  void initPlatformState() async {
+    print(
+        "---------------------------------------------------------------------------");
+    OneSignal.shared.setAppId(
+      'd9bcccbd-9ecf-4df5-b1e6-4cefee79bff9',
+    );
+    // OneSignal.shared.setAppId(
+    //   'b8d00834-62e9-47c2-9d85-f35491c4cda6',
+    // );
+
+    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
+    final status = await OneSignal.shared.getDeviceState();
+    final String osUserID = status?.userId;
+    print("`````````````````````````osUserID`````````````````````````");
+    print(osUserID);
+    print("``````````````````````````osUserID``````````````````````````");
+
+
+
+    setState(() {
+      _homeScreenText = "Push Messaging token: $osUserID";
+    });
+    print(_homeScreenText);
+
+    this.setState(() {
+      _enableConsentButton = requiresConsent;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
