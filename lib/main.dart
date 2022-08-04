@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:lifescool/Screens/JitsiMeet.dart';
+
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -107,7 +109,12 @@ class _MyAppState extends State<MyApp> {
       ),
       debugShowCheckedModeBanner: false,
       // home: CourseIntro(),
-      home: SplashScreen(),
+    home: SplashScreen(),
+
+    //  home: Meeting(),
+
     );
   }
 }
+
+

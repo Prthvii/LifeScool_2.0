@@ -20,7 +20,7 @@ import 'package:lifescool/Shorts/ShortVideoPage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'Individual_HomeScreens/ViewAllCourses.dart';
 import 'LiveClasses/LiveClassesNewHome.dart';
 import 'MyLearningTabs/MyLearningNew.dart';
@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   var arrSuggestedCourse = [];
   var arrSuggestedLiveBatch = [];
   var arrSuggestedWorkshops = [];
+  var sliders = [];
   var arrReels = [];
   var resList = [];
 
@@ -229,6 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
         arrReels = rsp['attributes']['suggestedShorts'];
         arrSuggestedWorkshops = rsp['attributes']['suggestedWorkshops'];
         arrSuggestedLiveBatch = rsp['attributes']['suggestedLiveBatches'];
+        sliders = rsp['attributes']['sliders'];
         //resList = rsp['attributes']['resumeCourse'];
       });
     }
@@ -517,6 +519,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           topCategory(),
+                          banners(),
                           arrSuggestedCourse.isNotEmpty?Padding(
                             padding: const EdgeInsets.only(
                                 left: 16, top: 24, bottom: 8, right: 16),
@@ -746,6 +749,123 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+//  sliders
+  Widget bannerss() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 14, bottom: 10,left: 10,right: 10),
+        child: Row(
+          children: [
+            Container(
+              height: 180,
+              width: 360,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/banner1.jpg"))),
+            ),
+            w(16),
+            Container(
+              height: 180,
+              width: 360,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/banner2.jpg"))),
+            ),
+            w(16),
+            Container(
+              height: 180,
+              width: 360,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/banner3.jpg"))),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  Widget banners(){
+    return Padding(
+      padding: const EdgeInsets.only(left: 10,top: 10,right: 15),
+      child: SizedBox(
+        height: 180,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          separatorBuilder: (context, index) => SizedBox(
+            width: 10,
+          ),
+          shrinkWrap: true,
+          itemCount: sliders != null ? sliders.length : 0,
+          itemBuilder: (context, index) {
+            final item = sliders != null ?sliders[index] : null;
+
+            return GestureDetector(
+              onTap: (){
+                print("taaaap");
+                print(item['targetType'].toString());
+                if(item['targetType'].toString()=="OPENLINK"){
+                  FlutterWebBrowser.openWebPage(
+                    url:  item['targetId'],
+                    customTabsOptions: CustomTabsOptions(
+                      colorScheme: CustomTabsColorScheme.dark,
+                      toolbarColor: themeOrange,
+                      secondaryToolbarColor: Colors.green,
+                      navigationBarColor: imgBgClr,
+                      addDefaultShareMenuItem: false,
+                      instantAppsEnabled: false,
+                      showTitle: true,
+                      urlBarHidingEnabled: false,
+                    ),
+                    safariVCOptions: SafariViewControllerOptions(
+                      barCollapsingEnabled: true,
+                      preferredBarTintColor: Colors.green,
+                      preferredControlTintColor: Colors.amber,
+                      dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
+                      modalPresentationCapturesStatusBarAppearance: true,
+                    ),
+                  );
+                }
+                if(item['targetType'].toString()=="COURSE"){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PlayerScreen(
+                          id: item['id'].toString(),
+                          cuid: item['targetId'].toString(),
+                        )),
+                  );
+                }
+                if(item['targetType'].toString()=="BATCH"){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LiveClassScreen(
+                          id: item['targetId'].toString(),
+                          item: item,
+                        )),
+                  );
+                }
+              },
+              child: Container(
+                height: 180,
+                width: 360,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    image: DecorationImage(
+                        image: NetworkImage(item['url'].toString()))),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
   HomeCards(var item, int index) {
     return GestureDetector(
       onTap: () {
